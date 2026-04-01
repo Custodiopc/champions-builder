@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline';">
+<title>Aprenda o Competitivo de Pokémon | Learn Competitive Pokémon</title>
+<meta name="description" content="Aprenda tudo sobre o competitivo de Pokémon: VGC, mecânicas, itens, habilidades, estratégias e Pokémon Champions. Learn everything about competitive Pokémon.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d12;--s1:#13131a;--s2:#1a1a24;--s3:#222230;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --gold:#f0c040;--gold2:#e08830;--text:#f0f0f8;--sub:#8888aa;--dim:#44445a;
+  --blue:#5599ff;--green:#50e890;--r:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7}
+
+/* TOPBAR */
+.topbar{
+  display:flex;align-items:center;gap:16px;padding:0 24px;height:52px;
+  border-bottom:1px solid var(--border);background:var(--s1);
+  position:sticky;top:0;z-index:100;
+}
+.logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:17px;
+  background:linear-gradient(120deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  white-space:nowrap;text-decoration:none;
+}
+.top-sep{width:1px;height:24px;background:var(--border2)}
+.top-actions{display:flex;gap:8px;margin-left:auto}
+.btn{padding:7px 16px;border:none;border-radius:6px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.5px;transition:all .15s}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--sub)}
+.btn-ghost:hover{border-color:var(--text);color:var(--text)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000}
+.btn-gold:hover{filter:brightness(1.1)}
+
+/* DISCLAIMER */
+.disclaimer{
+  background:rgba(240,192,64,0.09);border-bottom:1px solid rgba(240,192,64,0.28);
+  padding:7px 24px;font-size:10.5px;color:rgba(240,210,100,0.82);
+  text-align:center;letter-spacing:0.4px;font-weight:500;
+}
+
+/* LAYOUT */
+.layout{display:flex;min-height:calc(100vh - 95px)}
+
+/* SIDEBAR */
+.sidebar{
+  width:260px;flex-shrink:0;background:var(--s1);
+  border-right:1px solid var(--border);
+  position:sticky;top:52px;height:calc(100vh - 52px);
+  overflow-y:auto;padding:16px 0;
+}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:var(--dim);border-radius:2px}
+
+.cat-label{
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dim);padding:16px 20px 6px;
+}
+.cat-label:first-child{padding-top:6px}
+.nav-item{
+  display:block;padding:8px 20px;font-size:13px;color:var(--sub);
+  cursor:pointer;transition:all .15s;border-left:2px solid transparent;
+  text-decoration:none;
+}
+.nav-item:hover{color:var(--text);background:var(--s2)}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(240,192,64,0.05)}
+
+/* CONTENT */
+.content{flex:1;max-width:860px;padding:40px 48px;margin:0 auto}
+
+/* HERO */
+.learn-hero{
+  background:linear-gradient(135deg,rgba(240,192,64,0.08),rgba(85,153,255,0.05));
+  border:1px solid rgba(240,192,64,0.15);border-radius:12px;
+  padding:40px 48px;margin-bottom:40px;
+}
+.learn-hero h1{
+  font-family:'Syne',sans-serif;font-size:32px;font-weight:800;
+  background:linear-gradient(120deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1.2;margin-bottom:12px;
+}
+.learn-hero p{color:var(--sub);font-size:15px;max-width:560px}
+
+/* ARTICLE */
+.article{display:none}
+.article.active{display:block}
+.art-badge{
+  display:inline-block;padding:3px 10px;border-radius:4px;
+  font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  background:rgba(85,153,255,0.12);color:var(--blue);margin-bottom:16px;
+}
+.art-title{
+  font-family:'Syne',sans-serif;font-size:26px;font-weight:800;
+  line-height:1.3;margin-bottom:8px;
+}
+.art-sub{color:var(--sub);font-size:14px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.art-body h2{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin:28px 0 10px;color:var(--gold)}
+.art-body h3{font-size:15px;font-weight:600;margin:20px 0 8px;color:var(--text)}
+.art-body p{color:#c0c0d8;margin-bottom:14px;line-height:1.75}
+.art-body ul,.art-body ol{padding-left:20px;margin-bottom:14px}
+.art-body li{color:#c0c0d8;margin-bottom:6px;line-height:1.7}
+.art-body strong{color:var(--text)}
+.art-body .tip{
+  background:rgba(80,232,144,0.06);border:1px solid rgba(80,232,144,0.18);
+  border-radius:8px;padding:14px 18px;margin:18px 0;
+}
+.art-body .tip::before{content:'💡 ';font-weight:700}
+.art-body .warn{
+  background:rgba(240,192,64,0.06);border:1px solid rgba(240,192,64,0.18);
+  border-radius:8px;padding:14px 18px;margin:18px 0;
+}
+.art-body .warn::before{content:'⚠ ';font-weight:700}
+.art-body table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13px}
+.art-body th{background:var(--s2);padding:8px 12px;text-align:left;color:var(--sub);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.art-body td{padding:8px 12px;border-bottom:1px solid var(--border);color:#c0c0d8}
+.art-body tr:hover td{background:var(--s2)}
+.art-nav{display:flex;gap:12px;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)}
+.art-nav-btn{
+  padding:10px 20px;border-radius:8px;border:1px solid var(--border2);
+  background:transparent;color:var(--sub);cursor:pointer;font-family:'Inter';
+  font-size:13px;transition:all .15s;text-align:left;
+}
+.art-nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+.art-nav-btn span{display:block;font-size:10px;color:var(--dim);margin-bottom:2px}
+.art-nav-btn.next{margin-left:auto;text-align:right}
+
+/* HOME GRID */
+#homeView{display:block}
+#homeView.hidden{display:none}
+.cat-section{margin-bottom:32px}
+.cat-section h2{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.card{
+  background:var(--s1);border:1px solid var(--border);border-radius:8px;
+  padding:16px;cursor:pointer;transition:all .18s;
+}
+.card:hover{border-color:rgba(240,192,64,0.3);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.card-icon{font-size:22px;margin-bottom:8px}
+.card-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.card-desc{font-size:11px;color:var(--dim);line-height:1.5}
+
+/* MOBILE */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .content{padding:24px 20px}
+  .learn-hero{padding:24px}
+  .learn-hero h1{font-size:22px}
+  .art-title{font-size:20px}
+  .mob-nav-toggle{
+    display:flex;align-items:center;gap:8px;
+    background:var(--s1);border:1px solid var(--border2);
+    border-radius:8px;padding:10px 16px;cursor:pointer;
+    font-size:13px;color:var(--sub);margin-bottom:20px;width:100%;
+  }
+  .mob-nav-panel{
+    display:none;background:var(--s1);border:1px solid var(--border2);
+    border-radius:8px;padding:8px 0;margin-bottom:20px;
+  }
+  .mob-nav-panel.open{display:block}
+}
+@media(min-width:769px){
+  .mob-nav-toggle,.mob-nav-panel{display:none!important}
+}
+
+/* ── MOBILE MENU ── */
+.mob-menu-btn{
+  display:none;margin-left:auto;
+  background:transparent;border:1px solid var(--border2);
+  color:var(--sub);border-radius:6px;
+  padding:6px 12px;cursor:pointer;font-size:20px;line-height:1;
+  transition:all .15s;
+}
+.mob-menu-btn:hover{color:var(--text);border-color:var(--text)}
+.mob-dropdown{
+  display:none;position:fixed;top:52px;right:0;left:0;
+  background:var(--s1);border-bottom:2px solid var(--border2);
+  z-index:999;padding:10px 12px;
+  flex-direction:column;gap:6px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+}
+.mob-dropdown.open{display:flex}
+.mob-dropdown .btn{
+  width:100%;text-align:left;padding:13px 16px;font-size:14px;
+  border-radius:8px;
+}
+@media(max-width:768px){
+  .top-actions{display:none!important}
+  .mob-menu-btn{display:block}
+}
+
+</style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PCXS1WKPE9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PCXS1WKPE9');
+  </script>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="index.html" class="logo">⚡ Champions Builder</a>
+  <div class="top-sep"></div>
+  <div class="top-actions">
+    <button class="btn btn-ghost" onclick="window.open('calc.html','_blank')" id="lrn-btn-calc" style="color:var(--gold);border-color:rgba(240,192,64,0.3)">⚔ Damage Calc</button>
+    <button class="btn btn-ghost" onclick="window.location='index.html'" id="lrn-btn-builder" style="color:#74b9ff;border-color:rgba(85,153,255,0.3)">🔧 Builder</button>
+    <button class="btn btn-ghost" id="lrn-langBtn" onclick="lrnToggleLang()" style="font-size:13px;padding:6px 10px">🌐 EN</button>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  ⚠ This site is not affiliated with or endorsed by Nintendo, Game Freak, or The Pokémon Company. Pokémon and all related names are trademarks of Nintendo / Creatures Inc. / GAME FREAK inc.
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar"></nav>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- MOBILE NAV TOGGLE -->
+    <button class="mob-nav-toggle" onclick="toggleMobNav()">☰ <span id="mob-nav-label">Navegar artigos</span></button>
+    <div class="mob-nav-panel" id="mobNavPanel"></div>
+
+    <!-- HOME -->
+    <div id="homeView">
+      <div class="learn-hero">
+        <h1 id="hero-title">Aprenda tudo sobre o<br>Competitivo de Pokémon</h1>
+        <p id="hero-sub">30 guias completos sobre VGC, mecânicas, itens, estratégias e Pokémon Champions — em Português e Inglês.</p>
+      </div>
+      <div id="homeGrid"></div>
+    </div>
+
+    <!-- ARTICLES (rendered dynamically) -->
+    <div id="articleView" style="display:none"></div>
+
+  </main>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// I18N
+// ══════════════════════════════════════════════════════════
+function lrnDetectLang(){
+  const s=localStorage.getItem('cb-lang');
+  if(s) return s;
+  return 'en'; // default EN
+}
+let lrnLang = lrnDetectLang();
+
+function lrnToggleLang(){
+  lrnLang = lrnLang==='pt'?'en':'pt';
+  localStorage.setItem('cb-lang',lrnLang);
+  applyLang();
+  renderSidebar();
+  renderHome();
+  if(currentArticle!==null) showArticle(currentArticle,false);
+}
+
+function applyLang(){
+  const isPt=lrnLang==='pt';
+  document.getElementById('lrn-langBtn').textContent=isPt?'🌐 EN':'🌐 PT';
+  document.getElementById('lrn-btn-calc').textContent=isPt?'⚔ Calc Dano':'⚔ Damage Calc';
+  document.getElementById('lrn-btn-builder').textContent=isPt?'🔧 Builder':'🔧 Builder';
+  document.getElementById('hero-title').innerHTML=isPt?'Aprenda tudo sobre o<br>Competitivo de Pokémon':'Learn Everything About<br>Competitive Pokémon';
+  document.getElementById('hero-sub').textContent=isPt?'30 guias completos sobre VGC, mecânicas, itens, estratégias e Pokémon Champions — em Português e Inglês.':'30 complete guides on VGC, mechanics, items, strategies and Pokémon Champions — in Portuguese and English.';
+  document.getElementById('mob-nav-label').textContent=isPt?'Navegar artigos':'Browse articles';
+}
+
+// ══════════════════════════════════════════════════════════
+// ARTICLES DATA
+// ══════════════════════════════════════════════════════════
+const ARTICLES = [
+  // ─────────────────────────────────────────
+  // FUNDAMENTOS
+  {
+    cat:{pt:'Fundamentos',en:'Fundamentals'},
+    icon:'🎮',
+    title:{pt:'O que é VGC?',en:'What is VGC?'},
+    sub:{pt:'A introdução ao formato oficial de torneios Pokémon',en:'Your introduction to the official Pokémon tournament format'},
+    body:{
+      pt:`<h2>Video Game Championships</h2>
+<p>O <strong>VGC (Video Game Championships)</strong> é o formato oficial de competição Pokémon organizado pela The Pokémon Company International (TPCi). É jogado no formato <strong>Double Battle</strong> — dois Pokémon em campo de cada lado ao mesmo tempo.</p>
+<h2>Por que Doubles?</h2>
+<p>O formato Doubles foi escolhido porque cria decisões muito mais complexas do que o Singles. Com dois Pokémon em campo, você precisa pensar em:</p>
+<ul><li>Qual alvo atacar (o inimigo da esquerda ou da direita)</li><li>Movimentos que afetam múltiplos Pokémon ao mesmo tempo</li><li>Sinergias entre os seus próprios parceiros</li><li>Proteção e redirecionamento de ataques</li></ul>
+<h2>Estrutura dos Torneios</h2>
+<p>Os torneios VGC seguem uma estrutura anual chamada <strong>Regulamento</strong>, que determina quais Pokémon são permitidos. Cada regulamento dura alguns meses e muda as séries permitidas.</p>
+<div class="tip">No Pokémon Champions, o formato jogado é semelhante ao VGC: Double Battle, nível 50 automático, time de 6 com escolha de 4.</div>
+<h2>Como um jogo acontece</h2>
+<p>Cada jogador entra com 6 Pokémon. Durante o <strong>Team Preview</strong>, ambos veem os 6 do oponente. Então, cada jogador escolhe 4 Pokémon para lutar. As batalhas acontecem até que todos os Pokémon de um lado sejam nocauteados.</p>
+<div class="warn">Pokémon ficam no nível 50 automaticamente, mas os seus stats são calculados normalmente — natureza, IVs e treinamento contam!</div>`,
+      en:`<h2>Video Game Championships</h2>
+<p><strong>VGC (Video Game Championships)</strong> is the official Pokémon competition format organized by The Pokémon Company International (TPCi). It is played in <strong>Double Battle</strong> format — two Pokémon on each side at the same time.</p>
+<h2>Why Doubles?</h2>
+<p>The Doubles format was chosen because it creates far more complex decisions than Singles. With two Pokémon in play, you need to think about:</p>
+<ul><li>Which target to attack (left or right enemy)</li><li>Moves that hit multiple Pokémon simultaneously</li><li>Synergies between your own partners</li><li>Protection and attack redirection</li></ul>
+<h2>Tournament Structure</h2>
+<p>VGC tournaments follow an annual structure called a <strong>Regulation</strong>, which determines which Pokémon are allowed. Each regulation lasts a few months and rotates the allowed series.</p>
+<div class="tip">In Pokémon Champions, the format is similar to VGC: Double Battle, automatic level 50, team of 6 with pick-4.</div>
+<h2>How a game works</h2>
+<p>Each player brings 6 Pokémon. During <strong>Team Preview</strong>, both players see each other's 6. Then each player picks 4 Pokémon to battle with. Battles continue until all Pokémon on one side are knocked out.</p>
+<div class="warn">Pokémon are automatically set to level 50, but stats are still calculated normally — nature, IVs and training all count!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Fundamentos',en:'Fundamentals'},
+    icon:'⚔️',
+    title:{pt:'Double Battle: como funciona',en:'Double Battle: how it works'},
+    sub:{pt:'Mecânicas únicas das batalhas duplas',en:'Unique mechanics of double battles'},
+    body:{
+      pt:`<h2>Dois vs Dois</h2>
+<p>Em Double Battles, cada jogador coloca <strong>dois Pokémon em campo simultaneamente</strong>. Isso muda radicalmente como o jogo funciona.</p>
+<h2>Escolha de alvo</h2>
+<p>Na maioria dos movimentos, você escolhe qual Pokémon atacar: um dos dois inimigos. Mas atenção — alguns movimentos têm alcance especial:</p>
+<ul>
+<li><strong>Spread moves</strong> — atingem todos os outros Pokémon em campo (ex: Earthquake, Surf, Heat Wave). Causam 75% do dano normal nos alvos.</li>
+<li><strong>Self-targeting</strong> — afetam apenas o usuário (ex: Protect, Swords Dance).</li>
+<li><strong>Partner-targeting</strong> — afetam apenas o parceiro (ex: Helping Hand, Follow Me).</li>
+<li><strong>Random target</strong> — atacam aleatoriamente (ex: Outrage).</li>
+</ul>
+<div class="warn">Earthquake e Surf também atingem seu próprio parceiro! Planeje suas sinergias com cuidado.</div>
+<h2>Ordem de ação</h2>
+<p>Os 4 Pokémon em campo (2 de cada lado) agem em ordem de <strong>Speed</strong>. Se dois Pokémon têm Speed igual, a ordem é aleatória. Isso torna o controle de velocidade crucial no formato Doubles.</p>
+<h2>Knockout e substituição</h2>
+<p>Quando um Pokémon é nocauteado, seu dono imediatamente envia um substituto — sem esperar o fim do turno. O substituto age no próximo turno.</p>
+<div class="tip">Use a posição dos seus Pokémon estrategicamente. O Pokémon na posição esquerda é geralmente o mais ativo no turno.</div>`,
+      en:`<h2>Two vs Two</h2>
+<p>In Double Battles, each player puts <strong>two Pokémon in play simultaneously</strong>. This radically changes how the game works.</p>
+<h2>Target selection</h2>
+<p>For most moves, you choose which Pokémon to attack: one of the two enemies. But beware — some moves have special range:</p>
+<ul>
+<li><strong>Spread moves</strong> — hit all other Pokémon on the field (e.g. Earthquake, Surf, Heat Wave). Deal 75% damage to each target.</li>
+<li><strong>Self-targeting</strong> — affect only the user (e.g. Protect, Swords Dance).</li>
+<li><strong>Partner-targeting</strong> — affect only your partner (e.g. Helping Hand, Follow Me).</li>
+<li><strong>Random target</strong> — hit randomly (e.g. Outrage).</li>
+</ul>
+<div class="warn">Earthquake and Surf also hit your own partner! Plan your synergies carefully.</div>
+<h2>Action order</h2>
+<p>All 4 Pokémon in play act in <strong>Speed</strong> order. If two Pokémon have equal Speed, the order is random. This makes speed control crucial in Doubles.</p>
+<h2>Knockout and switch</h2>
+<p>When a Pokémon is knocked out, its trainer immediately sends a replacement — without waiting for the end of the turn. The replacement acts next turn.</p>
+<div class="tip">Use your Pokémon's position strategically. The left-slot Pokémon is usually the most active attacker each turn.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Fundamentos',en:'Fundamentals'},
+    icon:'👁',
+    title:{pt:'Team Preview: lendo o adversário',en:'Team Preview: reading your opponent'},
+    sub:{pt:'Como usar os 90 segundos de preview a seu favor',en:'How to use the 90 seconds of preview to your advantage'},
+    body:{
+      pt:`<h2>O que é Team Preview</h2>
+<p>Antes de cada batalha, ambos os jogadores veem os <strong>6 Pokémon do adversário</strong> durante 90 segundos. Depois disso, cada um escolhe 4 para usar.</p>
+<h2>O que você deve analisar</h2>
+<ul>
+<li><strong>Restricted Legendaries</strong> — qual lendário ele trouxe? Isso define a estratégia central do time dele.</li>
+<li><strong>Leads prováveis</strong> — quais 2 Pokémon ele vai começar? Geralmente são os mais sinérgicos.</li>
+<li><strong>Ameaças ao seu time</strong> — algum Pokémon dele bate forte nos seus?</li>
+<li><strong>Padrões de arquétipo</strong> — você reconhece o time dele? (Rain, Trick Room, Hyper Offense, etc.)</li>
+</ul>
+<h2>Escolhendo seus 4</h2>
+<p>Você não precisa trazer sempre os mesmos 4. Adapte sua seleção baseado no time adversário:</p>
+<ul>
+<li>Se ele tem Trick Room, traga seu Speed controller.</li>
+<li>Se ele tem clima, considere Pokémon com Cloud Nine ou habilidades que bloqueiam clima.</li>
+<li>Sempre traga suas melhores respostas às ameaças dele.</li>
+</ul>
+<div class="tip">O Team Preview é onde você já começa a vencer. Jogadores experientes tomam 80% das decisões importantes aqui.</div>`,
+      en:`<h2>What is Team Preview</h2>
+<p>Before each battle, both players see each other's <strong>6 Pokémon</strong> for 90 seconds. Then each picks 4 to use.</p>
+<h2>What you should analyze</h2>
+<ul>
+<li><strong>Restricted Legendaries</strong> — which legendary did they bring? This defines their core strategy.</li>
+<li><strong>Likely leads</strong> — which 2 Pokémon will they start with? Usually the most synergistic ones.</li>
+<li><strong>Threats to your team</strong> — does any of their Pokémon hit your team hard?</li>
+<li><strong>Archetype patterns</strong> — do you recognize their team? (Rain, Trick Room, Hyper Offense, etc.)</li>
+</ul>
+<h2>Choosing your 4</h2>
+<p>You don't always have to bring the same 4. Adapt your selection based on their team:</p>
+<ul>
+<li>If they have Trick Room, bring your Speed controller.</li>
+<li>If they have weather, consider Pokémon with Cloud Nine or abilities that block weather.</li>
+<li>Always bring your best answers to their threats.</li>
+</ul>
+<div class="tip">Team Preview is where you start winning. Experienced players make 80% of important decisions right here.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Fundamentos',en:'Fundamentals'},
+    icon:'🔢',
+    title:{pt:'Tipos e efetividade',en:'Types and effectiveness'},
+    sub:{pt:'A tabela completa de tipos e como usá-la',en:'The complete type chart and how to use it'},
+    body:{
+      pt:`<h2>Os 18 tipos</h2>
+<p>Pokémon e golpes possuem tipos que determinam quanta efetividade cada ataque tem. Existem <strong>18 tipos</strong> no total, desde a Geração VI.</p>
+<h2>Multiplicadores de dano</h2>
+<table><tr><th>Multiplicador</th><th>Significa</th></tr>
+<tr><td>×2</td><td>Super efetivo — causa o dobro do dano</td></tr>
+<tr><td>×4</td><td>Super efetivo duplo (fraqueza dupla)</td></tr>
+<tr><td>×1</td><td>Neutro — dano normal</td></tr>
+<tr><td>×0.5</td><td>Não muito efetivo — metade do dano</td></tr>
+<tr><td>×0.25</td><td>Dupla resistência — 1/4 do dano</td></tr>
+<tr><td>×0</td><td>Imune — não causa dano</td></tr></table>
+<h2>Pontos chave para o competitivo</h2>
+<ul>
+<li>Pokémon com <strong>dois tipos</strong> multiplicam as efetividades. Ex: Charizard (Fogo/Voador) é ×4 fraco a Pedra.</li>
+<li>Conhecer as fraquezas dos Pokémon comuns é essencial para escolher movimentos de cobertura.</li>
+<li>No Doubles, Earthquake (Terra) é uma das melhores escolhas pois é Spread move e cobre muitos tipos.</li>
+</ul>
+<div class="tip">Use o Calc de Dano do site para calcular se seu golpe garante KO antes da batalha!</div>`,
+      en:`<h2>The 18 types</h2>
+<p>Pokémon and moves have types that determine how effective each attack is. There are <strong>18 types</strong> in total, since Generation VI.</p>
+<h2>Damage multipliers</h2>
+<table><tr><th>Multiplier</th><th>Means</th></tr>
+<tr><td>×2</td><td>Super effective — deals double damage</td></tr>
+<tr><td>×4</td><td>Double super effective (double weakness)</td></tr>
+<tr><td>×1</td><td>Neutral — normal damage</td></tr>
+<tr><td>×0.5</td><td>Not very effective — half damage</td></tr>
+<tr><td>×0.25</td><td>Double resistance — 1/4 damage</td></tr>
+<tr><td>×0</td><td>Immune — no damage</td></tr></table>
+<h2>Key competitive points</h2>
+<ul>
+<li>Pokémon with <strong>two types</strong> multiply their effectiveness. E.g. Charizard (Fire/Flying) is ×4 weak to Rock.</li>
+<li>Knowing the weaknesses of common Pokémon is essential for choosing coverage moves.</li>
+<li>In Doubles, Earthquake (Ground) is one of the best choices as it's a spread move that covers many types.</li>
+</ul>
+<div class="tip">Use the site's Damage Calc to calculate if your move guarantees a KO before the battle!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  // CONSTRUÇÃO DE TIME
+  {
+    cat:{pt:'Construção de Time',en:'Team Building'},
+    icon:'🌿',
+    title:{pt:'Naturezas: boost e nerf de stats',en:'Natures: stat boosts and nerfs'},
+    sub:{pt:'Como escolher a natureza certa para cada Pokémon',en:'How to choose the right nature for each Pokémon'},
+    body:{
+      pt:`<h2>O que são Naturezas</h2>
+<p>Cada Pokémon tem uma natureza que aumenta um stat em <strong>+10%</strong> e diminui outro em <strong>-10%</strong>. Existem 25 naturezas, sendo 5 neutras (sem efeito).</p>
+<h2>Naturezas mais comuns no competitivo</h2>
+<table><tr><th>Natureza</th><th>+10%</th><th>-10%</th></tr>
+<tr><td>Adamant / Audaz</td><td>Ataque</td><td>Ataque Esp.</td></tr>
+<tr><td>Modest / Modesto</td><td>Ataque Esp.</td><td>Ataque</td></tr>
+<tr><td>Jolly / Alegre</td><td>Velocidade</td><td>Ataque Esp.</td></tr>
+<tr><td>Timid / Tímido</td><td>Velocidade</td><td>Ataque</td></tr>
+<tr><td>Bold / Ousado</td><td>Defesa</td><td>Ataque</td></tr>
+<tr><td>Calm / Calmo</td><td>Def. Especial</td><td>Ataque</td></tr>
+<tr><td>Careful / Cuidadoso</td><td>Def. Especial</td><td>Ataque Esp.</td></tr>
+<tr><td>Impish / Atrevido</td><td>Defesa</td><td>Ataque Esp.</td></tr></table>
+<h2>Como escolher</h2>
+<ul>
+<li>Pokémon físicos ofensivos geralmente querem <strong>Adamant</strong> (mais dano) ou <strong>Jolly</strong> (mais velocidade).</li>
+<li>Pokémon especiais ofensivos querem <strong>Modest</strong> ou <strong>Timid</strong>.</li>
+<li>Pokémon de suporte (Trick Room, Tailwind) geralmente querem natureza que aumente sua defesa ou SpDef.</li>
+</ul>
+<div class="tip">No Champions Builder, o seletor de natureza mostra qual stat é aumentado (verde) e qual é reduzido (vermelho)!</div>`,
+      en:`<h2>What are Natures</h2>
+<p>Each Pokémon has a nature that raises one stat by <strong>+10%</strong> and lowers another by <strong>-10%</strong>. There are 25 natures, with 5 being neutral (no effect).</p>
+<h2>Most common competitive natures</h2>
+<table><tr><th>Nature</th><th>+10%</th><th>-10%</th></tr>
+<tr><td>Adamant</td><td>Attack</td><td>Sp. Attack</td></tr>
+<tr><td>Modest</td><td>Sp. Attack</td><td>Attack</td></tr>
+<tr><td>Jolly</td><td>Speed</td><td>Sp. Attack</td></tr>
+<tr><td>Timid</td><td>Speed</td><td>Attack</td></tr>
+<tr><td>Bold</td><td>Defense</td><td>Attack</td></tr>
+<tr><td>Calm</td><td>Sp. Defense</td><td>Attack</td></tr>
+<tr><td>Careful</td><td>Sp. Defense</td><td>Sp. Attack</td></tr>
+<tr><td>Impish</td><td>Defense</td><td>Sp. Attack</td></tr></table>
+<h2>How to choose</h2>
+<ul>
+<li>Physical offensive Pokémon usually want <strong>Adamant</strong> (more damage) or <strong>Jolly</strong> (more speed).</li>
+<li>Special offensive Pokémon want <strong>Modest</strong> or <strong>Timid</strong>.</li>
+<li>Support Pokémon (Trick Room, Tailwind) usually want a nature that boosts their Defense or SpDef.</li>
+</ul>
+<div class="tip">In the Champions Builder, the nature selector shows which stat is boosted (green) and which is reduced (red)!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Construção de Time',en:'Team Building'},
+    icon:'📊',
+    title:{pt:'SPs e treinamento no Champions',en:'SPs and training in Champions'},
+    sub:{pt:'O sistema de Stat Points do Pokémon Champions explicado',en:'The Stat Points system in Pokémon Champions explained'},
+    body:{
+      pt:`<h2>O que são SPs</h2>
+<p>No Pokémon Champions, o sistema de EVs foi substituído pelos <strong>SPs (Stat Points)</strong>. Cada Pokémon tem <strong>66 SPs no total</strong> para distribuir entre os 6 stats.</p>
+<h2>Regras dos SPs</h2>
+<ul>
+<li>Máximo de <strong>32 SPs</strong> em qualquer stat único.</li>
+<li>Total de <strong>66 SPs</strong> por Pokémon.</li>
+<li>Cada SP equivale a 8 EVs na fórmula de cálculo de stats.</li>
+</ul>
+<h2>Fórmula de cálculo</h2>
+<p>A fórmula para HP é: <code>floor((2×Base + 31 + floor(SP×8/4)) × 50/100 + 60)</code></p>
+<p>Para outros stats: <code>floor(((2×Base + 31 + floor(SP×8/4)) × 50/100 + 5) × Natureza)</code></p>
+<h2>Distribuições comuns</h2>
+<table><tr><th>Arquétipo</th><th>Distribuição sugerida</th></tr>
+<tr><td>Atacante físico</td><td>32 Atk / 28 Vel (ou 32 Vel / 28 Atk)</td></tr>
+<tr><td>Atacante especial</td><td>32 SpA / 28 Vel</td></tr>
+<tr><td>Tank</td><td>32 HP / 20 Def / 14 SpDef</td></tr>
+<tr><td>Suporte rápido</td><td>32 Vel / 20 HP / 14 Def</td></tr></table>
+<div class="tip">Use os presets do Builder (Atk/Vel, SpA/Vel, HP/Def) para distribuições rápidas!</div>`,
+      en:`<h2>What are SPs</h2>
+<p>In Pokémon Champions, the EV system is replaced by <strong>SPs (Stat Points)</strong>. Each Pokémon has <strong>66 SPs total</strong> to distribute among 6 stats.</p>
+<h2>SP Rules</h2>
+<ul>
+<li>Maximum of <strong>32 SPs</strong> in any single stat.</li>
+<li>Total of <strong>66 SPs</strong> per Pokémon.</li>
+<li>Each SP equals 8 EVs in the stat calculation formula.</li>
+</ul>
+<h2>Calculation formula</h2>
+<p>HP formula: <code>floor((2×Base + 31 + floor(SP×8/4)) × 50/100 + 60)</code></p>
+<p>Other stats: <code>floor(((2×Base + 31 + floor(SP×8/4)) × 50/100 + 5) × Nature)</code></p>
+<h2>Common distributions</h2>
+<table><tr><th>Archetype</th><th>Suggested distribution</th></tr>
+<tr><td>Physical attacker</td><td>32 Atk / 28 Spe (or 32 Spe / 28 Atk)</td></tr>
+<tr><td>Special attacker</td><td>32 SpA / 28 Spe</td></tr>
+<tr><td>Tank</td><td>32 HP / 20 Def / 14 SpDef</td></tr>
+<tr><td>Fast support</td><td>32 Spe / 20 HP / 14 Def</td></tr></table>
+<div class="tip">Use the Builder's presets (Atk/Spe, SpA/Spe, HP/Def) for quick distributions!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Construção de Time',en:'Team Building'},
+    icon:'🎒',
+    title:{pt:'Itens: guia completo',en:'Items: complete guide'},
+    sub:{pt:'Os melhores itens do competitivo e quando usá-los',en:'The best competitive items and when to use them'},
+    body:{
+      pt:`<h2>Por que itens importam</h2>
+<p>Itens podem ser a diferença entre vencer ou perder uma batalha. Eles modificam dano, sobrevivência, velocidade e estratégia.</p>
+<h2>Itens ofensivos</h2>
+<table><tr><th>Item</th><th>Efeito</th></tr>
+<tr><td>Choice Band</td><td>+50% Ataque físico, mas trava em 1 golpe</td></tr>
+<tr><td>Choice Specs</td><td>+50% Ataque especial, mas trava em 1 golpe</td></tr>
+<tr><td>Choice Scarf</td><td>+50% Velocidade, mas trava em 1 golpe</td></tr>
+<tr><td>Life Orb</td><td>+30% dano, -10% HP por uso</td></tr>
+<tr><td>Expert Belt</td><td>+20% dano em golpes super efetivos</td></tr></table>
+<h2>Itens defensivos</h2>
+<table><tr><th>Item</th><th>Efeito</th></tr>
+<tr><td>Leftovers</td><td>Recupera 1/16 do HP por turno</td></tr>
+<tr><td>Rocky Helmet</td><td>Causa 1/6 do HP ao atacante que usa golpe de contato</td></tr>
+<tr><td>Assault Vest</td><td>+50% Def. Especial, mas não pode usar status moves</td></tr>
+<tr><td>Focus Sash</td><td>Sobrevive com 1 HP de um golpe que causaria KO (HP cheio)</td></tr></table>
+<h2>Itens de utilidade</h2>
+<table><tr><th>Item</th><th>Efeito</th></tr>
+<tr><td>Safety Goggles</td><td>Imune a pó, esporo e clima com dano (Sandstorm/Hail)</td></tr>
+<tr><td>Eject Button</td><td>Troca automaticamente ao receber dano</td></tr>
+<tr><td>Sitrus Berry</td><td>Recupera 25% do HP quando abaixo de 50%</td></tr>
+<tr><td>Mental Herb</td><td>Cura Infatuation, Encore, Taunt, Torment na primeira vez</td></tr></table>
+<div class="tip">No Pokémon Champions, Mega Stones permitem Mega Evolução. Use o Builder para ver qual stone cada Pokémon usa!</div>`,
+      en:`<h2>Why items matter</h2>
+<p>Items can be the difference between winning and losing a battle. They modify damage, survival, speed, and strategy.</p>
+<h2>Offensive items</h2>
+<table><tr><th>Item</th><th>Effect</th></tr>
+<tr><td>Choice Band</td><td>+50% physical Attack, but locks into one move</td></tr>
+<tr><td>Choice Specs</td><td>+50% Special Attack, but locks into one move</td></tr>
+<tr><td>Choice Scarf</td><td>+50% Speed, but locks into one move</td></tr>
+<tr><td>Life Orb</td><td>+30% damage, -10% HP per use</td></tr>
+<tr><td>Expert Belt</td><td>+20% damage on super effective hits</td></tr></table>
+<h2>Defensive items</h2>
+<table><tr><th>Item</th><th>Effect</th></tr>
+<tr><td>Leftovers</td><td>Restores 1/16 HP per turn</td></tr>
+<tr><td>Rocky Helmet</td><td>Deals 1/6 HP to attackers using contact moves</td></tr>
+<tr><td>Assault Vest</td><td>+50% Sp. Defense, but can't use status moves</td></tr>
+<tr><td>Focus Sash</td><td>Survive with 1 HP from a KO hit (full HP required)</td></tr></table>
+<h2>Utility items</h2>
+<table><tr><th>Item</th><th>Effect</th></tr>
+<tr><td>Safety Goggles</td><td>Immune to powder, spore and weather damage (Sandstorm/Hail)</td></tr>
+<tr><td>Eject Button</td><td>Auto-switches when hit by damage</td></tr>
+<tr><td>Sitrus Berry</td><td>Restores 25% HP when below 50%</td></tr>
+<tr><td>Mental Herb</td><td>Cures Infatuation, Encore, Taunt, Torment (first time)</td></tr></table>
+<div class="tip">In Pokémon Champions, Mega Stones enable Mega Evolution. Use the Builder to see which stone each Pokémon uses!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Construção de Time',en:'Team Building'},
+    icon:'✨',
+    title:{pt:'Habilidades essenciais',en:'Essential abilities'},
+    sub:{pt:'As habilidades mais importantes do competitivo',en:'The most important competitive abilities'},
+    body:{
+      pt:`<h2>Por que habilidades importam</h2>
+<p>Habilidades (abilities) são passivas que se ativam automaticamente em batalha. Muitas estratégias inteiras são construídas em torno de uma habilidade-chave.</p>
+<h2>Habilidades de clima</h2>
+<ul>
+<li><strong>Drizzle</strong> (Politoed) — ativa Chuva por 5 turnos. Boosting golpes de Água em 50%.</li>
+<li><strong>Drought</strong> (Ninetales, Primal Groudon) — ativa Sol. Boosting golpes de Fogo.</li>
+<li><strong>Sand Stream</strong> (Tyranitar, Hippowdon) — ativa Tempestade de Areia.</li>
+<li><strong>Snow Warning</strong> (Abomasnow) — ativa Nevada.</li>
+</ul>
+<h2>Habilidades de suporte</h2>
+<ul>
+<li><strong>Intimidate</strong> (Arcanine, Landorus-T) — reduz Ataque dos oponentes ao entrar. Uma das mais comuns no VGC.</li>
+<li><strong>Fake Out immunity</strong> — Inner Focus impede flinch de Fake Out.</li>
+<li><strong>Prankster</strong> (Grimmsnarl, Whimsicott) — status moves têm prioridade +1.</li>
+<li><strong>Telepathy</strong> — ignora spread moves do parceiro (não leva dano de Earthquake do aliado).</li>
+</ul>
+<h2>Habilidades ofensivas</h2>
+<ul>
+<li><strong>Protosynthesis / Quark Drive</strong> — aumenta o stat mais alto sob sol/terrain elétrico.</li>
+<li><strong>Swift Swim / Chlorophyll</strong> — dobra velocidade na chuva/sol.</li>
+<li><strong>Sheer Force</strong> — +30% dano em golpes com efeito secundário, mas remove o efeito.</li>
+<li><strong>Speed Boost</strong> (Blaziken) — +1 Velocidade por turno.</li>
+</ul>
+<div class="tip">Intimidate é tão comum que muitos times incluem Inner Focus ou Clear Body para se proteger!</div>`,
+      en:`<h2>Why abilities matter</h2>
+<p>Abilities are passives that activate automatically in battle. Many entire strategies are built around a key ability.</p>
+<h2>Weather abilities</h2>
+<ul>
+<li><strong>Drizzle</strong> (Politoed) — sets Rain for 5 turns. Boosts Water moves by 50%.</li>
+<li><strong>Drought</strong> (Ninetales, Primal Groudon) — sets Sun. Boosts Fire moves.</li>
+<li><strong>Sand Stream</strong> (Tyranitar, Hippowdon) — sets Sandstorm.</li>
+<li><strong>Snow Warning</strong> (Abomasnow) — sets Snow.</li>
+</ul>
+<h2>Support abilities</h2>
+<ul>
+<li><strong>Intimidate</strong> (Arcanine, Landorus-T) — lowers opponents' Attack on switch-in. One of the most common in VGC.</li>
+<li><strong>Inner Focus</strong> — prevents Fake Out flinch.</li>
+<li><strong>Prankster</strong> (Grimmsnarl, Whimsicott) — status moves get +1 priority.</li>
+<li><strong>Telepathy</strong> — ignores partner's spread moves (no Earthquake damage from ally).</li>
+</ul>
+<h2>Offensive abilities</h2>
+<ul>
+<li><strong>Protosynthesis / Quark Drive</strong> — boosts highest stat under sun/electric terrain.</li>
+<li><strong>Swift Swim / Chlorophyll</strong> — doubles speed in rain/sun.</li>
+<li><strong>Sheer Force</strong> — +30% damage on moves with secondary effects, but removes the effect.</li>
+<li><strong>Speed Boost</strong> (Blaziken) — +1 Speed per turn.</li>
+</ul>
+<div class="tip">Intimidate is so common that many teams include Inner Focus or Clear Body to protect against it!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Construção de Time',en:'Team Building'},
+    icon:'🔗',
+    title:{pt:'Sinergia de time',en:'Team synergy'},
+    sub:{pt:'Como construir um time que funciona junto',en:'How to build a team that works together'},
+    body:{
+      pt:`<h2>O que é sinergia</h2>
+<p>Sinergia é quando os Pokémon do seu time se beneficiam mutuamente — cobrindo fraquezas uns dos outros e amplificando pontos fortes.</p>
+<h2>Sinergia ofensiva</h2>
+<ul>
+<li><strong>Helping Hand + atacante</strong> — Helping Hand aumenta o dano do parceiro em 50%. Coloque um suporte ao lado de um canhão de dano.</li>
+<li><strong>Fake Out + atacante</strong> — Fake Out trava um inimigo por um turno, dando espaço para o parceiro atacar/boostar.</li>
+<li><strong>Tailwind + atacante rápido</strong> — Tailwind dobra a velocidade do time por 4 turnos.</li>
+</ul>
+<h2>Sinergia defensiva</h2>
+<ul>
+<li><strong>Cobrir fraquezas de tipo</strong> — se um Pokémon é fraco a Fogo, traga outro que resista.</li>
+<li><strong>Spread + Segurar</strong> — enquanto um ataca spreads, o outro usa Protect para não levar dano.</li>
+<li><strong>Intimidate + frágil</strong> — proteja um Pokémon ofensivo frágil com um usuário de Intimidate.</li>
+</ul>
+<h2>Cores de um time sólido</h2>
+<ul>
+<li>🏹 1-2 atacantes principais (os canhões de dano)</li>
+<li>🛡 1 tank ou Pokémon defensivo</li>
+<li>⚡ 1 controlador de velocidade (Tailwind/Trick Room/Scarf)</li>
+<li>🌀 1-2 suportes (Fake Out, Helping Hand, redirecionamento)</li>
+</ul>
+<div class="tip">Antes de finalizar um time, pergunte: "O que meu time faz se o oponente jogar Protect no turno 1?"</div>`,
+      en:`<h2>What is synergy</h2>
+<p>Synergy is when your team's Pokémon mutually benefit each other — covering each other's weaknesses and amplifying strengths.</p>
+<h2>Offensive synergy</h2>
+<ul>
+<li><strong>Helping Hand + attacker</strong> — Helping Hand boosts the partner's damage by 50%. Pair a support with a damage cannon.</li>
+<li><strong>Fake Out + attacker</strong> — Fake Out locks an enemy for one turn, giving the partner space to attack/boost.</li>
+<li><strong>Tailwind + fast attacker</strong> — Tailwind doubles the team's speed for 4 turns.</li>
+</ul>
+<h2>Defensive synergy</h2>
+<ul>
+<li><strong>Cover type weaknesses</strong> — if one Pokémon is weak to Fire, bring another that resists it.</li>
+<li><strong>Spread + Protect</strong> — while one uses spread moves, the other Protects to avoid self-damage.</li>
+<li><strong>Intimidate + fragile</strong> — protect a frail offensive Pokémon with an Intimidate user.</li>
+</ul>
+<h2>Pillars of a solid team</h2>
+<ul>
+<li>🏹 1-2 main attackers (damage cannons)</li>
+<li>🛡 1 tank or defensive Pokémon</li>
+<li>⚡ 1 speed controller (Tailwind/Trick Room/Scarf)</li>
+<li>🌀 1-2 supports (Fake Out, Helping Hand, redirection)</li>
+</ul>
+<div class="tip">Before finalizing a team, ask: "What does my team do if the opponent plays Protect on turn 1?"</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  // ESTRATÉGIA
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'🛡',
+    title:{pt:'Protect: o golpe mais importante',en:'Protect: the most important move'},
+    sub:{pt:'Por que todo Pokémon competitivo usa Protect',en:'Why every competitive Pokémon runs Protect'},
+    body:{
+      pt:`<h2>Por que Protect é tão bom</h2>
+<p>Protect é considerado o move mais importante do formato Doubles. Ele torna o usuário completamente imune a ataques por um turno.</p>
+<h2>Usos de Protect</h2>
+<ul>
+<li><strong>Sobreviver um turno</strong> — enquanto seu parceiro elimina a ameaça.</li>
+<li><strong>Ganhar tempo para clima/terrain</strong> — deixar Swift Swim/Chlorophyll agir.</li>
+<li><strong>Scouting</strong> — descubra qual golpe o oponente usaria.</li>
+<li><strong>Stalling</strong> — curar status, recuperar HP (Leftovers, Ingrain), desgastar o oponente.</li>
+<li><strong>Proteger de Fake Out</strong> — use Protect no Pokémon que o oponente vai usar Fake Out.</li>
+</ul>
+<h2>Limitações</h2>
+<ul>
+<li>Usar Protect duas vezes seguidas tem chance menor de sucesso.</li>
+<li>Feint (Fake Out com power 30 contra Protect) quebra o Protect e causa dano.</li>
+<li>Alguns golpes atravessam o Protect: Menacing Moonraze Maelstrom, Photon Geyser.</li>
+</ul>
+<h2>Variações</h2>
+<ul>
+<li><strong>Detect</strong> — funcional idêntico ao Protect.</li>
+<li><strong>King's Shield</strong> (Aegislash) — Protect que reduz o Ataque de quem atacar com contato.</li>
+<li><strong>Wide Guard</strong> — bloqueia spread moves por um turno para todo o time.</li>
+<li><strong>Quick Guard</strong> — bloqueia movimentos com prioridade (Fake Out, Extreme Speed).</li>
+</ul>
+<div class="tip">Se você não sabe qual golpe colocar no 4º slot, coloque Protect. Raramente é a pior escolha.</div>`,
+      en:`<h2>Why Protect is so good</h2>
+<p>Protect is considered the most important move in the Doubles format. It makes the user completely immune to attacks for one turn.</p>
+<h2>Uses of Protect</h2>
+<ul>
+<li><strong>Survive a turn</strong> — while your partner eliminates the threat.</li>
+<li><strong>Buy time for weather/terrain</strong> — let Swift Swim/Chlorophyll kick in.</li>
+<li><strong>Scouting</strong> — find out which move the opponent would have used.</li>
+<li><strong>Stalling</strong> — heal status, recover HP (Leftovers, Ingrain), wear down the opponent.</li>
+<li><strong>Protecting from Fake Out</strong> — Protect the Pokémon the opponent is about to Fake Out.</li>
+</ul>
+<h2>Limitations</h2>
+<ul>
+<li>Using Protect two turns in a row has a lower success chance.</li>
+<li>Feint breaks Protect and deals damage.</li>
+<li>Some moves bypass Protect: Menacing Moonraze Maelstrom, Photon Geyser.</li>
+</ul>
+<h2>Variations</h2>
+<ul>
+<li><strong>Detect</strong> — functionally identical to Protect.</li>
+<li><strong>King's Shield</strong> (Aegislash) — Protect that lowers the Attack of contact attackers.</li>
+<li><strong>Wide Guard</strong> — blocks spread moves for one turn for the whole team.</li>
+<li><strong>Quick Guard</strong> — blocks priority moves (Fake Out, Extreme Speed).</li>
+</ul>
+<div class="tip">If you don't know what move to put in the 4th slot, use Protect. It's rarely the wrong choice.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'🌧',
+    title:{pt:'Estratégias de clima',en:'Weather strategies'},
+    sub:{pt:'Rain, Sun, Sand e Snow: como jogar cada clima',en:'Rain, Sun, Sand and Snow: how to play each weather'},
+    body:{
+      pt:`<h2>Por que usar clima</h2>
+<p>Clima é um modificador passivo que afeta o campo inteiro. Cada clima tem vantagens específicas que podem ser exploradas com o time certo.</p>
+<h2>Chuva (Rain)</h2>
+<ul>
+<li>+50% dano de golpes Água; -50% dano de golpes Fogo</li>
+<li>Swift Swim: dobra velocidade na chuva</li>
+<li>Ativado por: Drizzle (Politoed), Damp Rock (5→8 turnos)</li>
+<li>Pokémon comuns: Kingdra, Barraskewda, Ludicolo, Pelipper</li>
+</ul>
+<h2>Sol (Sun)</h2>
+<ul>
+<li>+50% dano de golpes Fogo; -50% dano de golpes Água; cura 50% com Synthesis</li>
+<li>Chlorophyll: dobra velocidade no sol</li>
+<li>Ativado por: Drought (Ninetales, Torkoal)</li>
+<li>Pokémon comuns: Venusaur, Lilligant, Charizard-Y</li>
+</ul>
+<h2>Areia (Sandstorm)</h2>
+<ul>
+<li>Causa 1/16 HP por turno a não-Pedra/Terra/Aço</li>
+<li>+50% SpDef para Pokémon tipo Pedra</li>
+<li>Sand Rush: dobra velocidade na areia</li>
+<li>Ativado por: Sand Stream (Tyranitar, Hippowdon)</li>
+</ul>
+<h2>Nevada (Snow)</h2>
+<ul>
+<li>+50% Defesa para Pokémon tipo Gelo</li>
+<li>Nunca erra Blizzard durante nevada</li>
+<li>Ativado por: Snow Warning (Abomasnow, Ninetales-Alola)</li>
+</ul>
+<div class="warn">Climas duram apenas 5 turnos base (8 com pedra de clima). O oponente pode trocar o clima!</div>`,
+      en:`<h2>Why use weather</h2>
+<p>Weather is a passive modifier that affects the entire field. Each weather has specific advantages that can be exploited with the right team.</p>
+<h2>Rain</h2>
+<ul>
+<li>+50% damage to Water moves; -50% to Fire moves</li>
+<li>Swift Swim: doubles speed in rain</li>
+<li>Set by: Drizzle (Politoed), Damp Rock (5→8 turns)</li>
+<li>Common Pokémon: Kingdra, Barraskewda, Ludicolo, Pelipper</li>
+</ul>
+<h2>Sun</h2>
+<ul>
+<li>+50% to Fire moves; -50% to Water moves; heals 50% with Synthesis</li>
+<li>Chlorophyll: doubles speed in sun</li>
+<li>Set by: Drought (Ninetales, Torkoal)</li>
+<li>Common Pokémon: Venusaur, Lilligant, Charizard-Y</li>
+</ul>
+<h2>Sandstorm</h2>
+<ul>
+<li>Deals 1/16 HP per turn to non-Rock/Ground/Steel</li>
+<li>+50% SpDef for Rock-type Pokémon</li>
+<li>Sand Rush: doubles speed in sand</li>
+<li>Set by: Sand Stream (Tyranitar, Hippowdon)</li>
+</ul>
+<h2>Snow</h2>
+<ul>
+<li>+50% Defense for Ice-type Pokémon</li>
+<li>Blizzard never misses during snow</li>
+<li>Set by: Snow Warning (Abomasnow, Ninetales-Alola)</li>
+</ul>
+<div class="warn">Weather only lasts 5 turns base (8 with weather rock). Your opponent can override your weather!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'🔄',
+    title:{pt:'Trick Room: velocidade invertida',en:'Trick Room: reversed speed'},
+    sub:{pt:'Como montar e como enfrentar equipes de Trick Room',en:'How to build and how to counter Trick Room teams'},
+    body:{
+      pt:`<h2>O que é Trick Room</h2>
+<p>Trick Room é um move de status que <strong>inverte a ordem de velocidade</strong> por 5 turnos. Pokémon mais lentos agem primeiro.</p>
+<h2>Por que usar Trick Room</h2>
+<ul>
+<li>Permite usar Pokémon extremamente poderosos que seriam lentos demais no meta normal.</li>
+<li>Pokémon como Hatterene, Dusclops, e Mimikyu são setters comuns.</li>
+<li>Pokémon clássicos de TR: Cresselia, Ursaluna, Torkoal, Stakataka.</li>
+</ul>
+<h2>Construindo um time de Trick Room</h2>
+<ul>
+<li>2 setters de TR (caso um seja nocauteado)</li>
+<li>3-4 atacantes lentos e poderosos (Atk ou SpA alta, Velocidade baixa ~50-80)</li>
+<li>Fake Out no lead para proteger o setter</li>
+<li>Naturezas que reduzem velocidade (Brave para físico, Quiet para especial)</li>
+</ul>
+<h2>Como countar Trick Room</h2>
+<ul>
+<li><strong>Imprison</strong> — proíbe o oponente de usar golpes que você também tem (incluindo TR).</li>
+<li><strong>Taunt</strong> — impede o uso de TR (move de status).</li>
+<li><strong>KO o setter</strong> — se Dusclops morrer antes de setar, TR não funciona.</li>
+<li><strong>Setar TR você mesmo</strong> — redefine o contador para 5 turnos e inverte de volta.</li>
+</ul>
+<div class="tip">Trick Room dura apenas 5 turnos. Use os 5 turnos agressivamente — não perca tempo com Protects desnecessários!</div>`,
+      en:`<h2>What is Trick Room</h2>
+<p>Trick Room is a status move that <strong>reverses Speed order</strong> for 5 turns. Slower Pokémon act first.</p>
+<h2>Why use Trick Room</h2>
+<ul>
+<li>Allows you to use extremely powerful Pokémon that would be too slow in the normal meta.</li>
+<li>Hatterene, Dusclops, and Mimikyu are common setters.</li>
+<li>Classic TR Pokémon: Cresselia, Ursaluna, Torkoal, Stakataka.</li>
+</ul>
+<h2>Building a Trick Room team</h2>
+<ul>
+<li>2 TR setters (in case one gets knocked out)</li>
+<li>3-4 slow, powerful attackers (high Atk or SpA, low Speed ~50-80)</li>
+<li>Fake Out on the lead to protect the setter</li>
+<li>Speed-reducing natures (Brave for physical, Quiet for special)</li>
+</ul>
+<h2>How to counter Trick Room</h2>
+<ul>
+<li><strong>Imprison</strong> — prevents the opponent from using moves you also have (including TR).</li>
+<li><strong>Taunt</strong> — prevents TR (it's a status move).</li>
+<li><strong>KO the setter</strong> — if Dusclops dies before setting, TR won't work.</li>
+<li><strong>Set TR yourself</strong> — resets the counter to 5 turns and inverts back.</li>
+</ul>
+<div class="tip">Trick Room only lasts 5 turns. Use those 5 turns aggressively — don't waste them with unnecessary Protects!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'💨',
+    title:{pt:'Tailwind: controle de velocidade',en:'Tailwind: speed control'},
+    sub:{pt:'O move de suporte mais usado no VGC moderno',en:'The most popular support move in modern VGC'},
+    body:{
+      pt:`<h2>O que é Tailwind</h2>
+<p>Tailwind é um move de Flying que <strong>dobra a velocidade de todo o seu time</strong> por 4 turnos. É uma das estratégias de suporte mais comuns no VGC.</p>
+<h2>Setters clássicos de Tailwind</h2>
+<ul>
+<li>Tornadus — Flying, Prankster (pode usar com prioridade)</li>
+<li>Whimsicott — Fairy, Prankster + Tailwind é devastador</li>
+<li>Talonflame — Flying/Fire, muito rápido</li>
+<li>Scarf Pokémon que aprendem Tailwind</li>
+</ul>
+<h2>O que fazer durante Tailwind</h2>
+<p>Com velocidade dobrada, seu time precisa fechar o jogo em 4 turnos. Foque em:</p>
+<ul>
+<li>Atacar pesado com Life Orb ou Choice Band/Specs</li>
+<li>Usar Helping Hand para ampliar o dano ainda mais</li>
+<li>KO o máximo de Pokémon possível antes de Tailwind acabar</li>
+</ul>
+<h2>Contra Tailwind</h2>
+<ul>
+<li>Trick Room inverte a velocidade de volta</li>
+<li>Tauntar o setter antes de Tailwind ser usado</li>
+<li>Prioridade (Fake Out, Extreme Speed) ignora velocidade</li>
+</ul>
+<div class="warn">Tailwind dura apenas 4 turnos! Não perca tempo — ataque desde o turno 1.</div>`,
+      en:`<h2>What is Tailwind</h2>
+<p>Tailwind is a Flying move that <strong>doubles the Speed of your entire team</strong> for 4 turns. It's one of the most common support strategies in VGC.</p>
+<h2>Classic Tailwind setters</h2>
+<ul>
+<li>Tornadus — Flying, Prankster (can use with priority)</li>
+<li>Whimsicott — Fairy, Prankster + Tailwind is devastating</li>
+<li>Talonflame — Flying/Fire, very fast</li>
+<li>Scarf Pokémon that learn Tailwind</li>
+</ul>
+<h2>What to do during Tailwind</h2>
+<p>With doubled speed, your team needs to close the game in 4 turns. Focus on:</p>
+<ul>
+<li>Hitting hard with Life Orb or Choice Band/Specs</li>
+<li>Using Helping Hand to amplify damage further</li>
+<li>KOing as many Pokémon as possible before Tailwind ends</li>
+</ul>
+<h2>Against Tailwind</h2>
+<ul>
+<li>Trick Room reverses the Speed back</li>
+<li>Taunt the setter before Tailwind is used</li>
+<li>Priority moves (Fake Out, Extreme Speed) ignore speed</li>
+</ul>
+<div class="warn">Tailwind only lasts 4 turns! Don't waste time — attack from turn 1.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'👊',
+    title:{pt:'Fake Out: o golpe de abertura',en:'Fake Out: the opening move'},
+    sub:{pt:'Como usar e como defender do Fake Out',en:'How to use and defend against Fake Out'},
+    body:{
+      pt:`<h2>O que é Fake Out</h2>
+<p>Fake Out é um move Normal com prioridade +3 que faz o alvo dar flinch (pular o turno). Só funciona no <strong>primeiro turno em campo</strong>.</p>
+<h2>Por que é tão poderoso</h2>
+<ul>
+<li>Garante que o alvo não age no primeiro turno — tempo valioso para setup.</li>
+<li>Permite que seu parceiro use Trick Room, Tailwind, Swords Dance sem interrupção.</li>
+<li>Força o oponente a jogar Protect ou trocar o Pokémon.</li>
+</ul>
+<h2>Usuários comuns</h2>
+<ul>
+<li>Incineroar — o setter de Fake Out mais usado no VGC por anos.</li>
+<li>Rillaboom — tem Grassy Surge também, bonus.</li>
+<li>Persian, Ambipom, Pangoro</li>
+</ul>
+<h2>Como se defender</h2>
+<ul>
+<li><strong>Inner Focus</strong> — habilidade que impede flinch (Lucario, Gallade).</li>
+<li><strong>Shield Dust</strong> — impede efeitos secundários (Butterfree).</li>
+<li><strong>Protect</strong> — bloqueia o Fake Out completamente.</li>
+<li><strong>Quick Guard</strong> — bloqueia Fake Out para ambos os parceiros.</li>
+</ul>
+<div class="tip">Incineroar com Fake Out + Parting Shot é uma das duplas de suporte mais poderosas do formato Doubles.</div>`,
+      en:`<h2>What is Fake Out</h2>
+<p>Fake Out is a Normal move with +3 priority that causes the target to flinch (skip their turn). It only works on the <strong>first turn in play</strong>.</p>
+<h2>Why it's so powerful</h2>
+<ul>
+<li>Guarantees the target doesn't act that turn — valuable setup time.</li>
+<li>Allows your partner to use Trick Room, Tailwind, Swords Dance uninterrupted.</li>
+<li>Forces the opponent to Protect or switch.</li>
+</ul>
+<h2>Common users</h2>
+<ul>
+<li>Incineroar — the most-used Fake Out setter in VGC for years.</li>
+<li>Rillaboom — also has Grassy Surge, bonus.</li>
+<li>Persian, Ambipom, Pangoro</li>
+</ul>
+<h2>How to defend</h2>
+<ul>
+<li><strong>Inner Focus</strong> — prevents flinch (Lucario, Gallade).</li>
+<li><strong>Shield Dust</strong> — prevents secondary effects (Butterfree).</li>
+<li><strong>Protect</strong> — completely blocks Fake Out.</li>
+<li><strong>Quick Guard</strong> — blocks Fake Out for both partners.</li>
+</ul>
+<div class="tip">Incineroar with Fake Out + Parting Shot is one of the most powerful support duos in the Doubles format.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'🎯',
+    title:{pt:'Redirecionamento: Follow Me e Rage Powder',en:'Redirection: Follow Me and Rage Powder'},
+    sub:{pt:'Como proteger seu parceiro desviando ataques',en:'How to protect your partner by redirecting attacks'},
+    body:{
+      pt:`<h2>O que é redirecionamento</h2>
+<p><strong>Follow Me</strong> e <strong>Rage Powder</strong> fazem todos os ataques do oponente se voltarem para o usuário naquele turno. É uma ferramenta de suporte extremamente poderosa.</p>
+<h2>Follow Me vs Rage Powder</h2>
+<ul>
+<li><strong>Follow Me</strong> — funciona em qualquer Pokémon.</li>
+<li><strong>Rage Powder</strong> — só funciona em Pokémon do tipo Inseto. Não afeta Pokémon Dark-type ou com Overcoat.</li>
+</ul>
+<h2>Usos clássicos</h2>
+<ul>
+<li>Proteger um Pokémon que está usando Trick Room/Tailwind/Swords Dance.</li>
+<li>Forçar ataques direcionados para um tank enquanto o parceiro causa dano.</li>
+<li>Bloquear ataques contra seu parceiro frágil.</li>
+</ul>
+<h2>Usuários comuns</h2>
+<ul>
+<li>Clefairy — Follow Me + Friend Guard (reduz 25% do dano que o parceiro recebe).</li>
+<li>Amoonguss — Rage Powder + Spore + muita HP. Um dos suportes mais usados do VGC.</li>
+<li>Togekiss — Follow Me + Serene Grace + Air Slash (flinch).</li>
+</ul>
+<div class="warn">Redirecionamento não funciona contra Spread Moves (Earthquake, Heat Wave) — esses atingem todos normalmente!</div>`,
+      en:`<h2>What is redirection</h2>
+<p><strong>Follow Me</strong> and <strong>Rage Powder</strong> make all opponent attacks target the user that turn. It's an extremely powerful support tool.</p>
+<h2>Follow Me vs Rage Powder</h2>
+<ul>
+<li><strong>Follow Me</strong> — works on any Pokémon.</li>
+<li><strong>Rage Powder</strong> — only works on Bug-type Pokémon. Doesn't affect Dark-types or Pokémon with Overcoat.</li>
+</ul>
+<h2>Classic uses</h2>
+<ul>
+<li>Protect a Pokémon using Trick Room/Tailwind/Swords Dance.</li>
+<li>Force attacks onto a tank while the partner deals damage.</li>
+<li>Block attacks against your fragile partner.</li>
+</ul>
+<h2>Common users</h2>
+<ul>
+<li>Clefairy — Follow Me + Friend Guard (reduces 25% damage to the partner).</li>
+<li>Amoonguss — Rage Powder + Spore + massive HP. One of the most-used VGC supports.</li>
+<li>Togekiss — Follow Me + Serene Grace + Air Slash (flinch chance).</li>
+</ul>
+<div class="warn">Redirection doesn't work against Spread Moves (Earthquake, Heat Wave) — those hit everyone normally!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'🌀',
+    title:{pt:'Terrenos e seus usos',en:'Terrains and their uses'},
+    sub:{pt:'Electric, Grassy, Misty e Psychic Terrain explicados',en:'Electric, Grassy, Misty and Psychic Terrain explained'},
+    body:{
+      pt:`<h2>O que são Terrenos</h2>
+<p>Terrenos são condições de campo ativadas por moves ou habilidades que afetam Pokémon <strong>em contato com o chão</strong> (não funciona em Pokémon voadores ou com Levitate).</p>
+<h2>Electric Terrain</h2>
+<ul>
+<li>+30% dano de golpes elétricos</li>
+<li>Pokémon no terreno não podem adormecer</li>
+<li>Ativado por: Electric Surge (Pincurchin), Electric Terrain move</li>
+<li>Usado com: Thunder, Pincurchin, Tapu Koko, Regieleki</li>
+</ul>
+<h2>Grassy Terrain</h2>
+<ul>
+<li>+30% dano de golpes Grass; -50% dano de Earthquake, Magnitude, Bulldoze</li>
+<li>Recupera 1/16 HP por turno para Pokémon no terreno</li>
+<li>Ativado por: Grassy Surge (Rillaboom), Grassy Terrain move</li>
+</ul>
+<h2>Misty Terrain</h2>
+<ul>
+<li>Pokémon no terreno imunes a condições de status (Sono, Paralisia, etc.)</li>
+<li>-50% dano de golpes Dragon</li>
+<li>Ativado por: Misty Surge (Gardevoir, Tapu Fini), Misty Terrain move</li>
+</ul>
+<h2>Psychic Terrain</h2>
+<ul>
+<li>+30% dano de golpes Psychic</li>
+<li>Pokémon no terreno imunes a moves de prioridade (Fake Out, Extreme Speed)</li>
+<li>Ativado por: Psychic Surge (Indeedee, Tapu Lele), Psychic Terrain move</li>
+</ul>
+<div class="tip">Psychic Terrain com Indeedee é uma forma de bloquear Fake Out do oponente automaticamente!</div>`,
+      en:`<h2>What are Terrains</h2>
+<p>Terrains are field conditions activated by moves or abilities that affect Pokémon <strong>in contact with the ground</strong> (doesn't work on Flying Pokémon or Levitate users).</p>
+<h2>Electric Terrain</h2>
+<ul>
+<li>+30% damage to Electric moves</li>
+<li>Pokémon on the terrain can't fall asleep</li>
+<li>Activated by: Electric Surge (Pincurchin), Electric Terrain move</li>
+<li>Used with: Thunder, Pincurchin, Tapu Koko, Regieleki</li>
+</ul>
+<h2>Grassy Terrain</h2>
+<ul>
+<li>+30% to Grass moves; -50% to Earthquake, Magnitude, Bulldoze</li>
+<li>Restores 1/16 HP per turn for grounded Pokémon</li>
+<li>Activated by: Grassy Surge (Rillaboom), Grassy Terrain move</li>
+</ul>
+<h2>Misty Terrain</h2>
+<ul>
+<li>Grounded Pokémon immune to status conditions (Sleep, Paralysis, etc.)</li>
+<li>-50% damage to Dragon moves</li>
+<li>Activated by: Misty Surge (Gardevoir, Tapu Fini), Misty Terrain move</li>
+</ul>
+<h2>Psychic Terrain</h2>
+<ul>
+<li>+30% damage to Psychic moves</li>
+<li>Grounded Pokémon immune to priority moves (Fake Out, Extreme Speed)</li>
+<li>Activated by: Psychic Surge (Indeedee, Tapu Lele), Psychic Terrain move</li>
+</ul>
+<div class="tip">Psychic Terrain with Indeedee automatically blocks the opponent's Fake Out!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  // MEGA EVOLUÇÃO
+  {
+    cat:{pt:'Mega Evolução',en:'Mega Evolution'},
+    icon:'💎',
+    title:{pt:'Mega Evolução no Champions',en:'Mega Evolution in Champions'},
+    sub:{pt:'Como funciona a Mega Evolução em Pokémon Champions',en:'How Mega Evolution works in Pokémon Champions'},
+    body:{
+      pt:`<h2>Mega Evolução está de volta</h2>
+<p>Pokémon Champions trouxe de volta a <strong>Mega Evolução</strong>, com as stones clássicas de X/Y/ORAS e novas stones introduzidas em Legends: Z-A e DLC.</p>
+<h2>Como funciona</h2>
+<ul>
+<li>Equipe seu Pokémon com a Mega Stone correta (ex: Charizard → Charizardite X ou Y).</li>
+<li>Em batalha, você pode Mega Evoluir <strong>uma vez por batalha</strong>.</li>
+<li>A Mega Evolução acontece no início do turno, antes das ações.</li>
+<li>Stats, tipo e habilidade mudam imediatamente.</li>
+</ul>
+<h2>Stones clássicas</h2>
+<p>Venusaurite, Charizardite X/Y, Blastoisinite, Gengarite, Kangaskhanite, e mais de 40 outras.</p>
+<h2>Novas stones (Z-A e DLC)</h2>
+<p>Dragonite, Meganium, Feraligatr, Greninja, Delphox, Chesnaught, Raichu-X/Y, Darkrai, Zeraora, Scovillain, Glimmora e outros.</p>
+<div class="tip">O Champions Builder detecta automaticamente qual Mega Stone cada Pokémon pode usar e oferece ela no seletor de itens!</div>
+<div class="warn">Apenas um Pokémon pode Mega Evoluir por batalha. Escolha qual usar baseado no matchup.</div>`,
+      en:`<h2>Mega Evolution is back</h2>
+<p>Pokémon Champions brought back <strong>Mega Evolution</strong>, with classic stones from X/Y/ORAS and new stones introduced in Legends: Z-A and DLC.</p>
+<h2>How it works</h2>
+<ul>
+<li>Equip your Pokémon with the correct Mega Stone (e.g. Charizard → Charizardite X or Y).</li>
+<li>In battle, you can Mega Evolve <strong>once per battle</strong>.</li>
+<li>Mega Evolution happens at the start of the turn, before actions.</li>
+<li>Stats, type, and ability change immediately.</li>
+</ul>
+<h2>Classic stones</h2>
+<p>Venusaurite, Charizardite X/Y, Blastoisinite, Gengarite, Kangaskhanite, and over 40 others.</p>
+<h2>New stones (Z-A and DLC)</h2>
+<p>Dragonite, Meganium, Feraligatr, Greninja, Delphox, Chesnaught, Raichu-X/Y, Darkrai, Zeraora, Scovillain, Glimmora and others.</p>
+<div class="tip">The Champions Builder automatically detects which Mega Stone each Pokémon can use and offers it in the item selector!</div>
+<div class="warn">Only one Pokémon can Mega Evolve per battle. Choose which to use based on the matchup.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  // POKÉMON CHAMPIONS
+  {
+    cat:{pt:'Pokémon Champions',en:'Pokémon Champions'},
+    icon:'⚡',
+    title:{pt:'O que é Pokémon Champions',en:'What is Pokémon Champions'},
+    sub:{pt:'O novo jogo competitivo da franquia Pokémon',en:'The new competitive Pokémon game'},
+    body:{
+      pt:`<h2>Pokémon Champions</h2>
+<p>Pokémon Champions é o novo jogo de batalha online lançado em <strong>8 de abril de 2026</strong> para Nintendo Switch 2. Focado exclusivamente em batalhas competitivas.</p>
+<h2>Principais características</h2>
+<ul>
+<li>Formato Double Battle como padrão</li>
+<li>Nível automático 50 em batalhas ranqueadas</li>
+<li>Suporte a Mega Evolução (stones clássicas + novas)</li>
+<li>Sistema de VP (Victory Points) para recrutar e treinar Pokémon</li>
+<li>SPs (Stat Points) em vez de EVs</li>
+<li>Compatibilidade com Pokémon HOME</li>
+<li>Torneios online oficiais integrados</li>
+</ul>
+<h2>Victory Points (VP)</h2>
+<p>VP é a moeda do jogo usada para recrutar Pokémon, treinar stats (SPs), alterar natureza e itens. Você ganha VP ao vencer batalhas.</p>
+<h2>Formatos</h2>
+<ul>
+<li><strong>Regulamento M-A Padrão</strong> — todas as gens, sem lendários restritos</li>
+<li><strong>Regulamento com lendários</strong> — permite 1 lendário restrito por time</li>
+<li><strong>Copa</strong> — torneios sazonais com regras especiais</li>
+</ul>
+<div class="tip">O Champions Builder foi feito especificamente para preparar seus times para o Pokémon Champions!</div>`,
+      en:`<h2>Pokémon Champions</h2>
+<p>Pokémon Champions is the new online battle game released on <strong>April 8, 2026</strong> for Nintendo Switch 2. Focused exclusively on competitive battles.</p>
+<h2>Main features</h2>
+<ul>
+<li>Double Battle as the standard format</li>
+<li>Automatic level 50 in ranked battles</li>
+<li>Mega Evolution support (classic + new stones)</li>
+<li>VP (Victory Points) system for recruiting and training Pokémon</li>
+<li>SPs (Stat Points) instead of EVs</li>
+<li>Pokémon HOME compatibility</li>
+<li>Integrated official online tournaments</li>
+</ul>
+<h2>Victory Points (VP)</h2>
+<p>VP is the in-game currency used to recruit Pokémon, train stats (SPs), change natures and items. You earn VP by winning battles.</p>
+<h2>Formats</h2>
+<ul>
+<li><strong>Standard Regulation M-A</strong> — all gens, no restricted legendaries</li>
+<li><strong>Regulation with legendaries</strong> — allows 1 restricted legendary per team</li>
+<li><strong>Cup</strong> — seasonal tournaments with special rules</li>
+</ul>
+<div class="tip">The Champions Builder was made specifically to prepare your teams for Pokémon Champions!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Pokémon Champions',en:'Pokémon Champions'},
+    icon:'💰',
+    title:{pt:'Sistema de VP explicado',en:'VP system explained'},
+    sub:{pt:'Como ganhar e gastar Victory Points no Champions',en:'How to earn and spend Victory Points in Champions'},
+    body:{
+      pt:`<h2>O que são Victory Points</h2>
+<p>VP (Victory Points) é a principal moeda do Pokémon Champions. Você precisa de VP para montar e melhorar seu time competitivo.</p>
+<h2>Como ganhar VP</h2>
+<ul>
+<li>Vencer batalhas ranqueadas</li>
+<li>Completar desafios diários e semanais</li>
+<li>Participar de torneios online</li>
+<li>Primeira vitória do dia (bônus)</li>
+</ul>
+<h2>Como gastar VP</h2>
+<table><tr><th>Ação</th><th>Custo estimado</th></tr>
+<tr><td>Recrutar um Pokémon</td><td>~800 VP</td></tr>
+<tr><td>Treinar 1 SP</td><td>~2 VP</td></tr>
+<tr><td>Alterar natureza</td><td>~100 VP</td></tr>
+<tr><td>Equipar item</td><td>~350 VP</td></tr>
+<tr><td>Time completo (6 Pokémon)</td><td>~8.000-12.000 VP</td></tr></table>
+<div class="warn">Valores estimados! Serão atualizados após o lançamento em 8/4/2026.</div>
+<div class="tip">O Champions Builder calcula automaticamente o custo estimado em VP do seu time na aba "Time"!</div>`,
+      en:`<h2>What are Victory Points</h2>
+<p>VP (Victory Points) is the main currency in Pokémon Champions. You need VP to build and improve your competitive team.</p>
+<h2>How to earn VP</h2>
+<ul>
+<li>Win ranked battles</li>
+<li>Complete daily and weekly challenges</li>
+<li>Participate in online tournaments</li>
+<li>First win of the day (bonus)</li>
+</ul>
+<h2>How to spend VP</h2>
+<table><tr><th>Action</th><th>Estimated cost</th></tr>
+<tr><td>Recruit a Pokémon</td><td>~800 VP</td></tr>
+<tr><td>Train 1 SP</td><td>~2 VP</td></tr>
+<tr><td>Change nature</td><td>~100 VP</td></tr>
+<tr><td>Equip item</td><td>~350 VP</td></tr>
+<tr><td>Complete team (6 Pokémon)</td><td>~8,000-12,000 VP</td></tr></table>
+<div class="warn">Estimated values! Will be updated after the April 8, 2026 launch.</div>
+<div class="tip">The Champions Builder automatically calculates the estimated VP cost of your team in the "Team" tab!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Pokémon Champions',en:'Pokémon Champions'},
+    icon:'🏠',
+    title:{pt:'Pokémon HOME e Champions',en:'Pokémon HOME and Champions'},
+    sub:{pt:'Como transferir Pokémon do HOME para o Champions',en:'How to transfer Pokémon from HOME to Champions'},
+    body:{
+      pt:`<h2>HOME e Champions</h2>
+<p>Pokémon Champions é compatível com o <strong>Pokémon HOME</strong>, permitindo transferir Pokémon de jogos anteriores.</p>
+<h2>Como funciona</h2>
+<ul>
+<li>Conecte o Pokémon HOME à sua conta Nintendo.</li>
+<li>No Champions, acesse o menu de importação de HOME.</li>
+<li>Pokémon transferidos chegam com seus stats originais — mas podem precisar de retreinamento de SPs.</li>
+</ul>
+<h2>Pokémon compatíveis</h2>
+<p>Pokémon de Sword/Shield, Brilliant Diamond/Shining Pearl, Legends Arceus, Scarlet/Violet, e Legends Z-A podem ser transferidos via HOME.</p>
+<h2>Limitações</h2>
+<ul>
+<li>Pokémon com moves ilegais no Champions podem precisar de ajustes.</li>
+<li>Mega Stones precisam ser adquiridas no Champions — não transferem do HOME.</li>
+<li>SPs precisam ser retreinados no Champions mesmo se o Pokémon tinha EVs máximos.</li>
+</ul>
+<div class="tip">Use o Builder para planejar os SPs do Pokémon antes de treinar — economiza VP!</div>`,
+      en:`<h2>HOME and Champions</h2>
+<p>Pokémon Champions is compatible with <strong>Pokémon HOME</strong>, allowing Pokémon from previous games to be transferred.</p>
+<h2>How it works</h2>
+<ul>
+<li>Connect Pokémon HOME to your Nintendo account.</li>
+<li>In Champions, access the HOME import menu.</li>
+<li>Transferred Pokémon arrive with their original stats — but may need SP retraining.</li>
+</ul>
+<h2>Compatible Pokémon</h2>
+<p>Pokémon from Sword/Shield, Brilliant Diamond/Shining Pearl, Legends Arceus, Scarlet/Violet, and Legends Z-A can be transferred via HOME.</p>
+<h2>Limitations</h2>
+<ul>
+<li>Pokémon with illegal moves in Champions may need adjustments.</li>
+<li>Mega Stones need to be acquired in Champions — they don't transfer from HOME.</li>
+<li>SPs need to be retrained in Champions even if the Pokémon had max EVs.</li>
+</ul>
+<div class="tip">Use the Builder to plan your Pokémon's SPs before training — saves VP!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Pokémon Champions',en:'Pokémon Champions'},
+    icon:'🌀',
+    title:{pt:'Formas alternativas no Champions',en:'Alternate forms in Champions'},
+    sub:{pt:'Todas as formas disponíveis e como obtê-las',en:'All available forms and how to get them'},
+    body:{
+      pt:`<h2>Formas alternativas</h2>
+<p>Pokémon Champions inclui centenas de formas alternativas: Alola, Galar, Hisui, Paldea e formas exclusivas de Legends Z-A.</p>
+<h2>Tipos de formas</h2>
+<ul>
+<li><strong>Formas regionais</strong> — Alola, Galar, Hisui, Paldea. Stats e tipos diferentes do original.</li>
+<li><strong>Formas de batalha</strong> — Origin Forms (Giratina, Dialga, Palkia), Crowned Sword/Shield (Zacian/Zamazenta).</li>
+<li><strong>Formas por condição</strong> — Blood Moon Ursaluna, Roaming Form Enamorus, etc.</li>
+</ul>
+<h2>Como obter</h2>
+<ul>
+<li>Formas regionais têm Pokémon específicos para recrutar no Champions.</li>
+<li>Formas de lendários geralmente requerem itens específicos ou quests.</li>
+<li>Algumas formas podem ser importadas via HOME dos jogos originais.</li>
+</ul>
+<div class="tip">O Champions Builder carrega formas alternativas automaticamente da PokéAPI. Procure pelo Pokémon base — as formas aparecem na lista com tag dourada!</div>`,
+      en:`<h2>Alternate forms</h2>
+<p>Pokémon Champions includes hundreds of alternate forms: Alola, Galar, Hisui, Paldea and forms exclusive to Legends Z-A.</p>
+<h2>Types of forms</h2>
+<ul>
+<li><strong>Regional forms</strong> — Alola, Galar, Hisui, Paldea. Different stats and types from the original.</li>
+<li><strong>Battle forms</strong> — Origin Forms (Giratina, Dialga, Palkia), Crowned Sword/Shield (Zacian/Zamazenta).</li>
+<li><strong>Condition forms</strong> — Blood Moon Ursaluna, Roaming Form Enamorus, etc.</li>
+</ul>
+<h2>How to obtain</h2>
+<ul>
+<li>Regional forms have specific Pokémon to recruit in Champions.</li>
+<li>Legendary forms usually require specific items or quests.</li>
+<li>Some forms can be imported via HOME from their original games.</li>
+</ul>
+<div class="tip">The Champions Builder automatically loads alternate forms from PokéAPI. Search for the base Pokémon — forms appear in the list with a gold tag!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  // USANDO O SITE
+  {
+    cat:{pt:'Usando o Site',en:'Using the Site'},
+    icon:'🔧',
+    title:{pt:'Como usar o Champions Builder',en:'How to use the Champions Builder'},
+    sub:{pt:'Guia completo do Builder: do zero ao time pronto',en:'Complete Builder guide: from zero to finished team'},
+    body:{
+      pt:`<h2>Visão geral</h2>
+<p>O Champions Builder tem 3 painéis: <strong>Pokédex</strong> (esquerda), <strong>Editor</strong> (centro) e <strong>Time</strong> (direita). No mobile, use as abas na base da tela.</p>
+<h2>Passo 1: Escolha um Pokémon</h2>
+<ul>
+<li>Busque pelo nome ou número na barra de pesquisa.</li>
+<li>Filtre por tipo clicando nos botões de tipo.</li>
+<li>Clique no Pokémon para adicioná-lo ao time.</li>
+</ul>
+<h2>Passo 2: Configure o Pokémon</h2>
+<ul>
+<li>Escolha a <strong>Natureza</strong> — veja o hint de qual stat é boosted.</li>
+<li>Selecione o <strong>Item</strong> — Pokémon com Mega Stone têm a stone sugerida automaticamente.</li>
+<li>Escolha a <strong>Habilidade</strong>.</li>
+<li>Defina os <strong>4 Golpes</strong> — busque na lista ou selecione pelo datalist.</li>
+<li>Distribua os <strong>SPs</strong> — use as barras, inputs ou presets (Atk/Vel, SpA/Vel, HP/Def).</li>
+</ul>
+<h2>Passo 3: Complete o time</h2>
+<p>Repita para os 6 Pokémon. O painel direito mostra o time completo, custo em VP e cobertura de tipos.</p>
+<h2>Export e Import</h2>
+<ul>
+<li><strong>Exportar</strong> — copia o time em texto para compartilhar.</li>
+<li><strong>Importar</strong> — cole um texto exportado para carregar um time.</li>
+</ul>
+<div class="tip">O time é salvo automaticamente no seu navegador. Você pode fechar e voltar sem perder o progresso!</div>`,
+      en:`<h2>Overview</h2>
+<p>The Champions Builder has 3 panels: <strong>Pokédex</strong> (left), <strong>Editor</strong> (center) and <strong>Team</strong> (right). On mobile, use the tabs at the bottom of the screen.</p>
+<h2>Step 1: Choose a Pokémon</h2>
+<ul>
+<li>Search by name or number in the search bar.</li>
+<li>Filter by type by clicking the type buttons.</li>
+<li>Click the Pokémon to add it to your team.</li>
+</ul>
+<h2>Step 2: Configure the Pokémon</h2>
+<ul>
+<li>Choose the <strong>Nature</strong> — see the hint showing which stat is boosted.</li>
+<li>Select the <strong>Item</strong> — Pokémon with Mega Stones have their stone suggested automatically.</li>
+<li>Choose the <strong>Ability</strong>.</li>
+<li>Set the <strong>4 Moves</strong> — search in the list or select from the datalist.</li>
+<li>Distribute the <strong>SPs</strong> — use the bars, inputs or presets (Atk/Spe, SpA/Spe, HP/Def).</li>
+</ul>
+<h2>Step 3: Complete your team</h2>
+<p>Repeat for all 6 Pokémon. The right panel shows the full team, VP cost and type coverage.</p>
+<h2>Export and Import</h2>
+<ul>
+<li><strong>Export</strong> — copies the team as text for sharing.</li>
+<li><strong>Import</strong> — paste an exported text to load a team.</li>
+</ul>
+<div class="tip">Your team is auto-saved in your browser. You can close and come back without losing progress!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Usando o Site',en:'Using the Site'},
+    icon:'⚔',
+    title:{pt:'Como usar a Calculadora de Dano',en:'How to use the Damage Calculator'},
+    sub:{pt:'Calcule danos e chances de KO antes da batalha',en:'Calculate damage and KO chances before battle'},
+    body:{
+      pt:`<h2>O que é a Calc de Dano</h2>
+<p>A Calculadora de Dano permite simular danos de golpes antes da batalha, ajudando você a decidir quais golpes, itens e distribuições de SP usar.</p>
+<h2>Como usar</h2>
+<ol>
+<li>Acesse a Calc pelo botão "⚔ Calc Dano" no topo do Builder.</li>
+<li>Configure o <strong>Atacante</strong>: stat de ataque, SPs, natureza, item, boost, STAB.</li>
+<li>Configure o <strong>Defensor</strong>: HP, stat de defesa, SPs, natureza.</li>
+<li>Selecione o <strong>Golpe</strong> na lista (busque pelo nome).</li>
+<li>Defina clima, terrain e outros modificadores se necessário.</li>
+<li>Veja o <strong>range de dano</strong> (mín-máx) e a <strong>chance de KO</strong>.</li>
+</ol>
+<h2>Entendendo os resultados</h2>
+<ul>
+<li><strong>Range de dano</strong> — dano mínimo a máximo em 16 rolls (85-100% do dano base).</li>
+<li><strong>% do HP</strong> — quanto % do HP do defensor o golpe causa.</li>
+<li><strong>Chance de KO</strong> — quantas das 16 rolls causariam KO (ex: 12/16 = 75%).</li>
+</ul>
+<div class="tip">Use a Calc para checar se seu Pokémon sobrevive a um golpe específico com sua distribuição de SP atual!</div>`,
+      en:`<h2>What is the Damage Calc</h2>
+<p>The Damage Calculator lets you simulate move damage before battle, helping you decide which moves, items and SP distributions to use.</p>
+<h2>How to use</h2>
+<ol>
+<li>Open the Calc via the "⚔ Damage Calc" button at the top of the Builder.</li>
+<li>Set up the <strong>Attacker</strong>: attack stat, SPs, nature, item, boost, STAB.</li>
+<li>Set up the <strong>Defender</strong>: HP, defense stat, SPs, nature.</li>
+<li>Select the <strong>Move</strong> from the list (search by name).</li>
+<li>Set weather, terrain and other modifiers if needed.</li>
+<li>See the <strong>damage range</strong> (min-max) and <strong>KO chance</strong>.</li>
+</ol>
+<h2>Understanding results</h2>
+<ul>
+<li><strong>Damage range</strong> — minimum to maximum damage across 16 rolls (85-100% of base damage).</li>
+<li><strong>% of HP</strong> — how much % of the defender's HP the move deals.</li>
+<li><strong>KO chance</strong> — how many of the 16 rolls result in a KO (e.g. 12/16 = 75%).</li>
+</ul>
+<div class="tip">Use the Calc to check if your Pokémon survives a specific hit with your current SP distribution!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  // TORNEIOS
+  {
+    cat:{pt:'Torneios',en:'Tournaments'},
+    icon:'🏆',
+    title:{pt:'Como participar de torneios',en:'How to participate in tournaments'},
+    sub:{pt:'Do jogo casual à competição online',en:'From casual play to online competition'},
+    body:{
+      pt:`<h2>Tipos de torneios</h2>
+<ul>
+<li><strong>Ranked online</strong> — ladder ranqueada disponível 24/7 no Champions.</li>
+<li><strong>Torneios in-game</strong> — eventos sazonais com prêmios em VP.</li>
+<li><strong>Torneios VGC oficiais</strong> — competições organizadas pela TPCi em todo o mundo.</li>
+<li><strong>Torneios comunitários</strong> — organizados por streamers, grupos de Discord, etc.</li>
+</ul>
+<h2>Como preparar seu time</h2>
+<ol>
+<li>Monte seu time no Champions Builder.</li>
+<li>Valide danos com a Calculadora de Dano.</li>
+<li>Estude os Times Preview para antecipar matchups.</li>
+<li>Pratique no Ranked antes de torneios oficiais.</li>
+</ol>
+<h2>Regulamentos</h2>
+<p>Torneios VGC seguem regulamentos anuais. No Champions, o regulamento padrão é <strong>M-A</strong>. Verifique sempre o regulamento do torneio antes de se inscrever.</p>
+<div class="tip">Comunidades como o Smogon Doubles e grupos de Discord brasileiros de VGC são ótimos para encontrar torneios comunitários!</div>`,
+      en:`<h2>Types of tournaments</h2>
+<ul>
+<li><strong>Online ranked</strong> — ranked ladder available 24/7 in Champions.</li>
+<li><strong>In-game tournaments</strong> — seasonal events with VP prizes.</li>
+<li><strong>Official VGC tournaments</strong> — competitions organized by TPCi worldwide.</li>
+<li><strong>Community tournaments</strong> — organized by streamers, Discord groups, etc.</li>
+</ul>
+<h2>How to prepare your team</h2>
+<ol>
+<li>Build your team in the Champions Builder.</li>
+<li>Validate damage with the Damage Calculator.</li>
+<li>Study Team Previews to anticipate matchups.</li>
+<li>Practice in Ranked before official tournaments.</li>
+</ol>
+<h2>Regulations</h2>
+<p>VGC tournaments follow annual regulations. In Champions, the standard regulation is <strong>M-A</strong>. Always check the tournament regulation before entering.</p>
+<div class="tip">Communities like Smogon Doubles and Brazilian VGC Discord groups are great for finding community tournaments!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  // FAQ
+  {
+    cat:{pt:'FAQ',en:'FAQ'},
+    icon:'❓',
+    title:{pt:'Perguntas frequentes',en:'Frequently asked questions'},
+    sub:{pt:'As dúvidas mais comuns dos jogadores iniciantes',en:'The most common questions from beginner players'},
+    body:{
+      pt:`<h2>Preciso ter todos os Pokémon para jogar?</h2>
+<p>Não! No Pokémon Champions você começa com alguns Pokémon e vai ganhando VP para recrutar mais. Você não precisa de todos — apenas dos 6 do seu time.</p>
+<h2>IVs importam no Champions?</h2>
+<p>No Champions, IVs são sempre 31 em todos os stats. Você não precisa se preocupar com breeding para IVs perfeitos como nos jogos principais.</p>
+<h2>Posso usar qualquer Pokémon?</h2>
+<p>Depende do regulamento do formato que você está jogando. O Regulamento M-A Padrão permite Pokémon de todas as gens sem lendários restritos.</p>
+<h2>O que fazer se não sei qual time montar?</h2>
+<p>Comece com um arquétipo clássico e fácil de jogar, como Rain Team ou Trick Room. Esses times têm uma estratégia clara e são bons para aprender o formato.</p>
+<h2>Existe torneio para iniciantes?</h2>
+<p>Sim! O Champions tem divisões de ranking separadas. Você começa na divisão mais baixa e sobe conforme vence batalhas.</p>
+<h2>Como aprender mais?</h2>
+<p>Leia os guias deste site, assista replays de torneios no YouTube, e entre em comunidades de VGC no Discord. A comunidade é muito aberta a iniciantes!</p>
+<div class="tip">A melhor forma de aprender é jogar! Monte um time, teste, perca algumas batalhas, aprenda, e melhore. Isso é o processo natural.</div>`,
+      en:`<h2>Do I need all Pokémon to play?</h2>
+<p>No! In Pokémon Champions you start with a few Pokémon and earn VP to recruit more. You don't need all of them — just the 6 on your team.</p>
+<h2>Do IVs matter in Champions?</h2>
+<p>In Champions, IVs are always 31 in all stats. You don't need to breed for perfect IVs like in main series games.</p>
+<h2>Can I use any Pokémon?</h2>
+<p>It depends on the regulation of the format you're playing. Standard Regulation M-A allows Pokémon from all generations without restricted legendaries.</p>
+<h2>What to do if I don't know what team to build?</h2>
+<p>Start with a classic, easy-to-play archetype like Rain Team or Trick Room. These teams have a clear strategy and are great for learning the format.</p>
+<h2>Are there tournaments for beginners?</h2>
+<p>Yes! Champions has separate ranking divisions. You start in the lowest division and climb as you win battles.</p>
+<h2>How to learn more?</h2>
+<p>Read the guides on this site, watch tournament replays on YouTube, and join VGC communities on Discord. The community is very welcoming to beginners!</p>
+<div class="tip">The best way to learn is to play! Build a team, test it, lose some battles, learn, and improve. That's the natural process.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'FAQ',en:'FAQ'},
+    icon:'📖',
+    title:{pt:'Glossário competitivo',en:'Competitive glossary'},
+    sub:{pt:'Termos e abreviações do competitivo de Pokémon',en:'Terms and abbreviations in competitive Pokémon'},
+    body:{
+      pt:`<h2>Termos essenciais</h2>
+<table><tr><th>Termo</th><th>Significado</th></tr>
+<tr><td>VGC</td><td>Video Game Championships — formato oficial de torneios</td></tr>
+<tr><td>KO</td><td>Knock Out — nocautear um Pokémon</td></tr>
+<tr><td>OHKO</td><td>One-Hit KO — nocautear com um único golpe</td></tr>
+<tr><td>2HKO</td><td>Two-Hit KO — nocautear em dois golpes</td></tr>
+<tr><td>STAB</td><td>Same-Type Attack Bonus — +50% de dano quando o tipo do golpe coincide com o tipo do Pokémon</td></tr>
+<tr><td>TR / Trick Room</td><td>Estratégia de velocidade invertida</td></tr>
+<tr><td>TW / Tailwind</td><td>Estratégia de velocidade dobrada</td></tr>
+<tr><td>Lead</td><td>Os 2 Pokémon com os quais você começa a batalha</td></tr>
+<tr><td>Speed Creep</td><td>Adicionar alguns pontos de Vel para superar Pokémon com a mesma base</td></tr>
+<tr><td>Spread Move</td><td>Golpe que atinge múltiplos Pokémon simultaneamente</td></tr>
+<tr><td>Pivot</td><td>Pokémon que troca mas causa algum efeito ao sair (ex: Parting Shot, U-Turn)</td></tr>
+<tr><td>Soft Check / Hard Check</td><td>Counter parcial / Counter completo a uma ameaça</td></tr>
+<tr><td>Chip Damage</td><td>Dano acumulado pequeno ao longo da batalha</td></tr>
+<tr><td>SP</td><td>Stat Point — sistema de treinamento do Champions</td></tr>
+<tr><td>VP</td><td>Victory Points — moeda do Pokémon Champions</td></tr></table>`,
+      en:`<h2>Essential terms</h2>
+<table><tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>VGC</td><td>Video Game Championships — official tournament format</td></tr>
+<tr><td>KO</td><td>Knock Out — knocking out a Pokémon</td></tr>
+<tr><td>OHKO</td><td>One-Hit KO — knocking out with a single move</td></tr>
+<tr><td>2HKO</td><td>Two-Hit KO — knocking out in two hits</td></tr>
+<tr><td>STAB</td><td>Same-Type Attack Bonus — +50% damage when move type matches the Pokémon's type</td></tr>
+<tr><td>TR / Trick Room</td><td>Reversed speed strategy</td></tr>
+<tr><td>TW / Tailwind</td><td>Doubled speed strategy</td></tr>
+<tr><td>Lead</td><td>The 2 Pokémon you start the battle with</td></tr>
+<tr><td>Speed Creep</td><td>Adding a few Speed points to outspeed Pokémon with the same base</td></tr>
+<tr><td>Spread Move</td><td>Move that hits multiple Pokémon simultaneously</td></tr>
+<tr><td>Pivot</td><td>Pokémon that switches but causes an effect on exit (e.g. Parting Shot, U-Turn)</td></tr>
+<tr><td>Soft Check / Hard Check</td><td>Partial / complete counter to a threat</td></tr>
+<tr><td>Chip Damage</td><td>Small accumulated damage throughout the battle</td></tr>
+<tr><td>SP</td><td>Stat Point — Champions training system</td></tr>
+<tr><td>VP</td><td>Victory Points — Pokémon Champions currency</td></tr></table>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'🧠',
+    title:{pt:'Lendo o oponente',en:'Reading your opponent'},
+    sub:{pt:'Como antecipar e ganhar a guerra psicológica',en:'How to anticipate and win the mental game'},
+    body:{
+      pt:`<h2>O jogo mental</h2>
+<p>Pokémon competitivo é em grande parte um jogo de leitura. Você está tentando adivinhar o que o oponente vai fazer, e ele está tentando adivinhar o que você vai fazer.</p>
+<h2>Como ler o oponente</h2>
+<ul>
+<li><strong>Observe padrões</strong> — a maioria dos jogadores joga de forma previsível. Se ele sempre usou Protect no turno 1, espere Protect.</li>
+<li><strong>Considere incentivos</strong> — o que o oponente ganha jogando X? Se X é claramente superior, ele provavelmente joga X.</li>
+<li><strong>Minimize risco</strong> — às vezes é melhor jogar a opção segura mesmo que não seja a ideal.</li>
+</ul>
+<h2>Situações comuns</h2>
+<ul>
+<li>Oponente está em desvantagem → provavelmente vai Proteger.</li>
+<li>Você tem ameaça séria → oponente vai trocar ou matar a ameaça.</li>
+<li>Oponente com Choice Scarf → se já usou um golpe, vai repetir ou trocar.</li>
+</ul>
+<h2>Não pense demais</h2>
+<p>É fácil entrar em "mindgame loop" (ele acha que eu acho que ele acha...). Quando em dúvida, jogue a jogada estatisticamente mais segura.</p>
+<div class="tip">Após cada derrota, analise: "O que ele jogou que eu não esperava? Por quê?" Isso melhora sua leitura ao longo do tempo.</div>`,
+      en:`<h2>The mental game</h2>
+<p>Competitive Pokémon is largely a reading game. You're trying to guess what the opponent will do, and they're trying to guess what you'll do.</p>
+<h2>How to read your opponent</h2>
+<ul>
+<li><strong>Notice patterns</strong> — most players play predictably. If they always Protected turn 1, expect a Protect.</li>
+<li><strong>Consider incentives</strong> — what does the opponent gain by playing X? If X is clearly superior, they'll probably play X.</li>
+<li><strong>Minimize risk</strong> — sometimes it's better to play the safe option even if it's not optimal.</li>
+</ul>
+<h2>Common situations</h2>
+<ul>
+<li>Opponent is at a disadvantage → likely going to Protect.</li>
+<li>You have a serious threat → opponent will switch or kill the threat.</li>
+<li>Opponent with Choice Scarf → if they've used a move already, they'll repeat or switch.</li>
+</ul>
+<h2>Don't overthink it</h2>
+<p>It's easy to fall into a "mindgame loop" (they think I think they think...). When in doubt, play the statistically safest move.</p>
+<div class="tip">After each loss, analyze: "What did they play that I didn't expect? Why?" This improves your reading over time.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Construção de Time',en:'Team Building'},
+    icon:'🏗',
+    title:{pt:'Processo de teambuilding',en:'Teambuilding process'},
+    sub:{pt:'Da ideia ao time finalizado passo a passo',en:'From idea to finished team step by step'},
+    body:{
+      pt:`<h2>Por onde começar</h2>
+<p>Construir um time do zero pode parecer intimidador, mas seguir um processo claro ajuda muito.</p>
+<h2>Passo 1: Escolha o núcleo (core)</h2>
+<p>Comece com 2 Pokémon que sinergizam bem. Ex: Tornadus + Pokémon rápido = Tailwind team. Rillaboom + Urshifu = Grassy Terrain team.</p>
+<h2>Passo 2: Adicione suporte</h2>
+<p>Adicione 1-2 Pokémon de suporte que ajudem o core: Fake Out, redirecionamento, Intimidate, status moves.</p>
+<h2>Passo 3: Cubra fraquezas</h2>
+<p>Analise as fraquezas de tipo dos seus 4 Pokémon e adicione mais 2 que cubram essas fraquezas.</p>
+<h2>Passo 4: Defina itens e SPs</h2>
+<p>Atribua itens e distribua SPs baseado no papel de cada Pokémon. Calcule com a Damage Calc se necessário.</p>
+<h2>Passo 5: Teste e itere</h2>
+<p>Jogue 10-20 batalhas com o time. Identifique pontos fracos e ajuste. Teambuilding é um processo contínuo.</p>
+<div class="tip">Comece simples. Um time simples bem executado vence mais do que um time complexo mal jogado.</div>`,
+      en:`<h2>Where to start</h2>
+<p>Building a team from scratch can feel daunting, but following a clear process helps a lot.</p>
+<h2>Step 1: Choose your core</h2>
+<p>Start with 2 Pokémon that synergize well. E.g.: Tornadus + fast Pokémon = Tailwind team. Rillaboom + Urshifu = Grassy Terrain team.</p>
+<h2>Step 2: Add support</h2>
+<p>Add 1-2 support Pokémon that help the core: Fake Out, redirection, Intimidate, status moves.</p>
+<h2>Step 3: Cover weaknesses</h2>
+<p>Analyze the type weaknesses of your 4 Pokémon and add 2 more that cover those weaknesses.</p>
+<h2>Step 4: Define items and SPs</h2>
+<p>Assign items and distribute SPs based on each Pokémon's role. Calculate with the Damage Calc if needed.</p>
+<h2>Step 5: Test and iterate</h2>
+<p>Play 10-20 battles with the team. Identify weak points and adjust. Teambuilding is a continuous process.</p>
+<div class="tip">Start simple. A simple team well-executed wins more than a complex team played poorly.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'💊',
+    title:{pt:'Condições de status',en:'Status conditions'},
+    sub:{pt:'Burn, Paralysis, Sleep: como usar e como resistir',en:'Burn, Paralysis, Sleep: how to use and resist them'},
+    body:{
+      pt:`<h2>Status Primários</h2>
+<table><tr><th>Status</th><th>Efeito</th><th>Cura</th></tr>
+<tr><td>Queimadura 🔥</td><td>-50% Ataque físico, -1/16 HP por turno</td><td>Rawst Berry, Lum Berry</td></tr>
+<tr><td>Paralisia ⚡</td><td>25% de falhar, -50% Velocidade</td><td>Cheri Berry, Lum Berry</td></tr>
+<tr><td>Sono 💤</td><td>Não age por 1-3 turnos</td><td>Chesto Berry, Lum Berry, Acordar naturalmente</td></tr>
+<tr><td>Veneno 💜</td><td>-1/8 HP por turno (veneno normal)</td><td>Pecha Berry, Lum Berry</td></tr>
+<tr><td>Gelo ❄</td><td>Não age, 20% chance de curar por turno</td><td>Aspear Berry, Lum Berry</td></tr></table>
+<h2>Status no Doubles</h2>
+<ul>
+<li><strong>Spore (Amoonguss)</strong> — causa Sono, uma das maiores ameaças do formato.</li>
+<li><strong>Will-O-Wisp</strong> — queima físicos, essencial contra times de Ataque físico.</li>
+<li><strong>Thunder Wave</strong> — paralisia reduz velocidade pela metade — devastador para times de Tailwind do oponente.</li>
+</ul>
+<h2>Proteções contra status</h2>
+<ul>
+<li>Misty Terrain — imunidade total a status no chão.</li>
+<li>Safety Goggles — imune a Spore e outros moves de pó.</li>
+<li>Lum Berry — cura qualquer status uma vez.</li>
+<li>Comatose (Komala) — imune a todos os status.</li>
+</ul>`,
+      en:`<h2>Primary Status</h2>
+<table><tr><th>Status</th><th>Effect</th><th>Cure</th></tr>
+<tr><td>Burn 🔥</td><td>-50% physical Attack, -1/16 HP per turn</td><td>Rawst Berry, Lum Berry</td></tr>
+<tr><td>Paralysis ⚡</td><td>25% chance to fail, -50% Speed</td><td>Cheri Berry, Lum Berry</td></tr>
+<tr><td>Sleep 💤</td><td>Can't act for 1-3 turns</td><td>Chesto Berry, Lum Berry, wake up naturally</td></tr>
+<tr><td>Poison 💜</td><td>-1/8 HP per turn (regular poison)</td><td>Pecha Berry, Lum Berry</td></tr>
+<tr><td>Freeze ❄</td><td>Can't act, 20% chance to thaw each turn</td><td>Aspear Berry, Lum Berry</td></tr></table>
+<h2>Status in Doubles</h2>
+<ul>
+<li><strong>Spore (Amoonguss)</strong> — causes Sleep, one of the biggest threats in the format.</li>
+<li><strong>Will-O-Wisp</strong> — burns physical attackers, essential against physical Attack teams.</li>
+<li><strong>Thunder Wave</strong> — paralysis halves Speed — devastating for the opponent's Tailwind teams.</li>
+</ul>
+<h2>Status protection</h2>
+<ul>
+<li>Misty Terrain — full immunity to status on the ground.</li>
+<li>Safety Goggles — immune to Spore and other powder moves.</li>
+<li>Lum Berry — cures any status once.</li>
+<li>Comatose (Komala) — immune to all status.</li>
+</ul>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Estratégia',en:'Strategy'},
+    icon:'🎲',
+    title:{pt:'Hyper Offense vs Stall',en:'Hyper Offense vs Stall'},
+    sub:{pt:'Os dois extremos do espectro de velocidade de jogo',en:'The two extremes of the game speed spectrum'},
+    body:{
+      pt:`<h2>Hyper Offense</h2>
+<p>Times de Hyper Offense focam em eliminar o time adversário o mais rápido possível. Alta pressão, alto risco, alta recompensa.</p>
+<ul>
+<li>Todos os Pokémon são ofensivos</li>
+<li>Pouco Protect, muita pressão</li>
+<li>Choice Band/Specs/Life Orb em tudo</li>
+<li>Vence rápido ou perde rápido</li>
+</ul>
+<h2>Stall / Defensivo</h2>
+<p>Times defensivos focam em sobreviver e desgastar o oponente ao longo do tempo.</p>
+<ul>
+<li>Leftovers, Rocky Helmet, Assault Vest</li>
+<li>Moves de stall: Leech Seed, status, recovery</li>
+<li>Pokémon com HP e defesas altas</li>
+<li>Jogo longo e calculado</li>
+</ul>
+<h2>Balanced (o melhor ponto)</h2>
+<p>A maioria dos times competitivos são "Balanced" — mistura de elementos ofensivos e defensivos. Um atacante principal, suporte defensivo, e respostas para múltiplas ameaças.</p>
+<div class="tip">No Doubles, Stall puro é raro porque o formato é muito rápido. Balanced ou Hyper Offense com suporte são mais comuns.</div>`,
+      en:`<h2>Hyper Offense</h2>
+<p>Hyper Offense teams focus on eliminating the opponent's team as fast as possible. High pressure, high risk, high reward.</p>
+<ul>
+<li>All Pokémon are offensive</li>
+<li>Little Protect, lots of pressure</li>
+<li>Choice Band/Specs/Life Orb everywhere</li>
+<li>Win fast or lose fast</li>
+</ul>
+<h2>Stall / Defensive</h2>
+<p>Defensive teams focus on surviving and wearing down the opponent over time.</p>
+<ul>
+<li>Leftovers, Rocky Helmet, Assault Vest</li>
+<li>Stall moves: Leech Seed, status, recovery</li>
+<li>Pokémon with high HP and defenses</li>
+<li>Long, calculated gameplay</li>
+</ul>
+<h2>Balanced (the sweet spot)</h2>
+<p>Most competitive teams are "Balanced" — a mix of offensive and defensive elements. A main attacker, defensive support, and answers to multiple threats.</p>
+<div class="tip">In Doubles, pure Stall is rare because the format is very fast. Balanced or Hyper Offense with support are more common.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Fundamentos',en:'Fundamentals'},
+    icon:'📈',
+    title:{pt:'Controle de velocidade',en:'Speed control'},
+    sub:{pt:'Por que Speed é o stat mais importante do Doubles',en:'Why Speed is the most important stat in Doubles'},
+    body:{
+      pt:`<h2>Por que Speed importa tanto</h2>
+<p>Em Doubles, a velocidade determina quem age primeiro — e agir primeiro pode significar um KO antes do oponente agir. Um único turno pode decidir a batalha.</p>
+<h2>Métodos de controle de velocidade</h2>
+<ul>
+<li><strong>Tailwind</strong> — dobra velocidade do time por 4 turnos.</li>
+<li><strong>Trick Room</strong> — inverte ordem de velocidade por 5 turnos.</li>
+<li><strong>Choice Scarf</strong> — +50% velocidade permanente para 1 Pokémon.</li>
+<li><strong>Thunder Wave / Icy Wind</strong> — reduz velocidade do oponente.</li>
+<li><strong>Swift Swim / Chlorophyll / Sand Rush</strong> — dobra velocidade no clima correto.</li>
+</ul>
+<h2>Speed Tiers</h2>
+<p>No nível 50, certas velocidades base são pontos de referência importantes:</p>
+<ul>
+<li>Base 100 Speed = 155 HP / 105 Spe com 0 SPs</li>
+<li>Base 130 Speed = 133 Spe com Timid e 32 SPs</li>
+<li>Qualquer Pokémon com Speed Scarf &gt; base 100 sem scarf</li>
+</ul>
+<div class="tip">Use a Damage Calc do site para comparar velocidades antes de finalizar as distribuições de SP!</div>`,
+      en:`<h2>Why Speed matters so much</h2>
+<p>In Doubles, speed determines who acts first — and acting first can mean a KO before the opponent moves. A single turn can decide the battle.</p>
+<h2>Speed control methods</h2>
+<ul>
+<li><strong>Tailwind</strong> — doubles team speed for 4 turns.</li>
+<li><strong>Trick Room</strong> — reverses speed order for 5 turns.</li>
+<li><strong>Choice Scarf</strong> — permanent +50% speed for 1 Pokémon.</li>
+<li><strong>Thunder Wave / Icy Wind</strong> — reduces opponent's speed.</li>
+<li><strong>Swift Swim / Chlorophyll / Sand Rush</strong> — doubles speed in the right weather.</li>
+</ul>
+<h2>Speed Tiers</h2>
+<p>At level 50, certain base speeds are important reference points:</p>
+<ul>
+<li>Base 100 Speed = 155 with 0 SPs</li>
+<li>Base 130 Speed = 133 Spe with Timid and 32 SPs</li>
+<li>Any Scarf Pokémon &gt; base 100 without scarf</li>
+</ul>
+<div class="tip">Use the site's Damage Calc to compare speeds before finalizing SP distributions!</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'Construção de Time',en:'Team Building'},
+    icon:'🌊',
+    title:{pt:'Arquétipos clássicos de time',en:'Classic team archetypes'},
+    sub:{pt:'Rain, Sun, Trick Room, Tailwind e Hyper Offense',en:'Rain, Sun, Trick Room, Tailwind and Hyper Offense'},
+    body:{
+      pt:`<h2>Rain (Chuva)</h2>
+<p>Core: Politoed + Swift Swim sweeper (Kingdra, Barraskewda). Suporte: Incineroar, Amoonguss. Foco: KO rápido com sweeper super rápido na chuva.</p>
+<h2>Sun (Sol)</h2>
+<p>Core: Torkoal + Chlorophyll sweeper (Venusaur, Lilligant). Foco: Eruption do Torkoal no sol + Growth do sweeper.</p>
+<h2>Trick Room</h2>
+<p>Core: Dusclops/Hatterene + atacante lento (Ursaluna, Torkoal). Foco: Setup de TR com Fake Out + atacar pesado por 5 turnos.</p>
+<h2>Tailwind</h2>
+<p>Core: Tornadus/Whimsicott + atacantes rápidos. Foco: Setup rápido de TW + fechamento agressivo.</p>
+<h2>Balance</h2>
+<p>Sem estratégia central clara, mas com boa cobertura e flexibilidade. Inkay + Malamar (Contrary Superpower), Incineroar + suporte, range de ameaças.</p>
+<div class="tip">Para iniciantes, Rain Team e Trick Room são mais fáceis de aprender porque têm uma estratégia clara: setup → atacar.</div>`,
+      en:`<h2>Rain</h2>
+<p>Core: Politoed + Swift Swim sweeper (Kingdra, Barraskewda). Support: Incineroar, Amoonguss. Focus: fast KOs with a super-speed sweeper in rain.</p>
+<h2>Sun</h2>
+<p>Core: Torkoal + Chlorophyll sweeper (Venusaur, Lilligant). Focus: Torkoal's Eruption in sun + sweeper's Growth.</p>
+<h2>Trick Room</h2>
+<p>Core: Dusclops/Hatterene + slow attacker (Ursaluna, Torkoal). Focus: TR setup with Fake Out + hit hard for 5 turns.</p>
+<h2>Tailwind</h2>
+<p>Core: Tornadus/Whimsicott + fast attackers. Focus: quick TW setup + aggressive closing.</p>
+<h2>Balance</h2>
+<p>No clear central strategy, but good coverage and flexibility. Range of threats, flexible leads, can adapt to any matchup.</p>
+<div class="tip">For beginners, Rain Team and Trick Room are easier to learn because they have a clear strategy: setup → attack.</div>`
+    }
+  },
+  // ─────────────────────────────────────────
+  {
+    cat:{pt:'FAQ',en:'FAQ'},
+    icon:'🔒',
+    title:{pt:'Privacidade e segurança do site',en:'Site privacy and security'},
+    sub:{pt:'Como seus dados são protegidos neste site',en:'How your data is protected on this site'},
+    body:{
+      pt:`<h2>Dados que coletamos</h2>
+<p>Este site <strong>não coleta nenhum dado pessoal</strong>. Não há cadastro, login ou envio de informações para servidores.</p>
+<h2>Armazenamento local</h2>
+<ul>
+<li>Seu time é salvo no <strong>localStorage do seu navegador</strong> — fica só no seu dispositivo.</li>
+<li>A preferência de idioma também é salva localmente.</li>
+<li>Nenhum dado sai do seu computador/celular.</li>
+</ul>
+<h2>APIs externas usadas</h2>
+<ul>
+<li><strong>PokéAPI</strong> — usada para carregar dados de Pokémon (nomes, stats, sprites). Só leitura.</li>
+<li><strong>Google Fonts</strong> — carrega fontes. Pode enviar o IP para o Google (padrão da web).</li>
+</ul>
+<h2>Segurança do site</h2>
+<ul>
+<li>Content Security Policy (CSP) configurada para bloquear recursos externos não autorizados.</li>
+<li>Sem scripts de terceiros com acesso a dados.</li>
+<li>Sem cookies de rastreamento.</li>
+</ul>
+<div class="tip">Seus times são 100% privados. Apenas você pode ver o que foi montado no Builder.</div>`,
+      en:`<h2>Data we collect</h2>
+<p>This site <strong>collects no personal data</strong>. There is no registration, login or sending of information to servers.</p>
+<h2>Local storage</h2>
+<ul>
+<li>Your team is saved in your <strong>browser's localStorage</strong> — it stays only on your device.</li>
+<li>Language preference is also saved locally.</li>
+<li>No data leaves your computer/phone.</li>
+</ul>
+<h2>External APIs used</h2>
+<ul>
+<li><strong>PokéAPI</strong> — used to load Pokémon data (names, stats, sprites). Read-only.</li>
+<li><strong>Google Fonts</strong> — loads fonts. May send your IP to Google (standard web practice).</li>
+</ul>
+<h2>Site security</h2>
+<ul>
+<li>Content Security Policy (CSP) configured to block unauthorized external resources.</li>
+<li>No third-party scripts with data access.</li>
+<li>No tracking cookies.</li>
+</ul>
+<div class="tip">Your teams are 100% private. Only you can see what was built in the Builder.</div>`
+    }
+  }
+];
+
+// ══════════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════════
+let currentArticle = null;
+
+// Group articles by category
+function getCategories() {
+  const cats = [];
+  const seen = {};
+  ARTICLES.forEach((a,i) => {
+    const key = a.cat.pt;
+    if(!seen[key]) {
+      seen[key] = true;
+      cats.push({key, articles: []});
+    }
+    cats.find(c=>c.key===key).articles.push({...a, idx: i});
+  });
+  return cats;
+}
+
+function renderSidebar() {
+  const cats = getCategories();
+  const isPt = lrnLang==='pt';
+  let html = '';
+  cats.forEach(cat => {
+    html += `<div class="cat-label">${isPt ? cat.key : cat.articles[0].cat.en}</div>`;
+    cat.articles.forEach(a => {
+      html += `<a class="nav-item${currentArticle===a.idx?' active':''}" onclick="showArticle(${a.idx})">${a.icon} ${isPt?a.title.pt:a.title.en}</a>`;
+    });
+  });
+  document.getElementById('sidebar').innerHTML = html;
+
+  // Mobile nav
+  let mhtml = '';
+  cats.forEach(cat => {
+    mhtml += `<div style="padding:6px 16px 2px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)">${isPt?cat.key:cat.articles[0].cat.en}</div>`;
+    cat.articles.forEach(a => {
+      mhtml += `<a class="nav-item" style="padding:7px 16px;display:block" onclick="showArticle(${a.idx});toggleMobNav()">${a.icon} ${isPt?a.title.pt:a.title.en}</a>`;
+    });
+  });
+  document.getElementById('mobNavPanel').innerHTML = mhtml;
+}
+
+function renderHome() {
+  const cats = getCategories();
+  const isPt = lrnLang==='pt';
+  let html = '';
+  cats.forEach(cat => {
+    html += `<div class="cat-section">
+      <h2>${isPt?cat.key:cat.articles[0].cat.en}</h2>
+      <div class="cards-grid">`;
+    cat.articles.forEach(a => {
+      html += `<div class="card" onclick="showArticle(${a.idx})">
+        <div class="card-icon">${a.icon}</div>
+        <div class="card-title">${isPt?a.title.pt:a.title.en}</div>
+        <div class="card-desc">${isPt?a.sub.pt:a.sub.en}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('homeGrid').innerHTML = html;
+}
+
+function showArticle(idx, scroll=true) {
+  const isPt = lrnLang==='pt';
+  currentArticle = idx;
+  const a = ARTICLES[idx];
+
+  // Navigation
+  const prevIdx = idx > 0 ? idx-1 : null;
+  const nextIdx = idx < ARTICLES.length-1 ? idx+1 : null;
+  const prevA = prevIdx!==null ? ARTICLES[prevIdx] : null;
+  const nextA = nextIdx!==null ? ARTICLES[nextIdx] : null;
+
+  const navHtml = `<div class="art-nav">
+    ${prevA ? `<button class="art-nav-btn" onclick="showArticle(${prevIdx})"><span>← ${isPt?'Anterior':'Previous'}</span>${prevA.icon} ${isPt?prevA.title.pt:prevA.title.en}</button>` : ''}
+    ${nextA ? `<button class="art-nav-btn next" onclick="showArticle(${nextIdx})"><span>${isPt?'Próximo':'Next'} →</span>${nextA.icon} ${isPt?nextA.title.pt:nextA.title.en}</button>` : ''}
+  </div>`;
+
+  document.getElementById('articleView').innerHTML = `
+    <div class="art-badge">${isPt?a.cat.pt:a.cat.en}</div>
+    <h1 class="art-title">${a.icon} ${isPt?a.title.pt:a.title.en}</h1>
+    <p class="art-sub">${isPt?a.sub.pt:a.sub.en}</p>
+    <div class="art-body">${isPt?a.body.pt:a.body.en}</div>
+    ${navHtml}
+  `;
+
+  document.getElementById('homeView').style.display = 'none';
+  document.getElementById('articleView').style.display = 'block';
+
+  renderSidebar(); // update active state
+  if(scroll) window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showHome() {
+  currentArticle = null;
+  document.getElementById('homeView').style.display = 'block';
+  document.getElementById('articleView').style.display = 'none';
+  renderSidebar();
+}
+
+function toggleMobNav() {
+  document.getElementById('mobNavPanel').classList.toggle('open');
+}
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+applyLang();
+renderSidebar();
+renderHome();
+
+// If URL has hash, open that article
+const hash = window.location.hash;
+if(hash && hash.startsWith('#art')) {
+  const idx = parseInt(hash.replace('#art',''));
+  if(!isNaN(idx) && idx >= 0 && idx < ARTICLES.length) showArticle(idx, false);
+}
+
+// ── MOBILE MENU ──
+function toggleMobMenu(){
+  const d=document.getElementById('mobDropdown');
+  const b=document.getElementById('mobMenuBtn');
+  d.classList.toggle('open');
+  b.textContent=d.classList.contains('open')?'✕':'☰';
+}
+function closeMobMenu(){
+  const d=document.getElementById('mobDropdown');
+  const b=document.getElementById('mobMenuBtn');
+  if(d) d.classList.remove('open');
+  if(b) b.textContent='☰';
+}
+document.addEventListener('click',function(e){
+  const d=document.getElementById('mobDropdown');
+  const b=document.getElementById('mobMenuBtn');
+  if(d&&b&&!d.contains(e.target)&&!b.contains(e.target)) closeMobMenu();
+});
+
+</script>
+</body>
+</html>
