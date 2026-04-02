@@ -292,14 +292,14 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
     <div class="sec-lbl">Attacker Move</div>
     <div class="move-select-row">
       <div class="field">
-        <input type="text" list="moveList" id="moveInput" placeholder="Digite o golpe..." autocomplete="off" oninput="onMoveInput(this.value)" onchange="onMoveChange(this.value)">
+        <input type="text" list="moveList" id="moveInput" placeholder="Type a move..." autocomplete="off" oninput="onMoveInput(this.value)" onchange="onMoveChange(this.value)">
         <datalist id="moveList"></datalist>
       </div>
       <div class="field">
         <label>Campo</label>
         <select id="weather" onchange="recalc()">
           <option value="none">None</option>
-          <option value="sun">Sol ☀️</option>
+          <option value="sun">Sun ☀️</option>
           <option value="rain">Rain 🌧</option>
           <option value="sand">Sand 🌪</option>
           <option value="snow">Neve ❄️</option>
@@ -309,10 +309,10 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
         <label>Terreno</label>
         <select id="terrain" onchange="recalc()">
           <option value="none">None</option>
-          <option value="electric">Elétrico ⚡</option>
-          <option value="grassy">Gramado 🌿</option>
-          <option value="misty">Névoa 🌫</option>
-          <option value="psychic">Psíquico 🔮</option>
+          <option value="electric">Electric ⚡</option>
+          <option value="grassy">Grassy 🌿</option>
+          <option value="misty">Misty 🌫</option>
+          <option value="psychic">Psychic 🔮</option>
         </select>
       </div>
     </div>
@@ -324,7 +324,7 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
   <div class="result-panel" id="resultPanel">
     <div class="result-label">Damage Result</div>
     <div class="result-main" id="resultPct" style="color:var(--sub)">—</div>
-    <div class="result-range" id="resultRange">Selecione dois Pokémon e um golpe</div>
+    <div class="result-range" id="resultRange">Select two Pokémon and a move</div>
     <div class="result-bar-wrap">
       <div class="result-bar-fill" id="resultBar" style="width:0%;background:var(--green)"></div>
     </div>
@@ -723,7 +723,7 @@ function recalc() {
 function showEmpty() {
   document.getElementById('resultPct').textContent='—';
   document.getElementById('resultPct').style.color='var(--sub)';
-  document.getElementById('resultRange').textContent='Selecione dois Pokémon e um golpe';
+  document.getElementById('resultRange').textContent='Select two Pokémon and a move';
   document.getElementById('resultBar').style.width='0%';
   document.getElementById('resultKO').textContent='...';
   document.getElementById('resultBreakdown').innerHTML='';

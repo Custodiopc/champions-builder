@@ -1145,21 +1145,32 @@ async function loadAltForms() {
     const d = await r.json();
 
     // Filter out cosmetic-only or battle-irrelevant forms
-    const SKIP = ['mega','gmax','totem','starter','eternal','gulping','gorging',
-                  'low-key','amped','noice','hangry-mode','zen-mode-galarian',
+    // Only load alt forms that are in CHAMPIONS_SET or are competitive regional/form variants
+    const SKIP_EXACT = ['mega','gmax','totem','starter','eternal','gulping','gorging',
+                  'hangry-mode','zen-mode-galarian',
                   'phf','original-cap','hoenn-cap','sinnoh-cap','unova-cap',
                   'kalos-cap','alola-cap','partner-cap','world-cap'];
 
     const relevant = d.results.filter(p => {
       const n = p.name;
-      // skip mega/gmax (handled separately as items)
-      if(SKIP.some(s => n.includes(s))) return false;
-      // skip purely cosmetic (spinda, unown, alcremie flavors, etc)
+      // skip mega/gmax and cosmetic caps
+      if(SKIP_EXACT.some(s => n.includes(s))) return false;
+      // skip purely cosmetic forms
       if(n.includes('spinda') || n.includes('unown-') ||
          n.match(/alcremie-.+/) || n.includes('minior-') ||
          n.includes('vivillon-') || n.includes('furfrou-') ||
-         n.includes('squawkabilly-') || n.includes('tatsugiri-') && !n.includes('curly')) return false;
-      return true;
+         n.includes('squawkabilly-') || n.includes('floette-') ||
+         (n.includes('tatsugiri-') && !n.includes('curly'))) return false;
+      // Only include forms that are in Champions or are known competitive variants
+      if(CHAMPIONS_SET.has(n)) return true;
+      // Allow regional forms and competitive variants not in champions but still loadable
+      const competitive = ['alola','galar','hisui','paldea','origin','crowned',
+        'therian','black','white','resolute','pirouette','ash','battle-bond',
+        'school','dusk','midday','midnight','blood-moon','roaming',
+        'heat','wash','frost','fan','mow','ice-rider','shadow-rider',
+        'rapid-strike','single-strike','hangry','busted','noice',
+        'low-key','amped','curly','droopy','stretchy'];
+      return competitive.some(k => n.includes(k));
     });
 
     // Load details for each relevant alt form in small batches
@@ -1250,13 +1261,20 @@ function toggleChampions() { filterChampions=!filterChampions; renderTypeRow(); 
 
 function renderBrowser() {
   const q = document.getElementById('srch').value.toLowerCase();
-  const list = db.filter(p => {
+  let list = db.filter(p => {
     const searchStr = (p.form ? `${p.baseName} ${p.form}` : p.name).toLowerCase();
     const ms = !q || searchStr.includes(q) || p.name.includes(q) || String(p.id).startsWith(q);
     const mt = filterType==='all' || (p.types && p.types.includes(filterType));
     const mc = !filterChampions || CHAMPIONS_SET.has(p.name) || CHAMPIONS_SET.has(p.baseName);
     return ms && mt && mc;
-  }).slice(0,200);
+  });
+  // When searching, show alt forms first (they have form label)
+  if(q) list.sort((a,b) => {
+    const aMatch = a.name===q||a.baseName===q?0:1;
+    const bMatch = b.name===q||b.baseName===q?0:1;
+    return aMatch-bMatch;
+  });
+  list = list.slice(0,200);
 
   if(!list.length) {
     document.getElementById('pokeList').innerHTML =
