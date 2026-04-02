@@ -187,32 +187,32 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
       <div class="panel-head">
         <img class="panel-sprite" id="atkSprite" src="" alt="" style="opacity:.3">
         <div>
-          <div class="panel-title" id="atkName">Atacante</div>
+          <div class="panel-title" id="atkName">Attacker</div>
           <div style="font-size:10px;color:var(--sub);margin-top:2px" id="atkTypes"></div>
         </div>
       </div>
       <div class="panel-body">
         <div class="field">
-          <label>Pokémon</label>
-          <input type="text" list="atkList" id="atkInput" placeholder="Digite o nome..." autocomplete="off" oninput="onPokemonInput('atk',this.value)" onchange="onPokemonChange('atk',this.value)">
+          <label id="lbl-pokemon">Pokémon</label>
+          <input type="text" list="atkList" id="atkInput" placeholder="Type a name..." autocomplete="off" oninput="onPokemonInput('atk',this.value)" onchange="onPokemonChange('atk',this.value)">
           <datalist id="atkList"></datalist>
         </div>
         <div class="field-row">
           <div class="field">
-            <label>Natureza</label>
+            <label id="lbl-nature-atk">Nature</label>
             <select id="atkNature" onchange="recalc()">
               <option value="Hardy">Hardy</option>
             </select>
           </div>
           <div class="field">
-            <label>Item</label>
+            <label id="lbl-item-atk">Item</label>
             <select id="atkItem" onchange="recalc()">
               <option value="None">None</option>
             </select>
           </div>
         </div>
         <div class="field">
-          <label>Habilidade</label>
+          <label id="lbl-ability-atk">Ability</label>
           <select id="atkAbility" onchange="recalc()"><option>—</option></select>
         </div>
         <div>
@@ -223,7 +223,7 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
           <div class="field" style="flex:1">
             <label>Boost (+Atk/-Def etc)</label>
             <select id="atkBoost" onchange="recalc()">
-              <option value="0">Nenhum</option>
+              <option value="0">None</option>
               <option value="-6">-6</option><option value="-5">-5</option><option value="-4">-4</option>
               <option value="-3">-3</option><option value="-2">-2</option><option value="-1">-1</option>
               <option value="1">+1</option><option value="2">+2</option><option value="3">+3</option>
@@ -239,32 +239,32 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
       <div class="panel-head">
         <img class="panel-sprite" id="defSprite" src="" alt="" style="opacity:.3">
         <div>
-          <div class="panel-title" id="defName">Defensor</div>
+          <div class="panel-title" id="defName">Defender</div>
           <div style="font-size:10px;color:var(--sub);margin-top:2px" id="defTypes"></div>
         </div>
       </div>
       <div class="panel-body">
         <div class="field">
-          <label>Pokémon</label>
-          <input type="text" list="defList" id="defInput" placeholder="Digite o nome..." autocomplete="off" oninput="onPokemonInput('def',this.value)" onchange="onPokemonChange('def',this.value)">
+          <label id="lbl-pokemon">Pokémon</label>
+          <input type="text" list="defList" id="defInput" placeholder="Type a name..." autocomplete="off" oninput="onPokemonInput('def',this.value)" onchange="onPokemonChange('def',this.value)">
           <datalist id="defList"></datalist>
         </div>
         <div class="field-row">
           <div class="field">
-            <label>Natureza</label>
+            <label id="lbl-nature-atk">Nature</label>
             <select id="defNature" onchange="recalc()">
               <option value="Hardy">Hardy</option>
             </select>
           </div>
           <div class="field">
-            <label>Item</label>
+            <label id="lbl-item-atk">Item</label>
             <select id="defItem" onchange="recalc()">
               <option value="None">None</option>
             </select>
           </div>
         </div>
         <div class="field">
-          <label>Habilidade</label>
+          <label id="lbl-ability-atk">Ability</label>
           <select id="defAbility" onchange="recalc()"><option>—</option></select>
         </div>
         <div>
@@ -273,9 +273,9 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
         </div>
         <div style="display:flex;gap:8px">
           <div class="field" style="flex:1">
-            <label>Boost defensivo</label>
+            <label id="lbl-boost-def">Defensive Boost</label>
             <select id="defBoost" onchange="recalc()">
-              <option value="0">Nenhum</option>
+              <option value="0">None</option>
               <option value="-6">-6</option><option value="-5">-5</option><option value="-4">-4</option>
               <option value="-3">-3</option><option value="-2">-2</option><option value="-1">-1</option>
               <option value="1">+1</option><option value="2">+2</option><option value="3">+3</option>
@@ -289,7 +289,7 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
 
   <!-- MOVE -->
   <div class="move-panel" style="margin-bottom:16px">
-    <div class="sec-lbl">Golpe do Atacante</div>
+    <div class="sec-lbl">Attacker Move</div>
     <div class="move-select-row">
       <div class="field">
         <input type="text" list="moveList" id="moveInput" placeholder="Digite o golpe..." autocomplete="off" oninput="onMoveInput(this.value)" onchange="onMoveChange(this.value)">
@@ -298,17 +298,17 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
       <div class="field">
         <label>Campo</label>
         <select id="weather" onchange="recalc()">
-          <option value="none">Nenhum</option>
+          <option value="none">None</option>
           <option value="sun">Sol ☀️</option>
-          <option value="rain">Chuva 🌧</option>
-          <option value="sand">Areia 🌪</option>
+          <option value="rain">Rain 🌧</option>
+          <option value="sand">Sand 🌪</option>
           <option value="snow">Neve ❄️</option>
         </select>
       </div>
       <div class="field">
         <label>Terreno</label>
         <select id="terrain" onchange="recalc()">
-          <option value="none">Nenhum</option>
+          <option value="none">None</option>
           <option value="electric">Elétrico ⚡</option>
           <option value="grassy">Gramado 🌿</option>
           <option value="misty">Névoa 🌫</option>
@@ -322,7 +322,7 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
 
   <!-- RESULT -->
   <div class="result-panel" id="resultPanel">
-    <div class="result-label">Resultado do Dano</div>
+    <div class="result-label">Damage Result</div>
     <div class="result-main" id="resultPct" style="color:var(--sub)">—</div>
     <div class="result-range" id="resultRange">Selecione dois Pokémon e um golpe</div>
     <div class="result-bar-wrap">
@@ -780,7 +780,7 @@ function showResult(r) {
   document.getElementById('resultBreakdown').innerHTML = `
     <div class="breakdown-item">
       <div class="breakdown-val" style="color:var(--gold)">${document.getElementById('atkNature').value}</div>
-      <div class="breakdown-lbl">Natureza Atk</div>
+      <div class="breakdown-lbl">Nature Atk</div>
     </div>
     <div class="breakdown-item">
       <div class="breakdown-val" style="color:${STAT_C['attack']}">${r.A}</div>

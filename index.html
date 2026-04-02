@@ -136,7 +136,7 @@ body{
 .search-icon{color:var(--dim);font-size:14px}
 .type-row{
   display:flex;flex-wrap:wrap;gap:4px;
-  max-height:68px;overflow:hidden;
+  padding-bottom:4px;
 }
 .type-pill{
   font-size:10px;font-weight:700;letter-spacing:0.5px;
@@ -618,8 +618,13 @@ input[list]::placeholder { color:var(--dim); font-size:12px; }
       </div>
       <div class="div"></div>
       <div class="coverage-section">
-        <div class="sec-lbl" id="txt-coverage">Cobertura de Tipos</div>
+        <div class="sec-lbl" id="txt-coverage">Attack Coverage</div>
         <div class="cov-grid" id="covGrid" style="margin-top:8px"></div>
+      </div>
+      <div class="div"></div>
+      <div class="coverage-section">
+        <div class="sec-lbl" id="txt-def-coverage">Defensive Coverage</div>
+        <div class="cov-grid" id="defCovGrid" style="margin-top:8px"></div>
       </div>
     </div>
   </div>
@@ -813,6 +818,7 @@ function applyStaticStrings() {
   set('txt-vp-total', u.vpTotal);
   set('txt-vp-note', u.vpNote);
   set('txt-coverage', u.coverage);
+  set('txt-def-coverage', lang==='pt'?'Cobertura Defensiva':'Defensive Coverage');
   set('langBtn', u.langBtn);
   set('txt-btn-calc', u.btnCalc);
   set('txt-btn-learn', u.btnLearn);
@@ -989,6 +995,8 @@ let db = [];           // all pokemon
 let team = Array(6).fill(null);
 let activeSlot = 0;
 let filterType = 'all';
+let filterChampions = false;
+const CHAMPIONS_SET = new Set(['abomasnow', 'absol', 'aegislash', 'aerodactyl', 'aggron', 'alakazam', 'alcremie', 'altaria', 'ampharos', 'appletun', 'araquanid', 'arcanine', 'arcanine-hisuian', 'archaludon', 'armarouge', 'audino', 'aurorus', 'azumarill', 'basculegion', 'beedrill', 'blastoise', 'ceruledge', 'chandelure', 'charizard', 'chesnaught', 'clawitzer', 'clefable', 'conkeldurr', 'corviknight', 'crabominable', 'decidueye', 'decidueye-hisuian', 'delphox', 'diggersby', 'ditto', 'dondozo', 'dragapult', 'dragonite', 'drampa', 'emboar', 'emolga', 'empoleon', 'espeon', 'excadrill', 'farigiraf', 'feraligatr', 'flareon', 'floette', 'froslass', 'furfrou', 'gallade', 'garbodor', 'garchomp', 'gardevoir', 'garganacl', 'gengar', 'glaceon', 'glimmora', 'gliscor', 'golurk', 'goodra', 'gourgeist', 'greninja', 'grimmsnarl', 'gyarados', 'hatterene', 'hawlucha', 'heracross', 'hippowdon', 'houndoom', 'hydrapple', 'hydreigon', 'incineroar', 'infernape', 'jolteon', 'kangaskhan', 'kingambit', 'kleavor', 'klefki', 'kommo-o', 'krookodile', 'leafeon', 'lopunny', 'lucario', 'lycanroc', 'mamoswine', 'maushold', 'meganium', 'meowscarada', 'meowstic', 'metagross', 'milotic', 'mimikyu', 'morpeko', 'mr-rime', 'mudsdale', 'ninetales', 'ninetales-alola', 'noivern', 'oranguru', 'orthworm', 'palafin', 'pawmot', 'pelipper', 'pikachu', 'pinsir', 'politoed', 'polteageist', 'primarina', 'quaquaval', 'raichu', 'raichu-alola', 'rhyperior', 'rotom', 'runerigus', 'sableye', 'samurott', 'samurott-hisuian', 'sandaconda', 'scizor', 'scovillain', 'serperior', 'sinistcha', 'skarmory', 'skeledirge', 'slowbro', 'slowbro-galarian', 'slowking', 'sneasler', 'snorlax', 'spiritomb', 'starmie', 'steelix', 'stunfisk', 'sylveon', 'talonflame', 'tatsugiri', 'tinkaton', 'torkoal', 'torterra', 'toucannon', 'toxapex', 'trevenant', 'tsareena', 'typhlosion', 'typhlosion-hisuian', 'tyranitar', 'tyrantrum', 'umbreon', 'ursaluna', 'vanilluxe', 'vaporeon', 'venusaur', 'victreebel', 'vivillon', 'volcarona', 'weavile', 'whimsicott', 'zoroark', 'zoroark-hisuian']);
 let moveData = {};     // cache {name:{power,pp,type,category,accuracy}}
 
 // ══════════════════════════════════════════════════════════
@@ -1224,15 +1232,21 @@ async function loadDetailsInBg() {
 
 function renderTypeRow() {
   const types = ['all',...Object.keys(TC)];
-  document.getElementById('typeRow').innerHTML = types.map(t => {
+  const champLbl = lang==='pt'?'⚡ Champions':'⚡ Champions';
+  let html = `<span class="type-pill ${filterChampions?'on':'off'}"
+    style="background:rgba(240,192,64,0.15);color:var(--gold);border-color:rgba(240,192,64,0.4);font-weight:700"
+    onclick="toggleChampions()">${champLbl}</span>`;
+  html += types.map(t => {
     const c = TC[t]||'#888', lbl = t==='all'? T.ui.filterAll :(T.types[t]||t);
     return `<span class="type-pill ${t===filterType?'on':'off'}"
       style="background:${t==='all'?'rgba(255,255,255,0.06)':c+'20'};color:${t==='all'?'#fff':c};border-color:${t==='all'?'rgba(255,255,255,0.1)':c+'40'}"
       onclick="setType('${t}')">${lbl}</span>`;
   }).join('');
+  document.getElementById('typeRow').innerHTML = html;
 }
 
 function setType(t) { filterType=t; renderTypeRow(); renderBrowser(); }
+function toggleChampions() { filterChampions=!filterChampions; renderTypeRow(); renderBrowser(); }
 
 function renderBrowser() {
   const q = document.getElementById('srch').value.toLowerCase();
@@ -1240,8 +1254,9 @@ function renderBrowser() {
     const searchStr = (p.form ? `${p.baseName} ${p.form}` : p.name).toLowerCase();
     const ms = !q || searchStr.includes(q) || p.name.includes(q) || String(p.id).startsWith(q);
     const mt = filterType==='all' || (p.types && p.types.includes(filterType));
-    return ms && mt;
-  }).slice(0,150);
+    const mc = !filterChampions || CHAMPIONS_SET.has(p.name) || CHAMPIONS_SET.has(p.baseName);
+    return ms && mt && mc;
+  }).slice(0,200);
 
   if(!list.length) {
     document.getElementById('pokeList').innerHTML =
@@ -1641,6 +1656,7 @@ function renderRight() {
   renderOverview();
   renderVP();
   renderCoverage();
+  renderDefCoverage();
 }
 
 function renderOverview() {
@@ -1684,6 +1700,41 @@ function renderVP() {
   document.getElementById('vpTot').textContent=Math.round(tot).toLocaleString(loc);
 }
 
+// Type effectiveness table for defensive coverage
+const TYPE_CHART = {
+  normal:   {rock:0.5,ghost:0,steel:0.5},
+  fire:     {fire:0.5,water:2,grass:0.5,ice:0.5,bug:0.5,rock:2,dragon:0.5,steel:0.5},
+  water:    {fire:0.5,water:0.5,grass:2,electric:2,ice:0.5,steel:0.5},
+  electric: {water:0.5,electric:0.5,grass:0.5,ground:2,flying:0.5,dragon:0.5},
+  grass:    {fire:2,water:0.5,grass:0.5,poison:2,ground:0.5,flying:2,bug:2,rock:0.5,dragon:0.5,steel:0.5},
+  ice:      {fire:2,water:0.5,ice:0.5,fighting:2,rock:2,steel:2},
+  fighting: {normal:0.5,ice:0.5,poison:1,rock:0.5,bug:1,ghost:2,steel:0.5,flying:2,psychic:2,fairy:2},
+  poison:   {grass:0.5,fighting:0.5,poison:0.5,ground:2,bug:0.5,ghost:1,steel:2,fairy:0.5},
+  ground:   {fire:0.5,electric:0,grass:2,ice:2,poison:0.5,rock:0.5,steel:0.5,water:2},
+  flying:   {electric:2,grass:0.5,ice:2,fighting:0.5,bug:0.5,rock:2,ground:0,steel:0.5},
+  psychic:  {fighting:0.5,psychic:0.5,bug:2,ghost:2,dark:2,steel:0.5},
+  bug:      {fire:2,grass:0.5,fighting:0.5,ground:0.5,flying:2,rock:2,steel:0.5},
+  rock:     {normal:0.5,fire:0.5,water:2,grass:2,fighting:2,poison:0.5,ground:2,flying:0.5,steel:2},
+  ghost:    {normal:0,fighting:0,poison:0.5,bug:0.5,ghost:2,dark:2},
+  dragon:   {fire:0.5,water:0.5,electric:0.5,grass:0.5,ice:2,dragon:2,fairy:2},
+  dark:     {fighting:2,psychic:0,bug:2,ghost:0.5,dark:0.5,fairy:2},
+  steel:    {normal:0.5,fire:2,grass:0.5,ice:0.5,fighting:2,poison:0,ground:2,flying:0.5,psychic:0.5,bug:0.5,rock:0.5,dragon:0.5,steel:0.5,fairy:0.5},
+  fairy:    {fighting:0.5,bug:0.5,dragon:0,dark:0.5,poison:2,steel:2},
+};
+
+function getDefWeaknesses(types) {
+  const result = {};
+  Object.keys(TC).forEach(atkType => {
+    let mult = 1;
+    types.forEach(defType => {
+      const row = TYPE_CHART[atkType];
+      if(row && row[defType] !== undefined) mult *= row[defType];
+    });
+    if(mult !== 1) result[atkType] = mult;
+  });
+  return result;
+}
+
 function renderCoverage() {
   const el = document.getElementById('covGrid');
   const typeCounts = {};
@@ -1704,6 +1755,49 @@ function renderCoverage() {
       <span class="cov-name">${T.types[t]||t}</span>
       <span class="cov-count" style="color:${TC[t]||'#888'}">${c}</span>
     </div>`).join('');
+}
+
+function renderDefCoverage() {
+  const el = document.getElementById('defCovGrid');
+  if(!el) return;
+  // Count weaknesses (x2, x4) and resistances (x0.5, x0.25, x0) across team
+  const weak2={}, weak4={}, res={}, immune={};
+  team.forEach(s=>{
+    if(!s||!s.pokemon.types) return;
+    const defs = getDefWeaknesses(s.pokemon.types);
+    Object.entries(defs).forEach(([t,m])=>{
+      if(m>=4) weak4[t]=(weak4[t]||0)+1;
+      else if(m>=2) weak2[t]=(weak2[t]||0)+1;
+      else if(m===0) immune[t]=(immune[t]||0)+1;
+      else res[t]=(res[t]||0)+1;
+    });
+  });
+  let html='';
+  // Show weaknesses first (x4 then x2), then resistances
+  const allWeak4 = Object.entries(weak4).sort((a,b)=>b[1]-a[1]);
+  const allWeak2 = Object.entries(weak2).sort((a,b)=>b[1]-a[1]);
+  const allRes = Object.entries(res).sort((a,b)=>b[1]-a[1]);
+  const allImm = Object.entries(immune).sort((a,b)=>b[1]-a[1]);
+  if(!allWeak4.length&&!allWeak2.length&&!allRes.length&&!allImm.length){
+    el.innerHTML=`<div style="color:var(--dim);font-size:11px;text-align:center;padding:12px">${lang==='pt'?'Adicione Pokémon ao time':'Add Pokémon to your team'}</div>`;return;
+  }
+  if(allWeak4.length){
+    html+=`<div style="grid-column:1/-1;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--red);text-transform:uppercase;margin-top:4px">×4 ${lang==='pt'?'Fraqueza':'Weakness'}</div>`;
+    html+=allWeak4.map(([t,c])=>`<div class="cov-item"><div class="cov-dot" style="background:${TC[t]||'#888'}"></div><span class="cov-name">${T.types[t]||t}</span><span class="cov-count" style="color:var(--red);font-weight:800">${c}</span></div>`).join('');
+  }
+  if(allWeak2.length){
+    html+=`<div style="grid-column:1/-1;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-top:8px">×2 ${lang==='pt'?'Fraqueza':'Weakness'}</div>`;
+    html+=allWeak2.map(([t,c])=>`<div class="cov-item"><div class="cov-dot" style="background:${TC[t]||'#888'}"></div><span class="cov-name">${T.types[t]||t}</span><span class="cov-count" style="color:var(--gold)">${c}</span></div>`).join('');
+  }
+  if(allRes.length){
+    html+=`<div style="grid-column:1/-1;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--green);text-transform:uppercase;margin-top:8px">${lang==='pt'?'Resistências':'Resistances'}</div>`;
+    html+=allRes.map(([t,c])=>`<div class="cov-item"><div class="cov-dot" style="background:${TC[t]||'#888'}"></div><span class="cov-name">${T.types[t]||t}</span><span class="cov-count" style="color:var(--green)">${c}</span></div>`).join('');
+  }
+  if(allImm.length){
+    html+=`<div style="grid-column:1/-1;font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase;margin-top:8px">${lang==='pt'?'Imunidades':'Immunities'}</div>`;
+    html+=allImm.map(([t,c])=>`<div class="cov-item"><div class="cov-dot" style="background:${TC[t]||'#888'}"></div><span class="cov-name">${T.types[t]||t}</span><span class="cov-count" style="color:var(--blue)">${c}</span></div>`).join('');
+  }
+  el.innerHTML=html;
 }
 
 // ══════════════════════════════════════════════════════════
