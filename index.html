@@ -123,17 +123,18 @@ body{
 }
 .browser-head{padding:14px 14px 10px;display:flex;flex-direction:column;gap:8px}
 .search-box{
-  display:flex;align-items:center;gap:8px;
+  display:flex;align-items:stretch;gap:0;
   background:var(--s2);border:1px solid var(--border2);
-  border-radius:6px;padding:0 10px;
+  border-radius:6px;
+  overflow:visible;
 }
 .search-box input{
   flex:1;background:transparent;border:none;outline:none;
   color:var(--text);font-family:'Inter',sans-serif;font-size:13px;
-  padding:8px 0;
+  padding:8px 8px 8px 10px;min-width:0;
 }
 .search-box input::placeholder{color:var(--dim)}
-.search-icon{color:var(--dim);font-size:14px}
+.search-icon{color:var(--dim);font-size:14px;display:flex;align-items:center;padding-left:10px;flex-shrink:0}
 .type-row{
   display:flex;flex-wrap:wrap;gap:4px;
   padding-bottom:4px;
@@ -583,16 +584,21 @@ body{
 .st-save-input:focus{border-color:rgba(240,192,64,0.5)}
 .st-save-input::placeholder{color:var(--dim)}
 
-/* ── SEARCH MODE BADGE ── */
-.srch-mode-badge{
-  font-size:9px;font-weight:700;letter-spacing:1px;
-  padding:2px 7px;border-radius:3px;
-  background:rgba(85,153,255,0.15);color:var(--blue);
-  border:1px solid rgba(85,153,255,0.3);
-  white-space:nowrap;cursor:pointer;flex-shrink:0;
-  display:none;
+/* ── SEARCH MODE TOGGLE ── */
+.srch-mode-btn{
+  flex-shrink:0;align-self:stretch;
+  width:58px;
+  background:var(--s3);border:none;border-left:1px solid var(--border2);
+  color:var(--sub);border-radius:0 5px 5px 0;
+  font-size:10px;font-weight:700;letter-spacing:0.5px;
+  padding:0;cursor:pointer;
+  transition:all .15s;
+  font-family:'Inter',sans-serif;
+  display:flex;align-items:center;justify-content:center;
 }
-.srch-mode-badge.visible{display:inline-flex;align-items:center;gap:4px}
+.srch-mode-btn:hover{background:var(--s3);border-color:var(--gold);color:var(--gold)}
+.srch-mode-btn.mode-move{background:rgba(80,232,144,0.12);border-color:rgba(80,232,144,0.3);color:var(--green)}
+.srch-mode-btn.mode-ability{background:rgba(85,153,255,0.12);border-color:rgba(85,153,255,0.3);color:var(--blue)}
 </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PCXS1WKPE9"></script>
@@ -694,8 +700,8 @@ body{
     <div class="browser-head">
       <div class="search-box">
         <span class="search-icon">⌕</span>
-        <input type="text" id="srch" placeholder="Buscar por nome ou número...">
-        <span class="srch-mode-badge" id="srchModeBadge" onclick="clearSrchMode()"></span>
+        <input type="text" id="srch" placeholder="Search by name or number...">
+        <button class="srch-mode-btn" id="srchModeBtn" onclick="cycleSrchMode()" title="Toggle search mode">NAME</button>
       </div>
       <div class="type-row" id="typeRow"></div>
     </div>
@@ -948,11 +954,8 @@ function applyStaticStrings() {
   set('txt-import-hint', u.importHint);
   set('txt-import-cancel', u.importCancel);
   set('txt-import-do', u.importDo);
-  // search placeholder
-  const srch = document.getElementById('srch');
-  if(srch) {
-    srch.placeholder = srchMode ? srchMode.label : u.searchPlaceholder;
-  }
+  // search placeholder — respects current mode and language
+  updateSrchModeUI();
 }
 
 // ══════════════════════════════════════════════════════════
@@ -989,89 +992,89 @@ const NATURES = [
 // Organized: classic X/Y stones + Z-A new stones + Mega Dimension DLC stones
 const MEGA_STONES = {
   // ── CLÁSSICAS X/Y ──
-  'venusaur':    {stones:[{stone:'Venusaurite',   types:null}]},
-  'charizard':   {stones:[{stone:'Charizardite X', types:['fire','dragon']},
-                           {stone:'Charizardite Y', types:null}]},
-  'blastoise':   {stones:[{stone:'Blastoisinite',  types:null}]},
-  'alakazam':    {stones:[{stone:'Alakazite',      types:null}]},
-  'gengar':      {stones:[{stone:'Gengarite',      types:null}]},
-  'kangaskhan':  {stones:[{stone:'Kangaskhanite',  types:null}]},
-  'pinsir':      {stones:[{stone:'Pinsirite',      types:['bug','flying']}]},
-  'gyarados':    {stones:[{stone:'Gyaradosite',    types:['water','dark']}]},
-  'aerodactyl':  {stones:[{stone:'Aerodactylite',  types:null}]},
-  'mewtwo':      {stones:[{stone:'Mewtwonite X',   types:['psychic','fighting']},
-                           {stone:'Mewtwonite Y',   types:null}]},
-  'ampharos':    {stones:[{stone:'Ampharosite',    types:['electric','dragon']}]},
-  'scizor':      {stones:[{stone:'Scizorite',      types:null}]},
-  'heracross':   {stones:[{stone:'Heracronite',    types:null}]},
-  'houndoom':    {stones:[{stone:'Houndoominite',  types:null}]},
-  'tyranitar':   {stones:[{stone:'Tyranitarite',   types:null}]},
-  'blaziken':    {stones:[{stone:'Blazikenite',    types:null}]},
-  'gardevoir':   {stones:[{stone:'Gardevoirite',   types:null}]},
-  'mawile':      {stones:[{stone:'Mawilite',       types:null}]},
-  'aggron':      {stones:[{stone:'Aggronite',      types:['steel']}]},
-  'medicham':    {stones:[{stone:'Medichamite',    types:null}]},
-  'manectric':   {stones:[{stone:'Manectite',      types:null}]},
-  'banette':     {stones:[{stone:'Banettite',      types:null}]},
-  'absol':       {stones:[{stone:'Absolite',       types:null}]},
-  'latias':      {stones:[{stone:'Latiasite',      types:null}]},
-  'latios':      {stones:[{stone:'Latiosite',      types:null}]},
-  'garchomp':    {stones:[{stone:'Garchompite',    types:null}]},
-  'lucario':     {stones:[{stone:'Lucarionite',    types:null}]},
-  'abomasnow':   {stones:[{stone:'Abomasite',      types:null}]},
+  'venusaur':    {stones:[{stone:'Venusaurite',    types:null,                    ability:'Thick Fat'}]},
+  'charizard':   {stones:[{stone:'Charizardite X', types:['fire','dragon'],       ability:'Tough Claws'},
+                           {stone:'Charizardite Y', types:null,                    ability:'Drought'}]},
+  'blastoise':   {stones:[{stone:'Blastoisinite',  types:null,                    ability:'Mega Launcher'}]},
+  'alakazam':    {stones:[{stone:'Alakazite',      types:null,                    ability:'Trace'}]},
+  'gengar':      {stones:[{stone:'Gengarite',      types:null,                    ability:'Shadow Tag'}]},
+  'kangaskhan':  {stones:[{stone:'Kangaskhanite',  types:null,                    ability:'Parental Bond'}]},
+  'pinsir':      {stones:[{stone:'Pinsirite',      types:['bug','flying'],        ability:'Aerilate'}]},
+  'gyarados':    {stones:[{stone:'Gyaradosite',    types:['water','dark'],        ability:'Mold Breaker'}]},
+  'aerodactyl':  {stones:[{stone:'Aerodactylite',  types:null,                    ability:'Tough Claws'}]},
+  'mewtwo':      {stones:[{stone:'Mewtwonite X',   types:['psychic','fighting'],  ability:'Steadfast'},
+                           {stone:'Mewtwonite Y',   types:null,                    ability:'Insomnia'}]},
+  'ampharos':    {stones:[{stone:'Ampharosite',    types:['electric','dragon'],   ability:'Mold Breaker'}]},
+  'scizor':      {stones:[{stone:'Scizorite',      types:null,                    ability:'Technician'}]},
+  'heracross':   {stones:[{stone:'Heracronite',    types:null,                    ability:'Skill Link'}]},
+  'houndoom':    {stones:[{stone:'Houndoominite',  types:null,                    ability:'Solar Power'}]},
+  'tyranitar':   {stones:[{stone:'Tyranitarite',   types:null,                    ability:'Sand Stream'}]},
+  'blaziken':    {stones:[{stone:'Blazikenite',    types:null,                    ability:'Speed Boost'}]},
+  'gardevoir':   {stones:[{stone:'Gardevoirite',   types:null,                    ability:'Pixilate'}]},
+  'mawile':      {stones:[{stone:'Mawilite',       types:null,                    ability:'Huge Power'}]},
+  'aggron':      {stones:[{stone:'Aggronite',      types:['steel'],               ability:'Filter'}]},
+  'medicham':    {stones:[{stone:'Medichamite',    types:null,                    ability:'Pure Power'}]},
+  'manectric':   {stones:[{stone:'Manectite',      types:null,                    ability:'Intimidate'}]},
+  'banette':     {stones:[{stone:'Banettite',      types:null,                    ability:'Prankster'}]},
+  'absol':       {stones:[{stone:'Absolite',       types:null,                    ability:'Magic Bounce'}]},
+  'latias':      {stones:[{stone:'Latiasite',      types:null,                    ability:'Levitate'}]},
+  'latios':      {stones:[{stone:'Latiosite',      types:null,                    ability:'Levitate'}]},
+  'garchomp':    {stones:[{stone:'Garchompite',    types:null,                    ability:'Sand Force'}]},
+  'lucario':     {stones:[{stone:'Lucarionite',    types:null,                    ability:'Adaptability'}]},
+  'abomasnow':   {stones:[{stone:'Abomasite',      types:null,                    ability:'Snow Warning'}]},
   // ── CLÁSSICAS ORAS ──
-  'beedrill':    {stones:[{stone:'Beedrillite',    types:null}]},
-  'pidgeot':     {stones:[{stone:'Pidgeotite',     types:null}]},
-  'slowbro':     {stones:[{stone:'Slowbronite',    types:null}]},
-  'steelix':     {stones:[{stone:'Steelixite',     types:null}]},
-  'sceptile':    {stones:[{stone:'Sceptilite',     types:['grass','dragon']}]},
-  'swampert':    {stones:[{stone:'Swampertite',    types:null}]},
-  'sableye':     {stones:[{stone:'Sablenite',      types:null}]},
-  'sharpedo':    {stones:[{stone:'Sharpedonite',   types:null}]},
-  'camerupt':    {stones:[{stone:'Cameruptite',    types:null}]},
-  'altaria':     {stones:[{stone:'Altarianite',    types:['dragon','fairy']}]},
-  'glalie':      {stones:[{stone:'Glalitite',      types:null}]},
-  'salamence':   {stones:[{stone:'Salamencite',    types:null}]},
-  'metagross':   {stones:[{stone:'Metagrossite',   types:null}]},
-  'lopunny':     {stones:[{stone:'Lopunnite',      types:['normal','fighting']}]},
-  'gallade':     {stones:[{stone:'Galladite',      types:null}]},
-  'audino':      {stones:[{stone:'Audinite',       types:['normal','fairy']}]},
-  'diancie':     {stones:[{stone:'Diancite',       types:null}]},
+  'beedrill':    {stones:[{stone:'Beedrillite',    types:null,                    ability:'Adaptability'}]},
+  'pidgeot':     {stones:[{stone:'Pidgeotite',     types:null,                    ability:'No Guard'}]},
+  'slowbro':     {stones:[{stone:'Slowbronite',    types:null,                    ability:'Shell Armor'}]},
+  'steelix':     {stones:[{stone:'Steelixite',     types:null,                    ability:'Sand Force'}]},
+  'sceptile':    {stones:[{stone:'Sceptilite',     types:['grass','dragon'],      ability:'Lightning Rod'}]},
+  'swampert':    {stones:[{stone:'Swampertite',    types:null,                    ability:'Swift Swim'}]},
+  'sableye':     {stones:[{stone:'Sablenite',      types:null,                    ability:'Magic Bounce'}]},
+  'sharpedo':    {stones:[{stone:'Sharpedonite',   types:null,                    ability:'Strong Jaw'}]},
+  'camerupt':    {stones:[{stone:'Cameruptite',    types:null,                    ability:'Sheer Force'}]},
+  'altaria':     {stones:[{stone:'Altarianite',    types:['dragon','fairy'],      ability:'Pixilate'}]},
+  'glalie':      {stones:[{stone:'Glalitite',      types:null,                    ability:'Refrigerate'}]},
+  'salamence':   {stones:[{stone:'Salamencite',    types:null,                    ability:'Aerilate'}]},
+  'metagross':   {stones:[{stone:'Metagrossite',   types:null,                    ability:'Tough Claws'}]},
+  'lopunny':     {stones:[{stone:'Lopunnite',      types:['normal','fighting'],   ability:'Scrappy'}]},
+  'gallade':     {stones:[{stone:'Galladite',      types:null,                    ability:'Inner Focus'}]},
+  'audino':      {stones:[{stone:'Audinite',       types:['normal','fairy'],      ability:'Healer'}]},
+  'diancie':     {stones:[{stone:'Diancite',       types:null,                    ability:'Magic Bounce'}]},
   // ── LEGENDS Z-A BASE ──
-  'clefable':    {stones:[{stone:'Clefablite',     types:['fairy','flying']}]},
-  'victreebel':  {stones:[{stone:'Victreebelite',  types:null}]},
-  'starmie':     {stones:[{stone:'Starminite',     types:null}]},
-  'dragonite':   {stones:[{stone:'Dragoninite',    types:null}]},
-  'meganium':    {stones:[{stone:'Meganiumite',    types:['grass','fairy']}]},
-  'feraligatr':  {stones:[{stone:'Feraligite',     types:['water','dragon']}]},
-  'skarmory':    {stones:[{stone:'Skarmorite',     types:null}]},
-  'froslass':    {stones:[{stone:'Froslassite',    types:null}]},
-  'emboar':      {stones:[{stone:'Emboarite',      types:null}]},
-  'excadrill':   {stones:[{stone:'Excadrite',      types:null}]},
-  'chandelure':  {stones:[{stone:'Chandelurite',   types:null}]},
-  'chesnaught':  {stones:[{stone:'Chesnaughtite',  types:null}]},
-  'delphox':     {stones:[{stone:'Delphoxite',     types:null}]},
-  'greninja':    {stones:[{stone:'Greninjite',     types:null}]},
-  'meowstic':    {stones:[{stone:'Meowsticite',    types:null}]},
-  'hawlucha':    {stones:[{stone:'Hawluchanite',   types:null}]},
-  'goodra':      {stones:[{stone:'Goodranite',     types:null}]},
-  'drampa':      {stones:[{stone:'Drampanite',     types:null}]},
-  'barbaracle':  {stones:[{stone:'Barbaracite',    types:['rock','fighting']}]},
-  'dragalge':    {stones:[{stone:'Dragalgite',     types:null}]},
+  'clefable':    {stones:[{stone:'Clefablite',     types:['fairy','flying'],      ability:null}]},
+  'victreebel':  {stones:[{stone:'Victreebelite',  types:null,                    ability:null}]},
+  'starmie':     {stones:[{stone:'Starminite',     types:null,                    ability:null}]},
+  'dragonite':   {stones:[{stone:'Dragoninite',    types:null,                    ability:null}]},
+  'meganium':    {stones:[{stone:'Meganiumite',    types:['grass','fairy'],       ability:null}]},
+  'feraligatr':  {stones:[{stone:'Feraligite',     types:['water','dragon'],      ability:null}]},
+  'skarmory':    {stones:[{stone:'Skarmorite',     types:null,                    ability:null}]},
+  'froslass':    {stones:[{stone:'Froslassite',    types:null,                    ability:null}]},
+  'emboar':      {stones:[{stone:'Emboarite',      types:null,                    ability:null}]},
+  'excadrill':   {stones:[{stone:'Excadrite',      types:null,                    ability:null}]},
+  'chandelure':  {stones:[{stone:'Chandelurite',   types:null,                    ability:null}]},
+  'chesnaught':  {stones:[{stone:'Chesnaughtite',  types:null,                    ability:null}]},
+  'delphox':     {stones:[{stone:'Delphoxite',     types:null,                    ability:null}]},
+  'greninja':    {stones:[{stone:'Greninjite',     types:null,                    ability:null}]},
+  'meowstic':    {stones:[{stone:'Meowsticite',    types:null,                    ability:null}]},
+  'hawlucha':    {stones:[{stone:'Hawluchanite',   types:null,                    ability:null}]},
+  'goodra':      {stones:[{stone:'Goodranite',     types:null,                    ability:null}]},
+  'drampa':      {stones:[{stone:'Drampanite',     types:null,                    ability:null}]},
+  'barbaracle':  {stones:[{stone:'Barbaracite',    types:['rock','fighting'],     ability:null}]},
+  'dragalge':    {stones:[{stone:'Dragalgite',     types:null,                    ability:null}]},
   // ── MEGA DIMENSION DLC ──
-  'raichu':      {stones:[{stone:'Raichunite X',   types:null},
-                           {stone:'Raichunite Y',   types:null}]},
-  'heatran':     {stones:[{stone:'Heatranite',     types:null}]},
-  'darkrai':     {stones:[{stone:'Darkranite',     types:null}]},
-  'golurk':      {stones:[{stone:'Golurkite',      types:null}]},
-  'crabominable':{stones:[{stone:'Crabominite',    types:null}]},
-  'zeraora':     {stones:[{stone:'Zeraorite',      types:null}]},
-  'scovillain':  {stones:[{stone:'Scovillainite',  types:null}]},
-  'glimmora':    {stones:[{stone:'Glimmoranite',   types:null}]},
-  'tatsugiri':   {stones:[{stone:'Tatsugirinite',  types:null}]},
-  'baxcalibur':  {stones:[{stone:'Baxcalibrite',   types:null}]},
-  'staraptor':   {stones:[{stone:'Staraptite',     types:null}]},
-  'magearna':    {stones:[{stone:'Magearnite',     types:null}]},
+  'raichu':      {stones:[{stone:'Raichunite X',   types:null,                    ability:null},
+                           {stone:'Raichunite Y',   types:null,                    ability:null}]},
+  'heatran':     {stones:[{stone:'Heatranite',     types:null,                    ability:null}]},
+  'darkrai':     {stones:[{stone:'Darkranite',     types:null,                    ability:null}]},
+  'golurk':      {stones:[{stone:'Golurkite',      types:null,                    ability:null}]},
+  'crabominable':{stones:[{stone:'Crabominite',    types:null,                    ability:null}]},
+  'zeraora':     {stones:[{stone:'Zeraorite',      types:null,                    ability:null}]},
+  'scovillain':  {stones:[{stone:'Scovillainite',  types:null,                    ability:null}]},
+  'glimmora':    {stones:[{stone:'Glimmoranite',   types:null,                    ability:null}]},
+  'tatsugiri':   {stones:[{stone:'Tatsugirinite',  types:null,                    ability:null}]},
+  'baxcalibur':  {stones:[{stone:'Baxcalibrite',   types:null,                    ability:null}]},
+  'staraptor':   {stones:[{stone:'Staraptite',     types:null,                    ability:null}]},
+  'magearna':    {stones:[{stone:'Magearnite',     types:null,                    ability:null}]},
 };
 
 // Helper: get all mega stones for a pokemon → returns {stones:[{stone,types}]} or null
@@ -1123,14 +1126,7 @@ async function boot() {
   renderMobStrip();
   renderTypeRow();
   renderRight();
-  document.getElementById('srch').addEventListener('input', function() {
-    // If user clears the input while in srch mode, reset mode
-    if(srchMode && this.value === '') {
-      clearSrchMode();
-      return;
-    }
-    renderBrowser();
-  });
+  document.getElementById('srch').addEventListener('input', renderBrowser);
 
   // Close import modal on backdrop click
   document.getElementById('importModal').addEventListener('click', function(e){
@@ -1376,64 +1372,46 @@ function renderTypeRow() {
   document.getElementById('typeRow').innerHTML = html;
 }
 
-// ── SMART SEARCH STATE ──
-let srchMode = null; // null | {type:'move'|'ability', value:string, label:string}
+// ── SEARCH MODE ──
+// Cycles: 'name' → 'move' → 'ability' → 'name'
+let srchMode = 'name';
 
-function clearSrchMode() {
-  srchMode = null;
+const SRCH_MODES = ['name','move','ability'];
+const SRCH_MODE_LABELS = { name:'NAME', move:'MOVE', ability:'ABILITY' };
+const SRCH_MODE_PLACEHOLDERS = {
+  pt:  { name:'Buscar por nome ou número...', move:'Buscar por golpe... (ex: trick-room)', ability:'Buscar por habilidade... (ex: intimidate)' },
+  en:  { name:'Search by name or number...', move:'Search by move... (e.g. trick-room)', ability:'Search by ability... (e.g. intimidate)' }
+};
+
+function cycleSrchMode() {
+  const idx = SRCH_MODES.indexOf(srchMode);
+  srchMode = SRCH_MODES[(idx + 1) % SRCH_MODES.length];
   document.getElementById('srch').value = '';
-  document.getElementById('srch').placeholder = T.ui.searchPlaceholder;
-  document.getElementById('srchModeBadge').classList.remove('visible');
+  updateSrchModeUI();
   renderBrowser();
+  document.getElementById('srch').focus();
+}
+
+function updateSrchModeUI() {
+  const btn = document.getElementById('srchModeBtn');
+  const inp = document.getElementById('srch');
+  if(!btn || !inp) return;
+  btn.textContent = SRCH_MODE_LABELS[srchMode];
+  btn.className = 'srch-mode-btn' + (srchMode !== 'name' ? ` mode-${srchMode}` : '');
+  inp.placeholder = SRCH_MODE_PLACEHOLDERS[lang]?.[srchMode] || SRCH_MODE_PLACEHOLDERS.en[srchMode];
 }
 
 function setType(t) { filterType=t; renderTypeRow(); renderBrowser(); }
 function toggleChampions() { filterChampions=!filterChampions; renderTypeRow(); renderBrowser(); }
 
 function renderBrowser() {
-  const rawQ = document.getElementById('srch').value;
-  const q = rawQ.toLowerCase().trim();
-  const badge = document.getElementById('srchModeBadge');
-
-  // ── Smart search detection ──
-  // If the user types something that matches a known move or ability in db, offer smart filter
-  if(q.length >= 3 && !srchMode) {
-    // Check if q matches a move that multiple pokemon share
-    const moveMatches = db.filter(p => p.moves && p.moves.some(m => m.replace(/-/g,' ').includes(q)));
-    const abilMatches = db.filter(p => p.abilities && p.abilities.some(a => a.replace(/-/g,' ').includes(q)));
-
-    // If there's a strong move match (move exists and > 2 pokemon have it, and query looks move-like)
-    // and the query doesn't match a pokemon name well
-    const pokeNameMatches = db.filter(p => p.name.includes(q) || String(p.id).startsWith(q)).length;
-    if(moveMatches.length > 2 && moveMatches.length > pokeNameMatches * 2) {
-      // Find the exact move name matched
-      const exactMove = (()=>{ for(const p of moveMatches){ const m=p.moves.find(m=>m.replace(/-/g,' ').includes(q)); if(m) return m; } return q; })();
-      srchMode = {type:'move', value:exactMove, label:`move: ${exactMove.replace(/-/g,' ')}`};
-      badge.textContent = `✕ ${srchMode.label}`;
-      badge.classList.add('visible');
-      document.getElementById('srch').value = '';
-      document.getElementById('srch').placeholder = srchMode.label;
-    } else if(abilMatches.length > 0 && abilMatches.length > pokeNameMatches * 2) {
-      const exactAbil = (()=>{ for(const p of abilMatches){ const a=p.abilities.find(a=>a.replace(/-/g,' ').includes(q)); if(a) return a; } return q; })();
-      srchMode = {type:'ability', value:exactAbil, label:`ability: ${exactAbil.replace(/-/g,' ')}`};
-      badge.textContent = `✕ ${srchMode.label}`;
-      badge.classList.add('visible');
-      document.getElementById('srch').value = '';
-      document.getElementById('srch').placeholder = srchMode.label;
-    }
-  }
+  const q = document.getElementById('srch').value.toLowerCase().trim();
 
   let list;
-  if(srchMode) {
-    // Filter by move or ability
-    if(srchMode.type==='move') {
-      list = db.filter(p => p.moves && p.moves.includes(srchMode.value));
-    } else {
-      list = db.filter(p => p.abilities && p.abilities.includes(srchMode.value));
-    }
-    // Apply type and champions filters on top
-    if(filterType !== 'all') list = list.filter(p => p.types && p.types.includes(filterType));
-    if(filterChampions) list = list.filter(p => CHAMPIONS_SET.has(p.name) || CHAMPIONS_SET.has(p.baseName));
+  if(srchMode === 'move' && q) {
+    list = db.filter(p => p.moves && p.moves.some(m => m.replace(/-/g,' ').includes(q)));
+  } else if(srchMode === 'ability' && q) {
+    list = db.filter(p => p.abilities && p.abilities.some(a => a.replace(/-/g,' ').includes(q)));
   } else {
     list = db.filter(p => {
       const searchStr = (p.form ? `${p.baseName} ${p.form}` : p.name).toLowerCase();
@@ -1448,7 +1426,14 @@ function renderBrowser() {
       return aMatch-bMatch;
     });
   }
-  list = list.slice(0,200);
+
+  // Apply type + champions filter also in move/ability mode
+  if(srchMode !== 'name') {
+    if(filterType !== 'all') list = list.filter(p => p.types && p.types.includes(filterType));
+    if(filterChampions) list = list.filter(p => CHAMPIONS_SET.has(p.name) || CHAMPIONS_SET.has(p.baseName));
+  }
+
+  list = list.slice(0, 200);
 
   if(!list.length) {
     document.getElementById('pokeList').innerHTML =
@@ -1661,9 +1646,21 @@ function renderConfig() {
         </div>
         <div class="field">
           <label>${T.ui.ability}</label>
-          <select onchange="upd(${activeSlot},'ability',this.value)">
-            ${abilities.length?abilities.map(a=>`<option value="${a}" ${a===s.ability?'selected':''}>${a}</option>`).join(''):`<option>—</option>`}
-          </select>
+          ${(() => {
+            const megaData = getMegaStones(p.baseName||p.name);
+            const selStoneAbil = megaData?.stones.find(ms => ms.stone === s.item)?.ability || null;
+            if(selStoneAbil) {
+              // Show mega ability as a locked display (not selectable)
+              return `<div style="background:var(--s2);border:1px solid rgba(240,192,64,0.35);border-radius:6px;padding:8px 10px;display:flex;align-items:center;gap:8px">
+                <span style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold)">⚡</span>
+                <span style="font-size:13px;font-weight:500;color:var(--text);text-transform:capitalize">${selStoneAbil}</span>
+              </div>
+              <div style="font-size:10px;color:var(--dim);margin-top:3px">Mega ability</div>`;
+            }
+            return `<select onchange="upd(${activeSlot},'ability',this.value)">
+              ${abilities.length ? abilities.map(a=>`<option value="${a}" ${a===s.ability?'selected':''}>${a}</option>`).join('') : `<option>—</option>`}
+            </select>`;
+          })()}
         </div>
       </div>
 
@@ -1956,49 +1953,63 @@ function clearMove(si, mi) {
 
 function updSP(si, sk, val) {
   if(!team[si]) return;
-  // Don't clamp while typing — only on blur/commit
   const raw = parseInt(val);
-  if(isNaN(raw)) return; // still typing
+  if(isNaN(raw)) return; // still typing (e.g. "-" or empty)
+
+  // Clamp per-stat max
   let v = Math.max(0, Math.min(SP_MAX_STAT, raw));
   team[si].sps[sk] = v;
+
+  // Clamp total: if over budget, cut this stat down
   const tot = Object.values(team[si].sps).reduce((a,b)=>a+b,0);
-  if(tot > SP_MAX_TOTAL) { team[si].sps[sk] = Math.max(0, v-(tot-SP_MAX_TOTAL)); v = team[si].sps[sk]; }
+  if(tot > SP_MAX_TOTAL) {
+    v = Math.max(0, v - (tot - SP_MAX_TOTAL));
+    team[si].sps[sk] = v;
+  }
+
   saveSession();
-  // Update DOM directly without full re-render
+
+  // Sync input to actual clamped value so user sees the real number
+  const inp = document.querySelector(`[data-sp-inp="${sk}"]`);
+  if(inp && parseInt(inp.value) !== v) inp.value = v;
+
+  // Update bar, stat calc, border, total counter
   const s = team[si];
   const p = s.pokemon;
   const nat = NATURES.find(n=>n.n===s.nature)||NATURES[3];
   const base = (p.stats&&p.stats[sk])||50;
   const calc = calcStat(sk, base, v, nat);
   const pct = Math.round((v/SP_MAX_STAT)*100);
-  // Update bar
+
   const bar = document.querySelector(`[data-sp-bar="${sk}"]`);
-  if(bar) { bar.style.width=pct+'%'; }
-  // Update calc display
+  if(bar) bar.style.width = pct+'%';
+
   const calcEl = document.querySelector(`[data-sp-calc="${sk}"]`);
   if(calcEl) calcEl.textContent = calc;
-  // Update input border color
-  const inp = document.querySelector(`[data-sp-inp="${sk}"]`);
+
   if(inp) inp.style.borderColor = v>0 ? (STAT_C[sk]+'60') : 'var(--border2)';
-  // Update total counter
-  const totEl = document.getElementById('spTotalCount');
+
   const newTot = Object.values(s.sps).reduce((a,b)=>a+b,0);
+  const totEl = document.getElementById('spTotalCount');
   if(totEl) {
     totEl.textContent = newTot+'/'+SP_MAX_TOTAL;
-    totEl.className = newTot>SP_MAX_TOTAL?'ev-counter over':newTot>55?'ev-counter warn':'ev-counter ok';
+    totEl.className = newTot > SP_MAX_TOTAL ? 'ev-counter over' : newTot > 55 ? 'ev-counter warn' : 'ev-counter ok';
   }
+
   renderRight();
 }
 
 function commitSP(si, sk, val) {
-  // Called on blur — final validation
   if(!team[si]) return;
   let v = Math.max(0, Math.min(SP_MAX_STAT, parseInt(val)||0));
   team[si].sps[sk] = v;
   const tot = Object.values(team[si].sps).reduce((a,b)=>a+b,0);
-  if(tot > SP_MAX_TOTAL) team[si].sps[sk] = Math.max(0, v-(tot-SP_MAX_TOTAL));
+  if(tot > SP_MAX_TOTAL) {
+    v = Math.max(0, v - (tot - SP_MAX_TOTAL));
+    team[si].sps[sk] = v;
+  }
   saveSession();
-  renderConfig();
+  renderConfig(); // full re-render on blur syncs all inputs
   renderRight();
 }
 
