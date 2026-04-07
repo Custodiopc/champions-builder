@@ -218,7 +218,7 @@ body{
 .empty-msg{font-size:13px;letter-spacing:.5px;max-width:200px;line-height:1.6}
 
 /* Config card */
-.cfg-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.cfg-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;overflow:visible}
 .cfg-card+.cfg-card{margin-top:12px}
 
 .cfg-hero{
@@ -261,7 +261,7 @@ body{
 .moves-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .move-entry{
   background:var(--s2);border:1px solid var(--border);border-radius:6px;
-  overflow:hidden;transition:border-color .12s;
+  transition:border-color .12s;
 }
 .move-entry:focus-within{border-color:rgba(240,192,64,0.4)}
 .move-top{
@@ -271,13 +271,6 @@ body{
   font-size:9px;font-family:'JetBrains Mono';color:var(--dim);
   width:14px;flex-shrink:0;text-align:center;
 }
-.move-select{
-  flex:1;background:transparent;border:none;color:var(--text);
-  font-family:'Inter';font-size:13px;font-weight:500;
-  outline:none;cursor:pointer;text-transform:capitalize;
-  min-width:0;
-}
-.move-select option{background:var(--s2);text-transform:capitalize}
 .move-meta{
   display:flex;gap:6px;padding:5px 10px 8px 32px;
   border-top:1px solid var(--border);
@@ -486,10 +479,120 @@ body{
   .field-row,.field-row.three{grid-template-columns:1fr}
   .ev-row{grid-template-columns:34px 1fr 32px 42px;gap:4px}
 }
-/* Move datalist input */
-input[list] { -webkit-appearance:none; appearance:none; }
-input[list]::-webkit-calendar-picker-indicator { display:none!important; }
-input[list]::placeholder { color:var(--dim); font-size:12px; }
+/* ── CUSTOM MOVE DROPDOWN ── */
+.move-entry{position:relative} /* anchor for absolute dropdown */
+.move-dd-wrap{flex:1;min-width:0}
+.move-dd-input{
+  width:100%;background:transparent;border:none;outline:none;
+  color:var(--text);font-family:'Inter';font-size:13px;font-weight:500;
+  text-transform:capitalize;padding:0;cursor:text;
+}
+.move-dd-input::placeholder{color:var(--dim);font-size:12px;text-transform:none}
+.move-dd-list{
+  position:absolute;left:0;right:0;top:100%;
+  z-index:200;
+  background:var(--s2);border:1px solid var(--border2);
+  border-radius:0 0 8px 8px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.5);
+  max-height:180px;overflow-y:auto;
+  display:none;
+}
+.move-dd-list.open{display:block}
+/* On mobile the list opens upward so the keyboard never covers it */
+@media(max-width:768px){
+  .move-dd-list{
+    top:auto;
+    bottom:100%;
+    border-radius:8px 8px 0 0;
+    box-shadow:0 -6px 24px rgba(0,0,0,0.5);
+    max-height:160px;
+  }
+  .move-entry.dd-open{
+    border-radius:0 0 6px 6px;
+    border-top-color:transparent;
+  }
+}
+.move-dd-list::-webkit-scrollbar{width:3px}
+.move-dd-list::-webkit-scrollbar-thumb{background:var(--s3);border-radius:4px}
+.move-dd-item{
+  padding:8px 12px;font-size:12px;font-weight:500;
+  text-transform:capitalize;cursor:pointer;
+  transition:background .08s;color:var(--text);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.move-dd-item:hover,.move-dd-item.focused{background:var(--s3)}
+.move-dd-item.selected{color:var(--gold)}
+.move-dd-empty{padding:10px 12px;font-size:11px;color:var(--dim);text-align:center}
+/* When dropdown is open, square bottom of move-entry so list attaches flush */
+.move-entry.dd-open{border-radius:6px 6px 0 0;border-bottom-color:transparent;z-index:201;position:relative}
+/* ── SAVED TEAMS MODAL ── */
+.saved-teams-modal{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.7);z-index:1000;
+  align-items:center;justify-content:center;
+}
+.saved-teams-modal.open{display:flex}
+.saved-teams-box{
+  background:var(--s1);border:1px solid var(--border2);
+  border-radius:12px;padding:24px;width:90%;max-width:480px;
+  display:flex;flex-direction:column;gap:14px;
+  max-height:85vh;overflow:hidden;
+}
+.saved-teams-list{
+  display:flex;flex-direction:column;gap:6px;
+  overflow-y:auto;max-height:340px;
+}
+.saved-teams-list::-webkit-scrollbar{width:3px}
+.saved-teams-list::-webkit-scrollbar-thumb{background:var(--s3);border-radius:4px}
+.saved-team-row{
+  display:flex;align-items:center;gap:10px;
+  background:var(--s2);border:1px solid var(--border);border-radius:8px;
+  padding:10px 12px;cursor:pointer;transition:all .12s;
+}
+.saved-team-row:hover{border-color:var(--border2);background:var(--s3)}
+.saved-team-sprites{display:flex;gap:2px;align-items:center}
+.saved-team-sprites img{width:32px;height:32px;image-rendering:pixelated}
+.saved-team-sprites .st-empty{
+  width:32px;height:32px;border-radius:4px;
+  background:var(--s3);border:1px dashed var(--border);
+  opacity:.4;
+}
+.saved-team-info{flex:1;min-width:0}
+.saved-team-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.saved-team-meta{font-size:10px;color:var(--dim);margin-top:2px;font-family:'JetBrains Mono'}
+.saved-team-del{
+  width:22px;height:22px;border-radius:4px;flex-shrink:0;
+  background:rgba(255,85,85,0.08);border:1px solid rgba(255,85,85,0.15);
+  color:var(--red);font-size:10px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;opacity:0;transition:opacity .12s;
+}
+.saved-team-row:hover .saved-team-del{opacity:1}
+.st-empty-state{
+  text-align:center;color:var(--dim);font-size:12px;
+  padding:24px;border:1px dashed var(--border);border-radius:8px;
+}
+.st-save-row{
+  display:flex;gap:8px;padding-top:4px;border-top:1px solid var(--border);
+}
+.st-save-input{
+  flex:1;background:var(--s2);border:1px solid var(--border2);
+  color:var(--text);border-radius:6px;padding:8px 12px;
+  font-family:'Inter';font-size:13px;outline:none;
+  transition:border-color .15s;
+}
+.st-save-input:focus{border-color:rgba(240,192,64,0.5)}
+.st-save-input::placeholder{color:var(--dim)}
+
+/* ── SEARCH MODE BADGE ── */
+.srch-mode-badge{
+  font-size:9px;font-weight:700;letter-spacing:1px;
+  padding:2px 7px;border-radius:3px;
+  background:rgba(85,153,255,0.15);color:var(--blue);
+  border:1px solid rgba(85,153,255,0.3);
+  white-space:nowrap;cursor:pointer;flex-shrink:0;
+  display:none;
+}
+.srch-mode-badge.visible{display:inline-flex;align-items:center;gap:4px}
 </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PCXS1WKPE9"></script>
@@ -512,6 +615,7 @@ input[list]::placeholder { color:var(--dim); font-size:12px; }
     <button class="btn btn-ghost" onclick="window.open('learn.html','_blank')" id="txt-btn-learn" style="color:#74b9ff;border-color:rgba(85,153,255,0.3)">📚 Learn VGC</button>
     <button class="btn btn-ghost" onclick="window.open('calc.html','_blank')" id="txt-btn-calc" style="color:var(--gold);border-color:rgba(240,192,64,0.3)">⚔ Damage Calc</button>
     <button class="btn btn-ghost" id="txt-btn-import" onclick="openImport()">↓ Import</button>
+    <button class="btn btn-ghost" id="txt-btn-saved" onclick="openSavedTeams()" style="color:var(--green);border-color:rgba(80,232,144,0.3)">💾 Saved</button>
     <button class="btn btn-ghost" id="langBtn" onclick="toggleLang()" style="font-size:13px;padding:6px 10px">🌐 PT</button>
     <button class="btn btn-ghost" id="txt-clear" onclick="clearTeam()">Limpar</button>
     <button class="btn btn-gold" id="txt-export" onclick="exportTeam()">Exportar</button>
@@ -528,6 +632,7 @@ input[list]::placeholder { color:var(--dim); font-size:12px; }
   <button class="btn btn-ghost" onclick="window.open('learn.html','_blank');closeMobMenu()" style="color:#74b9ff;border-color:rgba(85,153,255,0.3)" id="mob-btn-learn">📚 Learn VGC</button>
   <button class="btn btn-ghost" onclick="window.open('calc.html','_blank');closeMobMenu()" style="color:var(--gold);border-color:rgba(240,192,64,0.3)" id="mob-btn-calc">⚔ Damage Calc</button>
   <button class="btn btn-ghost" onclick="openImport();closeMobMenu()" id="mob-btn-import">↓ Import</button>
+  <button class="btn btn-ghost" onclick="openSavedTeams();closeMobMenu()" id="mob-btn-saved" style="color:var(--green);border-color:rgba(80,232,144,0.3)">💾 Saved Teams</button>
   <button class="btn btn-gold" onclick="exportTeam();closeMobMenu()" id="mob-export">📋 Exportar Time</button>
   <button class="btn btn-ghost" onclick="clearTeam();closeMobMenu()" id="mob-clear" style="color:var(--red);border-color:rgba(255,85,85,0.3)">🗑 Limpar Time</button>
 </div>
@@ -546,6 +651,21 @@ input[list]::placeholder { color:var(--dim); font-size:12px; }
     <div style="display:flex;gap:8px;justify-content:flex-end">
       <button class="btn btn-ghost" onclick="closeImport()" id="txt-import-cancel">Cancelar</button>
       <button class="btn btn-gold" onclick="doImport()" id="txt-import-do">Importar</button>
+    </div>
+  </div>
+</div>
+
+<!-- SAVED TEAMS MODAL -->
+<div class="saved-teams-modal" id="savedTeamsModal">
+  <div class="saved-teams-box">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div style="font-family:'Syne';font-size:18px;font-weight:800" id="txt-saved-title">Saved Teams</div>
+      <button class="btn btn-ghost" onclick="closeSavedTeams()" style="padding:4px 10px;font-size:16px">✕</button>
+    </div>
+    <div class="saved-teams-list" id="savedTeamsList"></div>
+    <div class="st-save-row">
+      <input class="st-save-input" id="savedTeamName" placeholder="Team name..." maxlength="40">
+      <button class="btn btn-gold" onclick="saveCurrentTeam()" id="txt-saved-save">Save Current</button>
     </div>
   </div>
 </div>
@@ -575,6 +695,7 @@ input[list]::placeholder { color:var(--dim); font-size:12px; }
       <div class="search-box">
         <span class="search-icon">⌕</span>
         <input type="text" id="srch" placeholder="Buscar por nome ou número...">
+        <span class="srch-mode-badge" id="srchModeBadge" onclick="clearSrchMode()"></span>
       </div>
       <div class="type-row" id="typeRow"></div>
     </div>
@@ -793,6 +914,9 @@ function toggleLang() {
   renderTeamBar();
   renderConfig();
   renderRight();
+  // Update saved teams modal if open
+  const modal = document.getElementById('savedTeamsModal');
+  if(modal && modal.classList.contains('open')) renderSavedTeamsList();
 }
 
 function applyStaticStrings() {
@@ -826,7 +950,9 @@ function applyStaticStrings() {
   set('txt-import-do', u.importDo);
   // search placeholder
   const srch = document.getElementById('srch');
-  if(srch) srch.placeholder = u.searchPlaceholder;
+  if(srch) {
+    srch.placeholder = srchMode ? srchMode.label : u.searchPlaceholder;
+  }
 }
 
 // ══════════════════════════════════════════════════════════
@@ -862,101 +988,99 @@ const NATURES = [
 // ── MEGA STONES por Pokémon ──
 // Organized: classic X/Y stones + Z-A new stones + Mega Dimension DLC stones
 const MEGA_STONES = {
-  // ── CLÁSSICAS (X/Y/ORAS) ──
-  'venusaur':    'Venusaurite',
-  'charizard':   'Charizardite X / Charizardite Y',
-  'blastoise':   'Blastoisinite',
-  'alakazam':    'Alakazite',
-  'gengar':      'Gengarite',
-  'kangaskhan':  'Kangaskhanite',
-  'pinsir':      'Pinsirite',
-  'gyarados':    'Gyaradosite',
-  'aerodactyl':  'Aerodactylite',
-  'mewtwo':      'Mewtwonite X / Mewtwonite Y',
-  'ampharos':    'Ampharosite',
-  'scizor':      'Scizorite',
-  'heracross':   'Heracronite',
-  'houndoom':    'Houndoominite',
-  'tyranitar':   'Tyranitarite',
-  'blaziken':    'Blazikenite',
-  'gardevoir':   'Gardevoirite',
-  'mawile':      'Mawilite',
-  'aggron':      'Aggronite',
-  'medicham':    'Medichamite',
-  'manectric':   'Manectite',
-  'banette':     'Banettite',
-  'absol':       'Absolite',
-  'latias':      'Latiasite',
-  'latios':      'Latiosite',
-  'garchomp':    'Garchompite',
-  'lucario':     'Lucarionite',
-  'abomasnow':   'Abomasite',
-  'beedrill':    'Beedrillite',
-  'pidgeot':     'Pidgeotite',
-  'slowbro':     'Slowbronite',
-  'steelix':     'Steelixite',
-  'sceptile':    'Sceptilite',
-  'swampert':    'Swampertite',
-  'sableye':     'Sablenite',
-  'sharpedo':    'Sharpedonite',
-  'camerupt':    'Cameruptite',
-  'altaria':     'Altarianite',
-  'glalie':      'Glalitite',
-  'salamence':   'Salamencite',
-  'metagross':   'Metagrossite',
-  'rayquaza':    'None (needs Dragon Ascent)',
-  'lopunny':     'Lopunnite',
-  'gallade':     'Galladite',
-  'audino':      'Audinite',
-  'diancie':     'Diancite',
-
-  // ── LEGENDS Z-A (jogo base) ──
-  'dragonite':   'Dragonite Stone (Z-A)',
-  'meganium':    'Meganium Stone (Z-A)',
-  'feraligatr':  'Feraligatr Stone (Z-A)',
-  'typhlosion':  'Typhlosion Stone (Z-A)',
-  'skarmory':    'Skarmory Stone (Z-A)',
-  'mightyena':   'Mightyena Stone (Z-A)',
-  'shiftry':     'Shiftry Stone (Z-A)',
-  'breloom':     'Breloom Stone (Z-A)',
-  'slaking':     'Slaking Stone (Z-A)',
-  'flygon':      'Flygon Stone (Z-A)',
-  'milotic':     'Milotic Stone (Z-A)',
-  'walrein':     'Walrein Stone (Z-A)',
-  'dusknoir':    'Dusknoir Stone (Z-A)',
-  'roserade':    'Roserade Stone (Z-A)',
-  'mismagius':   'Mismagius Stone (Z-A)',
-  'lumineon':    'Lumineon Stone (Z-A)',
-  'magnezone':   'Magnezone Stone (Z-A)',
-  'toxicroak':   'Toxicroak Stone (Z-A)',
-  'clefable':    'Clefablite (Z-A)',
-  'victreebel':  'Victreebell Stone (Z-A)',
-  'starmie':     'Starmie Stone (Z-A)',
-  'chandelure':  'Chandelure Stone (Z-A)',
-  'dragalge':    'Dragalge Stone (Z-A)',
-  'barbaracle':  'Barbaracle Stone (Z-A)',
-  'zygarde':     'Zygarde Stone (Z-A)',
-  'greninja':    'Greninjaite (Z-A · Ranked S1)',
-  'delphox':     'Delphoxite (Z-A · Ranked S2)',
-  'chesnaught':  'Chesnaughtite (Z-A · Ranked S3)',
-
+  // ── CLÁSSICAS X/Y ──
+  'venusaur':    {stones:[{stone:'Venusaurite',   types:null}]},
+  'charizard':   {stones:[{stone:'Charizardite X', types:['fire','dragon']},
+                           {stone:'Charizardite Y', types:null}]},
+  'blastoise':   {stones:[{stone:'Blastoisinite',  types:null}]},
+  'alakazam':    {stones:[{stone:'Alakazite',      types:null}]},
+  'gengar':      {stones:[{stone:'Gengarite',      types:null}]},
+  'kangaskhan':  {stones:[{stone:'Kangaskhanite',  types:null}]},
+  'pinsir':      {stones:[{stone:'Pinsirite',      types:['bug','flying']}]},
+  'gyarados':    {stones:[{stone:'Gyaradosite',    types:['water','dark']}]},
+  'aerodactyl':  {stones:[{stone:'Aerodactylite',  types:null}]},
+  'mewtwo':      {stones:[{stone:'Mewtwonite X',   types:['psychic','fighting']},
+                           {stone:'Mewtwonite Y',   types:null}]},
+  'ampharos':    {stones:[{stone:'Ampharosite',    types:['electric','dragon']}]},
+  'scizor':      {stones:[{stone:'Scizorite',      types:null}]},
+  'heracross':   {stones:[{stone:'Heracronite',    types:null}]},
+  'houndoom':    {stones:[{stone:'Houndoominite',  types:null}]},
+  'tyranitar':   {stones:[{stone:'Tyranitarite',   types:null}]},
+  'blaziken':    {stones:[{stone:'Blazikenite',    types:null}]},
+  'gardevoir':   {stones:[{stone:'Gardevoirite',   types:null}]},
+  'mawile':      {stones:[{stone:'Mawilite',       types:null}]},
+  'aggron':      {stones:[{stone:'Aggronite',      types:['steel']}]},
+  'medicham':    {stones:[{stone:'Medichamite',    types:null}]},
+  'manectric':   {stones:[{stone:'Manectite',      types:null}]},
+  'banette':     {stones:[{stone:'Banettite',      types:null}]},
+  'absol':       {stones:[{stone:'Absolite',       types:null}]},
+  'latias':      {stones:[{stone:'Latiasite',      types:null}]},
+  'latios':      {stones:[{stone:'Latiosite',      types:null}]},
+  'garchomp':    {stones:[{stone:'Garchompite',    types:null}]},
+  'lucario':     {stones:[{stone:'Lucarionite',    types:null}]},
+  'abomasnow':   {stones:[{stone:'Abomasite',      types:null}]},
+  // ── CLÁSSICAS ORAS ──
+  'beedrill':    {stones:[{stone:'Beedrillite',    types:null}]},
+  'pidgeot':     {stones:[{stone:'Pidgeotite',     types:null}]},
+  'slowbro':     {stones:[{stone:'Slowbronite',    types:null}]},
+  'steelix':     {stones:[{stone:'Steelixite',     types:null}]},
+  'sceptile':    {stones:[{stone:'Sceptilite',     types:['grass','dragon']}]},
+  'swampert':    {stones:[{stone:'Swampertite',    types:null}]},
+  'sableye':     {stones:[{stone:'Sablenite',      types:null}]},
+  'sharpedo':    {stones:[{stone:'Sharpedonite',   types:null}]},
+  'camerupt':    {stones:[{stone:'Cameruptite',    types:null}]},
+  'altaria':     {stones:[{stone:'Altarianite',    types:['dragon','fairy']}]},
+  'glalie':      {stones:[{stone:'Glalitite',      types:null}]},
+  'salamence':   {stones:[{stone:'Salamencite',    types:null}]},
+  'metagross':   {stones:[{stone:'Metagrossite',   types:null}]},
+  'lopunny':     {stones:[{stone:'Lopunnite',      types:['normal','fighting']}]},
+  'gallade':     {stones:[{stone:'Galladite',      types:null}]},
+  'audino':      {stones:[{stone:'Audinite',       types:['normal','fairy']}]},
+  'diancie':     {stones:[{stone:'Diancite',       types:null}]},
+  // ── LEGENDS Z-A BASE ──
+  'clefable':    {stones:[{stone:'Clefablite',     types:['fairy','flying']}]},
+  'victreebel':  {stones:[{stone:'Victreebelite',  types:null}]},
+  'starmie':     {stones:[{stone:'Starminite',     types:null}]},
+  'dragonite':   {stones:[{stone:'Dragoninite',    types:null}]},
+  'meganium':    {stones:[{stone:'Meganiumite',    types:['grass','fairy']}]},
+  'feraligatr':  {stones:[{stone:'Feraligite',     types:['water','dragon']}]},
+  'skarmory':    {stones:[{stone:'Skarmorite',     types:null}]},
+  'froslass':    {stones:[{stone:'Froslassite',    types:null}]},
+  'emboar':      {stones:[{stone:'Emboarite',      types:null}]},
+  'excadrill':   {stones:[{stone:'Excadrite',      types:null}]},
+  'chandelure':  {stones:[{stone:'Chandelurite',   types:null}]},
+  'chesnaught':  {stones:[{stone:'Chesnaughtite',  types:null}]},
+  'delphox':     {stones:[{stone:'Delphoxite',     types:null}]},
+  'greninja':    {stones:[{stone:'Greninjite',     types:null}]},
+  'meowstic':    {stones:[{stone:'Meowsticite',    types:null}]},
+  'hawlucha':    {stones:[{stone:'Hawluchanite',   types:null}]},
+  'goodra':      {stones:[{stone:'Goodranite',     types:null}]},
+  'drampa':      {stones:[{stone:'Drampanite',     types:null}]},
+  'barbaracle':  {stones:[{stone:'Barbaracite',    types:['rock','fighting']}]},
+  'dragalge':    {stones:[{stone:'Dragalgite',     types:null}]},
   // ── MEGA DIMENSION DLC ──
-  'raichu':      'Raichuite X / Raichuite Y (Mega Dimension)',
-  'chimecho':    'Chimecho Stone (Mega Dimension)',
-  'staraptor':   'Staraptor Stone (Mega Dimension)',
-  'heatran':     'Heatran Stone (Mega Dimension)',
-  'darkrai':     'Darkrai Stone (Mega Dimension)',
-  'golurk':      'Golurk Stone (Mega Dimension)',
-  'meowstic':    'Meowsticite (Mega Dimension)',
-  'crabominable': 'Crabominable Stone (Mega Dimension)',
-  'golisopod':   'Golisopod Stone (Mega Dimension)',
-  'zeraora':     'Zeraora Stone (Mega Dimension)',
-  'scovillain':  'Scovillain Stone (Mega Dimension)',
-  'glimmora':    'Glimmora Stone (Mega Dimension)',
-  'tatsugiri':   'Tatsugiri Stone (Mega Dimension)',
+  'raichu':      {stones:[{stone:'Raichunite X',   types:null},
+                           {stone:'Raichunite Y',   types:null}]},
+  'heatran':     {stones:[{stone:'Heatranite',     types:null}]},
+  'darkrai':     {stones:[{stone:'Darkranite',     types:null}]},
+  'golurk':      {stones:[{stone:'Golurkite',      types:null}]},
+  'crabominable':{stones:[{stone:'Crabominite',    types:null}]},
+  'zeraora':     {stones:[{stone:'Zeraorite',      types:null}]},
+  'scovillain':  {stones:[{stone:'Scovillainite',  types:null}]},
+  'glimmora':    {stones:[{stone:'Glimmoranite',   types:null}]},
+  'tatsugiri':   {stones:[{stone:'Tatsugirinite',  types:null}]},
+  'baxcalibur':  {stones:[{stone:'Baxcalibrite',   types:null}]},
+  'staraptor':   {stones:[{stone:'Staraptite',     types:null}]},
+  'magearna':    {stones:[{stone:'Magearnite',     types:null}]},
 };
 
-// Build item list dynamically — generic items first, then mega stones
+// Helper: get all mega stones for a pokemon → returns {stones:[{stone,types}]} or null
+function getMegaStones(name) {
+  const key = (name||'').toLowerCase().replace(/-/g,' ').split(' ')[0];
+  return MEGA_STONES[key] || MEGA_STONES[(name||'').toLowerCase()] || null;
+}
+
+// Build item list — generic items only (mega stones shown separately per-pokemon)
 const ITEMS_GENERIC = ['None','Choice Band','Choice Scarf','Choice Specs','Life Orb',
   'Leftovers','Rocky Helmet','Assault Vest','Focus Sash','Eviolite','Sitrus Berry','Lum Berry',
   'Weakness Policy','Safety Goggles','Terrain Extender','Throat Spray','Muscle Band',
@@ -965,15 +1089,6 @@ const ITEMS_GENERIC = ['None','Choice Band','Choice Scarf','Choice Specs','Life 
   'Twisted Spoon','Silver Powder','Spell Tag','Dragon Fang','Black Glasses','Metal Coat',
   'Silk Scarf','Flame Orb','Toxic Orb','Iron Ball','White Herb','Mental Herb',
   'Power Herb','King\'s Rock','Razor Fang','Wide Lens','Zoom Lens','Bright Powder'];
-
-// All unique mega stones (no duplicates)
-const ALL_MEGA_STONES = [...new Set(Object.values(MEGA_STONES).flatMap(v=>v.split(' / ')))].sort();
-const ITEMS = ['Nenhum', ...ITEMS_GENERIC.slice(1), '── Mega Stones ──', ...ALL_MEGA_STONES];
-
-// Helper: get mega stone for a pokemon
-function getMegaStone(pokemonName) {
-  return MEGA_STONES[pokemonName.toLowerCase()] || null;
-}
 
 // SP System (Pokemon Champions)
 // 1 SP = 8 EVs equivalent, max 32 SP per stat, max 66 SP per Pokemon, IVs always 31
@@ -992,7 +1107,7 @@ let db = [];           // all pokemon
 let team = Array(6).fill(null);
 let activeSlot = 0;
 let filterType = 'all';
-let filterChampions = false;
+let filterChampions = true;
 const CHAMPIONS_SET = new Set(['abomasnow', 'absol', 'aegislash', 'aerodactyl', 'aggron', 'alakazam', 'alcremie', 'altaria', 'ampharos', 'appletun', 'araquanid', 'arcanine', 'arcanine-hisuian', 'archaludon', 'armarouge', 'audino', 'aurorus', 'azumarill', 'basculegion', 'beedrill', 'blastoise', 'ceruledge', 'chandelure', 'charizard', 'chesnaught', 'clawitzer', 'clefable', 'conkeldurr', 'corviknight', 'crabominable', 'decidueye', 'decidueye-hisuian', 'delphox', 'diggersby', 'ditto', 'dondozo', 'dragapult', 'dragonite', 'drampa', 'emboar', 'emolga', 'empoleon', 'espeon', 'excadrill', 'farigiraf', 'feraligatr', 'flareon', 'floette', 'froslass', 'furfrou', 'gallade', 'garbodor', 'garchomp', 'gardevoir', 'garganacl', 'gengar', 'glaceon', 'glimmora', 'gliscor', 'golurk', 'goodra', 'gourgeist', 'greninja', 'grimmsnarl', 'gyarados', 'hatterene', 'hawlucha', 'heracross', 'hippowdon', 'houndoom', 'hydrapple', 'hydreigon', 'incineroar', 'infernape', 'jolteon', 'kangaskhan', 'kingambit', 'kleavor', 'klefki', 'kommo-o', 'krookodile', 'leafeon', 'lopunny', 'lucario', 'lycanroc', 'mamoswine', 'maushold', 'meganium', 'meowscarada', 'meowstic', 'metagross', 'milotic', 'mimikyu', 'morpeko', 'mr-rime', 'mudsdale', 'ninetales', 'ninetales-alola', 'noivern', 'oranguru', 'orthworm', 'palafin', 'pawmot', 'pelipper', 'pikachu', 'pinsir', 'politoed', 'polteageist', 'primarina', 'quaquaval', 'raichu', 'raichu-alola', 'rhyperior', 'rotom', 'runerigus', 'sableye', 'samurott', 'samurott-hisuian', 'sandaconda', 'scizor', 'scovillain', 'serperior', 'sinistcha', 'skarmory', 'skeledirge', 'slowbro', 'slowbro-galarian', 'slowking', 'sneasler', 'snorlax', 'spiritomb', 'starmie', 'steelix', 'stunfisk', 'sylveon', 'talonflame', 'tatsugiri', 'tinkaton', 'torkoal', 'torterra', 'toucannon', 'toxapex', 'trevenant', 'tsareena', 'typhlosion', 'typhlosion-hisuian', 'tyranitar', 'tyrantrum', 'umbreon', 'ursaluna', 'vanilluxe', 'vaporeon', 'venusaur', 'victreebel', 'vivillon', 'volcarona', 'weavile', 'whimsicott', 'zoroark', 'zoroark-hisuian']);
 let moveData = {};     // cache {name:{power,pp,type,category,accuracy}}
 
@@ -1008,7 +1123,14 @@ async function boot() {
   renderMobStrip();
   renderTypeRow();
   renderRight();
-  document.getElementById('srch').addEventListener('input', renderBrowser);
+  document.getElementById('srch').addEventListener('input', function() {
+    // If user clears the input while in srch mode, reset mode
+    if(srchMode && this.value === '') {
+      clearSrchMode();
+      return;
+    }
+    renderBrowser();
+  });
 
   // Close import modal on backdrop click
   document.getElementById('importModal').addEventListener('click', function(e){
@@ -1254,24 +1376,78 @@ function renderTypeRow() {
   document.getElementById('typeRow').innerHTML = html;
 }
 
+// ── SMART SEARCH STATE ──
+let srchMode = null; // null | {type:'move'|'ability', value:string, label:string}
+
+function clearSrchMode() {
+  srchMode = null;
+  document.getElementById('srch').value = '';
+  document.getElementById('srch').placeholder = T.ui.searchPlaceholder;
+  document.getElementById('srchModeBadge').classList.remove('visible');
+  renderBrowser();
+}
+
 function setType(t) { filterType=t; renderTypeRow(); renderBrowser(); }
 function toggleChampions() { filterChampions=!filterChampions; renderTypeRow(); renderBrowser(); }
 
 function renderBrowser() {
-  const q = document.getElementById('srch').value.toLowerCase();
-  let list = db.filter(p => {
-    const searchStr = (p.form ? `${p.baseName} ${p.form}` : p.name).toLowerCase();
-    const ms = !q || searchStr.includes(q) || p.name.includes(q) || String(p.id).startsWith(q);
-    const mt = filterType==='all' || (p.types && p.types.includes(filterType));
-    const mc = !filterChampions || CHAMPIONS_SET.has(p.name) || CHAMPIONS_SET.has(p.baseName);
-    return ms && mt && mc;
-  });
-  // When searching, show alt forms first (they have form label)
-  if(q) list.sort((a,b) => {
-    const aMatch = a.name===q||a.baseName===q?0:1;
-    const bMatch = b.name===q||b.baseName===q?0:1;
-    return aMatch-bMatch;
-  });
+  const rawQ = document.getElementById('srch').value;
+  const q = rawQ.toLowerCase().trim();
+  const badge = document.getElementById('srchModeBadge');
+
+  // ── Smart search detection ──
+  // If the user types something that matches a known move or ability in db, offer smart filter
+  if(q.length >= 3 && !srchMode) {
+    // Check if q matches a move that multiple pokemon share
+    const moveMatches = db.filter(p => p.moves && p.moves.some(m => m.replace(/-/g,' ').includes(q)));
+    const abilMatches = db.filter(p => p.abilities && p.abilities.some(a => a.replace(/-/g,' ').includes(q)));
+
+    // If there's a strong move match (move exists and > 2 pokemon have it, and query looks move-like)
+    // and the query doesn't match a pokemon name well
+    const pokeNameMatches = db.filter(p => p.name.includes(q) || String(p.id).startsWith(q)).length;
+    if(moveMatches.length > 2 && moveMatches.length > pokeNameMatches * 2) {
+      // Find the exact move name matched
+      const exactMove = (()=>{ for(const p of moveMatches){ const m=p.moves.find(m=>m.replace(/-/g,' ').includes(q)); if(m) return m; } return q; })();
+      srchMode = {type:'move', value:exactMove, label:`move: ${exactMove.replace(/-/g,' ')}`};
+      badge.textContent = `✕ ${srchMode.label}`;
+      badge.classList.add('visible');
+      document.getElementById('srch').value = '';
+      document.getElementById('srch').placeholder = srchMode.label;
+    } else if(abilMatches.length > 0 && abilMatches.length > pokeNameMatches * 2) {
+      const exactAbil = (()=>{ for(const p of abilMatches){ const a=p.abilities.find(a=>a.replace(/-/g,' ').includes(q)); if(a) return a; } return q; })();
+      srchMode = {type:'ability', value:exactAbil, label:`ability: ${exactAbil.replace(/-/g,' ')}`};
+      badge.textContent = `✕ ${srchMode.label}`;
+      badge.classList.add('visible');
+      document.getElementById('srch').value = '';
+      document.getElementById('srch').placeholder = srchMode.label;
+    }
+  }
+
+  let list;
+  if(srchMode) {
+    // Filter by move or ability
+    if(srchMode.type==='move') {
+      list = db.filter(p => p.moves && p.moves.includes(srchMode.value));
+    } else {
+      list = db.filter(p => p.abilities && p.abilities.includes(srchMode.value));
+    }
+    // Apply type and champions filters on top
+    if(filterType !== 'all') list = list.filter(p => p.types && p.types.includes(filterType));
+    if(filterChampions) list = list.filter(p => CHAMPIONS_SET.has(p.name) || CHAMPIONS_SET.has(p.baseName));
+  } else {
+    list = db.filter(p => {
+      const searchStr = (p.form ? `${p.baseName} ${p.form}` : p.name).toLowerCase();
+      const ms = !q || searchStr.includes(q) || p.name.includes(q) || String(p.id).startsWith(q);
+      const mt = filterType==='all' || (p.types && p.types.includes(filterType));
+      const mc = !filterChampions || CHAMPIONS_SET.has(p.name) || CHAMPIONS_SET.has(p.baseName);
+      return ms && mt && mc;
+    });
+    if(q) list.sort((a,b) => {
+      const aMatch = a.name===q||a.baseName===q?0:1;
+      const bMatch = b.name===q||b.baseName===q?0:1;
+      return aMatch-bMatch;
+    });
+  }
   list = list.slice(0,200);
 
   if(!list.length) {
@@ -1285,9 +1461,7 @@ function renderBrowser() {
     const inTeam = team.some(s=>s&&s.pokemon.id===p.id);
     const isActive = cur && cur.pokemon.id===p.id;
     const types = p.types||[];
-    const displayName = p.baseName
-      ? `${p.baseName}`
-      : p.name;
+    const displayName = p.baseName ? `${p.baseName}` : p.name;
     const formTag = p.form
       ? `<span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;background:rgba(240,192,64,0.15);color:var(--gold);margin-left:4px">${p.form}</span>`
       : '';
@@ -1451,24 +1625,38 @@ function renderConfig() {
         <div class="field">
           <label>${T.ui.nature}</label>
           <select onchange="upd(${activeSlot},'nature',this.value)">
-            ${NATURES.map(n=>`<option value="${n.n}" ${n.n===s.nature?'selected':''}>
-              ${T.natures[n.n]} (${n.n})</option>`).join('')}
+            ${NATURES.map(n=>{
+            const boost = n.b ? T.stats[n.b] : null;
+            const nerf  = n.r ? T.stats[n.r] : null;
+            const hint  = boost ? `(+${boost} / -${nerf})` : '(Neutral)';
+            const label = `${n.n} ${hint}`;
+            return `<option value="${n.n}" ${n.n===s.nature?'selected':''}>${label}</option>`;
+          }).join('')}
           </select>
           <div class="nature-hint">${natHint}</div>
         </div>
         <div class="field">
           <label>${T.ui.item}</label>
           ${(() => {
-            const mega = getMegaStone(p.baseName||p.name);
-            const megaStones = mega ? mega.split(' / ').map(s=>s.trim()) : [];
+            const megaData = getMegaStones(p.baseName||p.name);
+            const megaStones = megaData ? megaData.stones : [];
+            // Determine if selected item is a mega stone and find its type change
+            const selStone = megaStones.find(ms => ms.stone === s.item);
+            const postTypes = selStone?.types || null;
             return `<select onchange="upd(${activeSlot},'item',this.value)">
               <option value="None">${T.none}</option>
               ${ITEMS_GENERIC.slice(1).map(it=>`<option value="${it}" ${it===s.item?'selected':''}>${it}</option>`).join('')}
               ${megaStones.length ? `<optgroup label="⚡ Mega Stone">
-                ${megaStones.map(ms=>`<option value="${ms}" ${ms===s.item?'selected':''}>${ms}</option>`).join('')}
+                ${megaStones.map(ms=>`<option value="${ms.stone}" ${ms.stone===s.item?'selected':''}>${ms.stone}</option>`).join('')}
               </optgroup>` : ''}
             </select>
-            ${megaStones.length ? `<div style="font-size:10px;color:var(--gold);margin-top:3px;font-family:'JetBrains Mono';cursor:pointer" onclick="upd(${activeSlot},'item','${megaStones[0]}');renderConfig()">⚡ Tap to equip: ${mega}</div>` : ''}`;
+            ${megaStones.length ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;align-items:center">
+              ${megaStones.map(ms=>`<span onclick="upd(${activeSlot},'item','${ms.stone.replace(/'/g,"\\'")}');renderConfig()" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(240,192,64,0.12);color:var(--gold);border:1px solid rgba(240,192,64,0.3);cursor:pointer;transition:all .12s" title="Click to equip">⚡ ${ms.stone}</span>`).join('')}
+            </div>` : ''}
+            ${selStone && postTypes ? `<div style="margin-top:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="font-size:9px;font-weight:700;letter-spacing:1px;color:var(--dim)">MEGA →</span>
+              ${postTypes.map(t=>`<span class="type-tag" style="font-size:10px;padding:2px 9px;background:${TC[t]}25;color:${TC[t]};border:1px solid ${TC[t]}50">${T.types[t]||t}</span>`).join('')}
+            </div>` : ''}`;
           })()}
         </div>
         <div class="field">
@@ -1486,25 +1674,24 @@ function renderConfig() {
           ${[0,1,2,3].map(mi => {
             const mv = s.moves[mi]||'';
             const md = moveData[mv];
-            const listId = `movelist-${activeSlot}-${mi}`;
-            const sortedMoves = [...moves].sort();
+            const ddId = `movedd-${activeSlot}-${mi}`;
             return `<div class="move-entry">
               <div class="move-top">
                 <span class="move-num">${mi+1}</span>
-                <div style="flex:1;position:relative;min-width:0">
+                <div class="move-dd-wrap" id="${ddId}-wrap">
                   <input
-                    class="move-select"
-                    list="${listId}"
+                    class="move-dd-input"
+                    id="${ddId}-inp"
                     value="${mv}"
                     placeholder="${T.ui.moveSlot} ${mi+1}..."
                     autocomplete="off"
-                    oninput="onMoveInput(${activeSlot},${mi},this.value)"
-                    onchange="onMoveChange(${activeSlot},${mi},this.value)"
-                    style="width:100%;background:transparent;border:none;outline:none;color:var(--text);font-family:'Inter';font-size:13px;font-weight:500;text-transform:capitalize;padding:0"
+                    spellcheck="false"
+                    oninput="moveDdFilter('${ddId}',${activeSlot},${mi},this.value)"
+                    onfocus="moveDdOpen('${ddId}',${activeSlot},${mi})"
+                    onkeydown="moveDdKey(event,'${ddId}',${activeSlot},${mi})"
+                    onblur="moveDdBlur(event,'${ddId}',${activeSlot},${mi})"
                   >
-                  <datalist id="${listId}">
-                    ${sortedMoves.map(m=>`<option value="${m}">`).join('')}
-                  </datalist>
+                  <div class="move-dd-list" id="${ddId}-list"></div>
                 </div>
                 ${mv?`<span onclick="clearMove(${activeSlot},${mi})" style="color:var(--dim);cursor:pointer;font-size:11px;padding-left:4px;flex-shrink:0">✕</span>`:''}
               </div>
@@ -1536,12 +1723,14 @@ function renderConfig() {
             return `<div class="ev-row">
               <span class="ev-stat-lbl" style="color:${STAT_C[sk]}">${T.stats[sk]}</span>
               <div class="ev-bar-wrap" onclick="barClick(event,${activeSlot},'${sk}')">
-                <div class="ev-bar-fill" style="width:${pct}%;background:${STAT_C[sk]}"></div>
+                <div class="ev-bar-fill" data-sp-bar="${sk}" style="width:${pct}%;background:${STAT_C[sk]}"></div>
               </div>
               <input class="ev-val" type="number" min="0" max="${SP_MAX_STAT}" value="${sp}"
+                     data-sp-inp="${sk}"
                      style="border-color:${sp>0?STAT_C[sk]+'60':'var(--border2)'}"
-                     oninput="updSP(${activeSlot},'${sk}',this.value)">
-              <span class="ev-stat-calc" style="color:${isB?'#ff6b6b':isR?'#74b9ff':'var(--text)'}">${calc}</span>
+                     oninput="updSP(${activeSlot},'${sk}',this.value)"
+                     onblur="commitSP(${activeSlot},'${sk}',this.value)">
+              <span class="ev-stat-calc" data-sp-calc="${sk}" style="color:${isB?'#ff6b6b':isR?'#74b9ff':'var(--text)'}">${calc}</span>
             </div>`;
           }).join('')}
         </div>
@@ -1615,27 +1804,148 @@ function updMove(si, mi, val) {
   renderRight();
 }
 
-function onMoveInput(si, mi, val) {
-  // live feedback while typing — fetch if exact match
-  if(!team[si]) return;
-  const moves = team[si].pokemon.moves || [];
-  if(moves.includes(val)) {
-    team[si].moves[mi] = val;
-    if(!moveData[val]) fetchMove(val);
-    renderRight();
-  }
+// ══════════════════════════════════════════════════════════
+// CUSTOM MOVE DROPDOWN  (Item 6)
+// ══════════════════════════════════════════════════════════
+let _ddActive = null; // currently open dropdown id
+let _ddFocusIdx = -1; // keyboard nav index
+
+function moveDdOpen(ddId, si, mi) {
+  if(_ddActive && _ddActive !== ddId) moveDdClose(_ddActive);
+  _ddActive = ddId;
+  _ddFocusIdx = -1;
+  const inp = document.getElementById(ddId+'-inp');
+  const card = inp?.closest('.move-entry');
+  if(card) card.classList.add('dd-open');
+  moveDdPopulate(ddId, si, inp ? inp.value : '');
 }
 
-function onMoveChange(si, mi, val) {
+function moveDdFilter(ddId, si, mi, val) {
+  _ddFocusIdx = -1;
+  moveDdPopulate(ddId, si, val);
+}
+
+function moveDdPopulate(ddId, si, query) {
+  const list = document.getElementById(ddId+'-list');
+  if(!list) return;
+  const s = team[si];
+  if(!s) { list.classList.remove('open'); return; }
+  const moves = (s.pokemon.moves||[]).sort();
+  const q = query.toLowerCase().replace(/-/g,' ');
+  const filtered = q
+    ? moves.filter(m => m.replace(/-/g,' ').includes(q)).slice(0,80)
+    : moves.slice(0,80);
+
+  if(!filtered.length) {
+    list.innerHTML = `<div class="move-dd-empty">${lang==='pt'?'Nenhum golpe encontrado':'No moves found'}</div>`;
+  } else {
+    const mi = parseInt(ddId.split('-')[2]);
+    const curMove = s.moves[mi] || '';
+    list.innerHTML = filtered.map((m,i) => {
+      const isSel = m === curMove;
+      return `<div class="move-dd-item${isSel?' selected':''}" data-move="${m}" data-idx="${i}"
+        onmousedown="moveDdSelect(event,'${ddId}',${si},${mi},'${m.replace(/'/g,"\\'")}')"
+      >${m.replace(/-/g,' ')}</div>`;
+    }).join('');
+  }
+
+  list.classList.add('open');
+}
+
+function moveDdSelect(e, ddId, si, mi, moveName) {
+  e.preventDefault(); // prevent blur before mousedown fires
   if(!team[si]) return;
-  const moves = team[si].pokemon.moves || [];
-  // accept if it's in the list, otherwise clear
-  const matched = moves.find(m => m.toLowerCase() === val.toLowerCase());
-  team[si].moves[mi] = matched || '';
-  if(matched && !moveData[matched]) fetchMove(matched);
+  team[si].moves[mi] = moveName;
+  if(!moveData[moveName]) fetchMove(moveName);
+  saveSession();
+  moveDdClose(ddId);
   renderConfig();
   renderRight();
 }
+
+function moveDdBlur(e, ddId, si, mi) {
+  // Small delay so mousedown on list item fires first
+  setTimeout(() => {
+    if(_ddActive !== ddId) return;
+    // Commit whatever is in the input if it matches a move
+    const inp = document.getElementById(ddId+'-inp');
+    if(inp && team[si]) {
+      const typed = inp.value.trim();
+      const moves = team[si].pokemon.moves || [];
+      const matched = moves.find(m => m.toLowerCase() === typed.toLowerCase() || m.replace(/-/g,' ').toLowerCase() === typed.toLowerCase());
+      if(matched) {
+        team[si].moves[mi] = matched;
+        if(!moveData[matched]) fetchMove(matched);
+        saveSession();
+        renderConfig();
+        renderRight();
+      } else {
+        // Restore old value
+        inp.value = team[si].moves[mi] || '';
+      }
+    }
+    moveDdClose(ddId);
+  }, 150);
+}
+
+function moveDdKey(e, ddId, si, mi) {
+  const list = document.getElementById(ddId+'-list');
+  if(!list || !list.classList.contains('open')) return;
+  const items = list.querySelectorAll('.move-dd-item');
+  if(e.key === 'ArrowDown') {
+    e.preventDefault();
+    _ddFocusIdx = Math.min(_ddFocusIdx+1, items.length-1);
+    moveDdHighlight(list, items);
+  } else if(e.key === 'ArrowUp') {
+    e.preventDefault();
+    _ddFocusIdx = Math.max(_ddFocusIdx-1, 0);
+    moveDdHighlight(list, items);
+  } else if(e.key === 'Enter') {
+    e.preventDefault();
+    if(_ddFocusIdx >= 0 && items[_ddFocusIdx]) {
+      const m = items[_ddFocusIdx].dataset.move;
+      if(m && team[si]) {
+        team[si].moves[mi] = m;
+        if(!moveData[m]) fetchMove(m);
+        saveSession();
+        moveDdClose(ddId);
+        renderConfig();
+        renderRight();
+      }
+    }
+  } else if(e.key === 'Escape') {
+    const inp = document.getElementById(ddId+'-inp');
+    if(inp) inp.value = team[si]?.moves[mi] || '';
+    moveDdClose(ddId);
+  }
+}
+
+function moveDdHighlight(list, items) {
+  items.forEach((el,i) => el.classList.toggle('focused', i===_ddFocusIdx));
+  if(items[_ddFocusIdx]) items[_ddFocusIdx].scrollIntoView({block:'nearest'});
+}
+
+function moveDdClose(ddId) {
+  const list = document.getElementById(ddId+'-list');
+  if(list) list.classList.remove('open');
+  // Remove open styling from card
+  const inp = document.getElementById(ddId+'-inp');
+  const card = inp?.closest('.move-entry');
+  if(card) card.classList.remove('dd-open');
+  if(_ddActive === ddId) _ddActive = null;
+}
+
+// Close any open dropdown on outside click
+document.addEventListener('mousedown', function(e) {
+  if(!_ddActive) return;
+  const list = document.getElementById(_ddActive+'-list');
+  const inp = document.getElementById(_ddActive+'-inp');
+  if(list && !list.contains(e.target) && inp && !inp.contains(e.target)) {
+    moveDdClose(_ddActive);
+  }
+});
+
+
 
 function clearMove(si, mi) {
   if(!team[si]) return;
@@ -1645,6 +1955,43 @@ function clearMove(si, mi) {
 }
 
 function updSP(si, sk, val) {
+  if(!team[si]) return;
+  // Don't clamp while typing — only on blur/commit
+  const raw = parseInt(val);
+  if(isNaN(raw)) return; // still typing
+  let v = Math.max(0, Math.min(SP_MAX_STAT, raw));
+  team[si].sps[sk] = v;
+  const tot = Object.values(team[si].sps).reduce((a,b)=>a+b,0);
+  if(tot > SP_MAX_TOTAL) { team[si].sps[sk] = Math.max(0, v-(tot-SP_MAX_TOTAL)); v = team[si].sps[sk]; }
+  saveSession();
+  // Update DOM directly without full re-render
+  const s = team[si];
+  const p = s.pokemon;
+  const nat = NATURES.find(n=>n.n===s.nature)||NATURES[3];
+  const base = (p.stats&&p.stats[sk])||50;
+  const calc = calcStat(sk, base, v, nat);
+  const pct = Math.round((v/SP_MAX_STAT)*100);
+  // Update bar
+  const bar = document.querySelector(`[data-sp-bar="${sk}"]`);
+  if(bar) { bar.style.width=pct+'%'; }
+  // Update calc display
+  const calcEl = document.querySelector(`[data-sp-calc="${sk}"]`);
+  if(calcEl) calcEl.textContent = calc;
+  // Update input border color
+  const inp = document.querySelector(`[data-sp-inp="${sk}"]`);
+  if(inp) inp.style.borderColor = v>0 ? (STAT_C[sk]+'60') : 'var(--border2)';
+  // Update total counter
+  const totEl = document.getElementById('spTotalCount');
+  const newTot = Object.values(s.sps).reduce((a,b)=>a+b,0);
+  if(totEl) {
+    totEl.textContent = newTot+'/'+SP_MAX_TOTAL;
+    totEl.className = newTot>SP_MAX_TOTAL?'ev-counter over':newTot>55?'ev-counter warn':'ev-counter ok';
+  }
+  renderRight();
+}
+
+function commitSP(si, sk, val) {
+  // Called on blur — final validation
   if(!team[si]) return;
   let v = Math.max(0, Math.min(SP_MAX_STAT, parseInt(val)||0));
   team[si].sps[sk] = v;
@@ -1885,8 +2232,144 @@ function doImport() {
 }
 
 // ══════════════════════════════════════════════════════════
-// SESSION SAVE / LOAD  (localStorage — stays on user's machine)
+// SAVED TEAMS  (multiple named teams in localStorage)
 // ══════════════════════════════════════════════════════════
+const SAVED_TEAMS_KEY = 'cb-saved-teams-v1';
+
+function getSavedTeams() {
+  try { return JSON.parse(localStorage.getItem(SAVED_TEAMS_KEY)) || []; } catch(e){ return []; }
+}
+
+function persistSavedTeams(teams) {
+  try { localStorage.setItem(SAVED_TEAMS_KEY, JSON.stringify(teams)); } catch(e){}
+}
+
+function openSavedTeams() {
+  renderSavedTeamsList();
+  document.getElementById('savedTeamsModal').classList.add('open');
+  // reset input
+  const inp = document.getElementById('savedTeamName');
+  inp.value = '';
+  // suggest name based on team members
+  const names = team.filter(Boolean).map(s => s.pokemon.name.replace(/-/g,' '));
+  if(names.length) inp.placeholder = names.slice(0,2).map(n=>n.charAt(0).toUpperCase()+n.slice(1)).join(' & ') + '...';
+  else inp.placeholder = 'Team name...';
+}
+
+function closeSavedTeams() {
+  document.getElementById('savedTeamsModal').classList.remove('open');
+}
+
+function renderSavedTeamsList() {
+  const saved = getSavedTeams();
+  const el = document.getElementById('savedTeamsList');
+  const isPt = lang === 'pt';
+  if(!saved.length) {
+    el.innerHTML = `<div class="st-empty-state">${isPt ? 'Nenhum time salvo ainda.' : 'No saved teams yet.'}</div>`;
+    return;
+  }
+  el.innerHTML = saved.map((t, idx) => {
+    const slots = t.slots || [];
+    const spritesHtml = Array(6).fill(null).map((_, i) => {
+      const s = slots[i];
+      if(s && s.sprite) return `<img src="${s.sprite}" alt="${s.name}" title="${s.name}">`;
+      return `<div class="st-empty"></div>`;
+    }).join('');
+    const count = slots.filter(Boolean).length;
+    const date = t.savedAt ? new Date(t.savedAt).toLocaleDateString() : '';
+    return `<div class="saved-team-row" onclick="loadSavedTeam(${idx})">
+      <div class="saved-team-sprites">${spritesHtml}</div>
+      <div class="saved-team-info">
+        <div class="saved-team-name">${t.name}</div>
+        <div class="saved-team-meta">${count} Pokémon${date ? ' · ' + date : ''}</div>
+      </div>
+      <span class="saved-team-del" onclick="deleteSavedTeam(${idx});event.stopPropagation()">✕</span>
+    </div>`;
+  }).join('');
+}
+
+function saveCurrentTeam() {
+  const filled = team.filter(Boolean);
+  if(!filled.length) {
+    alert(lang==='pt'?'Seu time está vazio!':'Your team is empty!');
+    return;
+  }
+  const inp = document.getElementById('savedTeamName');
+  const name = inp.value.trim() ||
+    filled.slice(0,2).map(s=>s.pokemon.name.charAt(0).toUpperCase()+s.pokemon.name.slice(1)).join(' & ');
+
+  const snapshot = team.map(s => {
+    if(!s) return null;
+    return {
+      pokemonId: s.pokemon.id,
+      pokemonName: s.pokemon.name,
+      sprite: s.pokemon.sprite,
+      name: s.pokemon.name,
+      nature: s.nature,
+      item: s.item,
+      sps: {...s.sps},
+      moves: [...s.moves],
+      ability: s.ability
+    };
+  });
+
+  const saved = getSavedTeams();
+  saved.unshift({ name, slots: snapshot, savedAt: Date.now() });
+  // keep max 30 saved teams
+  if(saved.length > 30) saved.pop();
+  persistSavedTeams(saved);
+  inp.value = '';
+  renderSavedTeamsList();
+
+  // flash feedback
+  const btn = document.getElementById('txt-saved-save');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Saved!';
+  btn.style.background = 'var(--green)';
+  btn.style.color = '#000';
+  setTimeout(()=>{ btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1500);
+}
+
+function loadSavedTeam(idx) {
+  const saved = getSavedTeams();
+  const t = saved[idx];
+  if(!t) return;
+  const slots = t.slots || [];
+  const newTeam = Array(6).fill(null);
+  slots.forEach((s, i) => {
+    if(!s) return;
+    const poke = db.find(p => p.id === s.pokemonId || p.name === s.pokemonName);
+    if(!poke) return;
+    newTeam[i] = {
+      pokemon: poke,
+      nature: s.nature || 'Adamant',
+      item: s.item || 'None',
+      sps: s.sps || {hp:0,attack:0,defense:0,'special-attack':0,'special-defense':0,speed:0},
+      moves: s.moves || ['','','',''],
+      ability: s.ability || poke.abilities?.[0] || ''
+    };
+  });
+  team = newTeam;
+  activeSlot = 0;
+  closeSavedTeams();
+  saveSession();
+  renderTeamBar(); renderMobStrip(); renderConfig(); renderBrowser(); renderRight();
+}
+
+function deleteSavedTeam(idx) {
+  const saved = getSavedTeams();
+  saved.splice(idx, 1);
+  persistSavedTeams(saved);
+  renderSavedTeamsList();
+}
+
+// Close saved teams modal on backdrop click
+document.addEventListener('click', function(e) {
+  const modal = document.getElementById('savedTeamsModal');
+  if(modal && e.target === modal) closeSavedTeams();
+});
+
+
 function saveSession() {
   try {
     const data = team.map(s => {
@@ -1940,6 +2423,7 @@ function applyNewButtonStrings() {
   set('txt-btn-learn', isPt?'📚 Aprender VGC':'📚 Learn VGC');
   set('txt-btn-calc',  isPt?'⚔ Calc Dano':'⚔ Damage Calc');
   set('txt-btn-import',isPt?'↓ Importar':'↓ Import');
+  set('txt-btn-saved', isPt?'💾 Salvos':'💾 Saved');
   set('txt-clear',     isPt?'Limpar':'Clear');
   set('txt-export',    isPt?'Exportar':'Export');
   set('langBtn',       isPt?'🌐 EN':'🌐 PT');
@@ -1947,6 +2431,7 @@ function applyNewButtonStrings() {
   set('mob-btn-learn', isPt?'📚 Aprender VGC':'📚 Learn VGC');
   set('mob-btn-calc',  isPt?'⚔ Calc Dano':'⚔ Damage Calc');
   set('mob-btn-import',isPt?'↓ Importar':'↓ Import');
+  set('mob-btn-saved', isPt?'💾 Times Salvos':'💾 Saved Teams');
   // langBtnMob sincronizado com langBtn
   set('langBtnMob', isPt?'🌐 EN':'🌐 PT');
   set('mob-clear',     isPt?'🗑 Limpar Time':'🗑 Clear Team');
@@ -1956,6 +2441,9 @@ function applyNewButtonStrings() {
   set('txt-import-hint',  isPt?'Cole o texto exportado abaixo:':'Paste exported text below:');
   set('txt-import-cancel',isPt?'Cancelar':'Cancel');
   set('txt-import-do',    isPt?'Importar':'Import');
+  // Saved Teams modal
+  set('txt-saved-title', isPt?'Times Salvos':'Saved Teams');
+  set('txt-saved-save',  isPt?'Salvar Time':'Save Current');
 }
 
 // ── MOBILE MENU ──
