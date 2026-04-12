@@ -180,6 +180,34 @@ h1{font-family:'Syne';font-size:28px;font-weight:800;margin-bottom:4px;
   </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6418906741315483"
        crossorigin="anonymous"></script>
+
+<style>
+.ad-banner-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0d0d12;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+/* Mobile: 320x50, acima das abas de navegação */
+@media (max-width: 768px) {
+  .ad-banner-wrap {
+    bottom: 58px; /* altura das abas mobile */
+  }
+  .ad-mobile { display: flex; }
+  .ad-desktop { display: none; }
+}
+/* Desktop: 728x90 no rodapé */
+@media (min-width: 769px) {
+  .ad-mobile { display: none; }
+  .ad-desktop { display: flex; }
+}
+</style>
 </head>
 <body>
 
@@ -904,5 +932,24 @@ document.addEventListener('click',function(e){
 });
 
 </script>
+
+<div class="ad-banner-wrap">
+  <!-- Mobile 320x50 -->
+  <div class="ad-mobile">
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:320px;height:50px"
+         data-ad-client="ca-pub-6418906741315483"
+         data-ad-slot="2095905246"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <!-- Desktop 728x90 -->
+  <div class="ad-desktop">
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-6418906741315483"
+         data-ad-slot="9782823577"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
 </body>
 </html>
