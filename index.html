@@ -1486,7 +1486,7 @@ const CHAMPIONS_SET = new Set([
   // #663 Talonflame · #666 Vivillon · #670 Floette · #671 Florges
   'talonflame','vivillon','floette','florges',
   // #675 Pangoro · #676 Furfrou · #678 Meowstic · #681 Aegislash
-  'pangoro','furfrou','meowstic','aegislash',
+  'pangoro','furfrou','meowstic','aegislash','aegislash-shield','aegislash-blade',
   // #683 Aromatisse · #685 Slurpuff · #693 Clawitzer · #695 Heliolisk
   'aromatisse','slurpuff','clawitzer','heliolisk',
   // #697 Tyrantrum · #699 Aurorus · #700 Sylveon
@@ -1680,6 +1680,7 @@ async function loadAltForms() {
     'goodra-hisui','avalugg-hisui','decidueye-hisui',
     'tauros-paldea-combat','lycanroc-midday','lycanroc-midnight','lycanroc-dusk',
     'palafin-hero',
+    'aegislash-shield','aegislash-blade',
   ];
 
   await Promise.all(CHAMPIONS_REGIONALS.map(async name => {
