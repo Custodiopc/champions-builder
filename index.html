@@ -1505,7 +1505,7 @@ const CHAMPIONS_SET = new Set([
   // #748 Toxapex · #750 Mudsdale · #752 Araquanid · #758 Salazzle
   'toxapex','mudsdale','araquanid','salazzle',
   // #763 Tsareena · #765 Oranguru · #766 Passimian · #778 Mimikyu
-  'tsareena','oranguru','passimian','mimikyu',
+  'tsareena','oranguru','passimian','mimikyu','mimikyu-disguised',
   // #780 Drampa · #784 Kommo-o
   'drampa','kommo-o',
   // Gen 8
@@ -1681,6 +1681,7 @@ async function loadAltForms() {
     'tauros-paldea-combat','lycanroc-midday','lycanroc-midnight','lycanroc-dusk',
     'palafin-hero',
     'aegislash-shield','aegislash-blade',
+    'mimikyu-disguised',
   ];
 
   await Promise.all(CHAMPIONS_REGIONALS.map(async name => {
@@ -1990,6 +1991,9 @@ function addToSlot(id) {
 
   saveSession();
   renderTeamBar();renderConfig();renderBrowser();renderRight();
+
+  // Pre-fetch move type data so type pills show in dropdown
+  (p.moves||[]).forEach(m => { if(m && !moveData[m]) fetchMove(m); });
 }
 
 // ══════════════════════════════════════════════════════════
@@ -2348,9 +2352,14 @@ function moveDdPopulate(ddId, si, query) {
     const curMove = s.moves[mi] || '';
     list.innerHTML = filtered.map((m,i) => {
       const isSel = m === curMove;
+      const md = moveData[m];
+      const typePill = md && md.type
+        ? `<span style="font-size:10px;padding:1px 6px;border-radius:3px;background:${TC[md.type]||'#888'}25;color:${TC[md.type]||'#888'};border:1px solid ${TC[md.type]||'#888'}44;flex-shrink:0">${T.types[md.type]||md.type}</span>`
+        : '';
       return `<div class="move-dd-item${isSel?' selected':''}" data-move="${m}" data-idx="${i}"
+        style="display:flex;align-items:center;justify-content:space-between;gap:6px"
         onmousedown="moveDdSelect(event,'${ddId}',${si},${mi},'${m.replace(/'/g,"\\'")}')"
-      >${m.replace(/-/g,' ')}</div>`;
+      ><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.replace(/-/g,' ')}</span>${typePill}</div>`;
     }).join('');
   }
 
