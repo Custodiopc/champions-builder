@@ -1465,6 +1465,7 @@ const CHAMPIONS_SET = new Set([
   'rhyperior','leafeon','glaceon','gliscor',
   // #473 Mamoswine · #475 Gallade · #478 Froslass · #479 Rotom
   'mamoswine','gallade','froslass','rotom',
+  'rotom-heat','rotom-wash','rotom-frost','rotom-fan','rotom-mow',
   // Gen 5
   // #497 Serperior · #500 Emboar · #503 Samurott (Unova + Hisui)
   'serperior','emboar','samurott','samurott-hisui',
@@ -1682,6 +1683,7 @@ async function loadAltForms() {
     'palafin-hero',
     'aegislash-shield','aegislash-blade',
     'mimikyu-disguised',
+    'rotom-heat','rotom-wash','rotom-frost','rotom-fan','rotom-mow',
   ];
 
   await Promise.all(CHAMPIONS_REGIONALS.map(async name => {
