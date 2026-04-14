@@ -1,4 +1,3 @@
-// api/ocr.js — Vercel Serverless Function
 import Tesseract from 'tesseract.js';
 import sharp from 'sharp';
 
@@ -13,7 +12,7 @@ function fmove(t){if(!t)return t;const tl=t.trim();const ex=MOVES.find(m=>m.toLo
 function fab(t){if(!t)return t;const tl=t.trim();const ex=ABILITIES.find(a=>a.toLowerCase()===tl.toLowerCase());if(ex)return ex;return best(tl,ABILITIES,3)||tl;}
 function fpoke(t){if(!t)return null;const tl=t.trim();for(const p of POKEMON)if(p.toLowerCase()===tl.toLowerCase())return p;return best(tl,POKEMON,3);}
 
-const CARDS = [
+const CARDS=[
   {x1:.030,y1:.175,x2:.490,y2:.415},
   {x1:.510,y1:.175,x2:.970,y2:.415},
   {x1:.030,y1:.430,x2:.490,y2:.670},
@@ -22,78 +21,73 @@ const CARDS = [
   {x1:.510,y1:.685,x2:.970,y2:.925},
 ];
 
-async function cropOCR(buf, rx1, ry1, rx2, ry2) {
-  const meta = await sharp(buf).metadata();
-  const W = meta.width, H = meta.height;
-  const left   = Math.round(rx1 * W);
-  const top    = Math.round(ry1 * H);
-  const width  = Math.round((rx2 - rx1) * W);
-  const height = Math.round((ry2 - ry1) * H);
-  const cropped = await sharp(buf)
-    .extract({ left, top, width, height })
-    .resize({ width: width * 3, height: height * 3 })
-    .grayscale()
-    .normalize()
-    .sharpen()
-    .png()
-    .toBuffer();
-  const { data } = await Tesseract.recognize(cropped, 'eng', {
-    tessedit_pageseg_mode: '6',
-    preserve_interword_spaces: '1',
-  });
+// OCR one region of an image buffer
+async function ocrRegion(buf, meta, rx1, ry1, rx2, ry2) {
+  const left=Math.round(rx1*meta.width), top=Math.round(ry1*meta.height);
+  const width=Math.round((rx2-rx1)*meta.width), height=Math.round((ry2-ry1)*meta.height);
+  const img = await sharp(buf)
+    .extract({left,top,width,height})
+    .resize({width:width*2, height:height*2})  // 2x only — faster than 3x
+    .grayscale().normalize().sharpen().png().toBuffer();
+  const {data} = await Tesseract.recognize(img,'eng',{tessedit_pageseg_mode:'6'});
   return data.text;
 }
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if(req.method!=='POST') return res.status(405).json({error:'Method not allowed'});
   try {
-    const { imgA, imgB } = req.body;
-    if (!imgA || !imgB) return res.status(400).json({ error: 'Missing images' });
+    const {imgA,imgB} = req.body;
+    if(!imgA||!imgB) return res.status(400).json({error:'Missing images'});
 
-    const bufA = Buffer.from(imgA.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-    const bufB = Buffer.from(imgB.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+    const bufA=Buffer.from(imgA.replace(/^data:image\/\w+;base64,/,''),'base64');
+    const bufB=Buffer.from(imgB.replace(/^data:image\/\w+;base64,/,''),'base64');
 
-    const [moveSlots, statSlots] = await Promise.all([
-      Promise.all(CARDS.map(async (cb, i) => {
-        const mid = cb.x1 + (cb.x2 - cb.x1) * 0.50;
-        const [lt, rt] = await Promise.all([
-          cropOCR(bufA, cb.x1, cb.y1, mid, cb.y2),
-          cropOCR(bufA, mid, cb.y1, cb.x2, cb.y2),
-        ]);
-        const ll = lt.split('\n').map(l=>clean(l)).filter(l=>l.length>1);
-        const rl = rt.split('\n').map(l=>clean(l)).filter(l=>l.length>2&&!/^\d+$/.test(l));
-        return {
-          slot: i+1,
-          name: fpoke(ll[0]||'')||(ll[0]||''),
-          ability: fab(ll[1]||''),
-          item: ll[2]||'',
-          moves: rl.slice(0,4).map(m=>fmove(m)).filter(Boolean),
-        };
-      })),
-      Promise.all(CARDS.map(async (cb, i) => {
-        const mid = cb.x1 + (cb.x2 - cb.x1) * 0.50;
-        const [lt, rt] = await Promise.all([
-          cropOCR(bufB, cb.x1, cb.y1, mid, cb.y2),
-          cropOCR(bufB, mid, cb.y1, cb.x2, cb.y2),
-        ]);
-        const lastNum = l => { const ms=clean(l).match(/\d+/g); return ms?parseInt(ms[ms.length-1]):0; };
-        const ll = lt.split('\n').filter(l=>l.match(/\d{2,3}/));
-        const rl = rt.split('\n').filter(l=>l.match(/\d{2,3}/));
-        const stats = {};
-        const hp=lastNum(ll[0]||'');  if(hp>0&&hp<=32)  stats.hp=hp;
-        const atk=lastNum(ll[1]||''); if(atk>0&&atk<=32) stats.atk=atk;
-        const def=lastNum(ll[2]||''); if(def>0&&def<=32) stats.def=def;
-        const spa=lastNum(rl[0]||''); if(spa>0&&spa<=32) stats.spa=spa;
-        const spd=lastNum(rl[1]||''); if(spd>0&&spd<=32) stats.spd=spd;
-        const spe=lastNum(rl[2]||''); if(spe>0&&spe<=32) stats.spe=spe;
-        return { slot: i+1, stats };
-      })),
-    ]);
+    // Get metadata once
+    const [metaA,metaB]=await Promise.all([sharp(bufA).metadata(),sharp(bufB).metadata()]);
 
-    const team = moveSlots.map((ms, i) => ({ ...ms, stats: statSlots[i]?.stats||{} }));
-    res.status(200).json({ team });
+    // Process cards SEQUENTIALLY to avoid overwhelming Tesseract (4 cards at a time)
+    const moveSlots=[], statSlots=[];
+
+    for(let i=0;i<6;i++){
+      const cb=CARDS[i];
+      const mid=cb.x1+(cb.x2-cb.x1)*0.50;
+
+      const [lt,rt,sl,sr]=await Promise.all([
+        ocrRegion(bufA,metaA, cb.x1,cb.y1, mid,cb.y2),
+        ocrRegion(bufA,metaA, mid,cb.y1, cb.x2,cb.y2),
+        ocrRegion(bufB,metaB, cb.x1,cb.y1, mid,cb.y2),
+        ocrRegion(bufB,metaB, mid,cb.y1, cb.x2,cb.y2),
+      ]);
+
+      // Parse moves
+      const ll=lt.split('\n').map(l=>clean(l)).filter(l=>l.length>1);
+      const rl=rt.split('\n').map(l=>clean(l)).filter(l=>l.length>2&&!/^\d+$/.test(l));
+      moveSlots.push({
+        slot:i+1,
+        name:fpoke(ll[0]||'')||(ll[0]||''),
+        ability:fab(ll[1]||''),
+        item:ll[2]||'',
+        moves:rl.slice(0,4).map(m=>fmove(m)).filter(Boolean),
+      });
+
+      // Parse stats
+      const lastNum=l=>{const ms=clean(l).match(/\d+/g);return ms?parseInt(ms[ms.length-1]):0;};
+      const sll=sl.split('\n').filter(l=>l.match(/\d{2,3}/));
+      const srl=sr.split('\n').filter(l=>l.match(/\d{2,3}/));
+      const stats={};
+      const hp=lastNum(sll[0]||'');  if(hp>0&&hp<=32)  stats.hp=hp;
+      const atk=lastNum(sll[1]||''); if(atk>0&&atk<=32) stats.atk=atk;
+      const def=lastNum(sll[2]||''); if(def>0&&def<=32) stats.def=def;
+      const spa=lastNum(srl[0]||''); if(spa>0&&spa<=32) stats.spa=spa;
+      const spd=lastNum(srl[1]||''); if(spd>0&&spd<=32) stats.spd=spd;
+      const spe=lastNum(srl[2]||''); if(spe>0&&spe<=32) stats.spe=spe;
+      statSlots.push({slot:i+1,stats});
+    }
+
+    const team=moveSlots.map((ms,i)=>({...ms,stats:statSlots[i]?.stats||{}}));
+    res.status(200).json({team});
   } catch(e) {
     console.error(e);
-    res.status(500).json({ error: e.message||'OCR failed' });
+    res.status(500).json({error:e.message||'OCR failed'});
   }
 }
