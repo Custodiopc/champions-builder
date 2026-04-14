@@ -1518,7 +1518,7 @@ const CHAMPIONS_SET = new Set([
   'alcremie','morpeko','dragapult',
   // Gen 8 Hisui/Legends
   // #899 Wyrdeer · #900 Kleavor · #902 Basculegion · #903 Sneasler
-  'wyrdeer','kleavor','basculegion','sneasler',
+  'wyrdeer','kleavor','basculegion','basculegion-male','basculegion-female','sneasler',
   // Gen 9
   // #908 Meowscarada · #911 Skeledirge · #914 Quaquaval
   'meowscarada','skeledirge','quaquaval',
@@ -1684,6 +1684,7 @@ async function loadAltForms() {
     'aegislash-shield','aegislash-blade',
     'mimikyu-disguised',
     'rotom-heat','rotom-wash','rotom-frost','rotom-fan','rotom-mow',
+    'basculegion-male','basculegion-female',
   ];
 
   await Promise.all(CHAMPIONS_REGIONALS.map(async name => {
