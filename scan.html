@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Scanner — Champions Builder</title>
+<meta name="description" content="Free Pokémon Champions team scanner. Upload screenshots, extract your team automatically.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d0d12'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='22' font-family='system-ui'>%E2%9A%A1%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PCXS1WKPE9"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PCXS1WKPE9');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6418906741315483" crossorigin="anonymous"></script>
+<style>
+:root{--bg:#0d0d12;--s1:#13131a;--s2:#1a1a24;--s3:#22222f;--border:rgba(255,255,255,0.07);--text:#e8e8f0;--dim:#6b6b80;--gold:#f5c842;--gold2:#e8a800;--green:#4caf7d;--red:#e05c5c;--accent:#7c6fff;--r:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding-bottom:120px;}
+.topbar{background:var(--s1);border-bottom:1px solid var(--border);padding:0 16px;height:52px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
+.topbar a.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--gold);text-decoration:none;}
+.topbar a.logo span{color:var(--text);}
+.nav{display:flex;gap:4px;margin-left:auto;}
+.nav a{color:var(--dim);text-decoration:none;font-size:13px;padding:6px 10px;border-radius:6px;transition:all .15s;}
+.nav a:hover,.nav a.on{color:var(--text);background:var(--s3);}
+.nav a.on{color:var(--gold);}
+.main{max-width:800px;margin:0 auto;padding:24px 16px;}
+h1{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;margin-bottom:6px;}
+h1 em{color:var(--gold);font-style:normal;}
+.sub{color:var(--dim);font-size:14px;margin-bottom:20px;}
+.info{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--dim);margin-bottom:24px;display:flex;gap:8px;align-items:flex-start;}
+.info span{color:var(--text);}
+.steps{display:flex;gap:8px;margin-bottom:24px;align-items:center;}
+.stp{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--dim);}
+.stp.on{color:var(--text);}.stp.done{color:var(--green);}
+.sn{width:22px;height:22px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.stp.on .sn{background:var(--gold);color:#000;}.stp.done .sn{background:var(--green);color:#000;}
+.sx{color:var(--s3);font-size:18px;}
+.ugrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+@media(max-width:480px){.ugrid{grid-template-columns:1fr;}}
+.uz{border:2px dashed var(--border);border-radius:var(--r);padding:20px 16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--s1);position:relative;min-height:165px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.uz:hover{border-color:var(--gold);background:var(--s2);}
+.uz.ok{border-color:var(--green);border-style:solid;padding:0;overflow:hidden;}
+.uz.drag{border-color:var(--gold);background:var(--s3);}
+.uz img.prev{width:100%;height:100%;object-fit:cover;min-height:165px;max-height:220px;border-radius:10px;}
+.rmv{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.75);border:none;color:#fff;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2;}
+.uicon{font-size:28px;}.ulbl{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;}
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;margin-bottom:6px;font-family:'Inter',sans-serif;font-weight:600;}
+.bm{background:#7c6fff22;color:var(--accent);border:1px solid #7c6fff44;}
+.bst{background:#4caf7d22;color:var(--green);border:1px solid #4caf7d44;}
+.uhint{font-size:11px;color:var(--dim);}
+input[type=file]{display:none;}
+.arow{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.btn{display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .15s;flex:1;justify-content:center;min-width:130px;}
+.bp{background:var(--gold);color:#000;}.bp:hover{background:var(--gold2);}
+.bp:disabled{background:var(--s3);color:var(--dim);cursor:not-allowed;}
+.bs{background:var(--s2);color:var(--text);border:1px solid var(--border);}.bs:hover{background:var(--s3);border-color:var(--gold);}
+.bg{background:transparent;color:var(--dim);border:1px solid var(--border);}.bg:hover{color:var(--text);border-color:var(--dim);}
+.bgr{background:var(--green);color:#000;}.bgr:hover{background:#3da368;}
+.lbar{display:none;background:var(--s2);border-radius:8px;padding:20px;text-align:center;margin-bottom:20px;border:1px solid var(--border);}
+.lbar.on{display:block;}
+.spin{width:36px;height:36px;border:3px solid var(--s3);border-top-color:var(--gold);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 12px;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.ltxt{color:var(--dim);font-size:14px;}.lstp{color:var(--gold);font-size:12px;margin-top:6px;font-family:'JetBrains Mono',monospace;}
+.lprog{height:4px;background:var(--s3);border-radius:2px;margin-top:12px;overflow:hidden;}
+.lpf{height:100%;background:var(--gold);border-radius:2px;transition:width .4s ease;width:0%;}
+.ebox{background:#e05c5c15;border:1px solid #e05c5c44;border-radius:8px;padding:14px 16px;color:var(--red);font-size:13px;margin-bottom:20px;display:none;gap:10px;align-items:flex-start;}
+.ebox.on{display:flex;}
+.rsec{display:none;}.rsec.on{display:block;}
+.rhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap;}
+.rtit{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;}
+.rcnt{font-size:12px;color:var(--dim);background:var(--s2);padding:3px 10px;border-radius:20px;}
+.vtog{display:flex;gap:4px;background:var(--s2);border-radius:8px;padding:3px;}
+.vbtn{padding:5px 12px;border-radius:6px;border:none;background:transparent;color:var(--dim);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+.vbtn.on{background:var(--s3);color:var(--text);}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:16px;}
+.pcard{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px;}
+.pcn{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--gold);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.pci{color:var(--dim);font-size:11px;margin-bottom:4px;}.pca{color:var(--green);font-size:11px;margin-bottom:6px;}
+.pcm div{color:var(--dim);font-size:12px;line-height:1.7;}.pcm div::before{content:'— ';color:var(--s3);}
+.pcs{color:#fb923c;font-size:11px;margin-top:6px;font-family:'JetBrains Mono',monospace;}
+.bok{color:var(--green);font-size:10px;}.bwarn{color:#fb923c;font-size:10px;}
+textarea.ted{width:100%;background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:18px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:var(--text);resize:vertical;min-height:220px;outline:none;margin-bottom:14px;}
+textarea.ted:focus{border-color:var(--gold);}
+.ract{display:flex;gap:10px;flex-wrap:wrap;}
+.svp{display:none;background:var(--s2);border:1px solid #f5c84244;border-radius:var(--r);padding:18px;margin-top:16px;gap:14px;align-items:center;}
+.svp.on{display:flex;}
+@media(max-width:480px){.svp{flex-direction:column;align-items:stretch;}}
+.svpt{flex:1;}.svpt strong{display:block;font-family:'Syne',sans-serif;font-weight:700;margin-bottom:2px;}.svpt span{font-size:12px;color:var(--dim);}
+.svpa{display:flex;gap:8px;}
+.tips{background:var(--s1);border-radius:var(--r);border:1px solid var(--border);padding:16px;margin-top:28px;}
+.tips h3{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:10px;color:var(--gold);}
+.tips ul{padding-left:16px;}.tips li{font-size:12px;color:var(--dim);line-height:1.9;}.tips li span{color:var(--text);}
+.mover{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;padding:16px;}
+.mover.on{display:flex;}
+.modal{background:var(--s1);border-radius:var(--r);border:1px solid var(--border);padding:24px;max-width:480px;width:100%;}
+.mtit{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;}
+.msub{color:var(--dim);font-size:13px;margin-bottom:14px;}
+.mdots{display:flex;gap:8px;margin-bottom:14px;}
+.mdot{flex:1;height:4px;border-radius:2px;background:var(--s3);}
+.mdot.on{background:var(--gold);}.mdot.done{background:var(--green);}
+video{width:100%;border-radius:8px;background:#000;max-height:280px;object-fit:cover;}
+.mact{display:flex;gap:10px;margin-top:14px;}
+.adwrap{position:fixed;bottom:0;left:0;right:0;z-index:9999;display:flex;justify-content:center;align-items:center;background:var(--bg);border-top:1px solid var(--border);}
+@media(max-width:768px){.adm{display:flex;}.add{display:none;}}
+@media(min-width:769px){.adm{display:none;}.add{display:flex;}}
+.flash{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green);color:#000;padding:10px 20px;border-radius:8px;font-weight:700;font-size:14px;opacity:0;transition:all .3s;pointer-events:none;z-index:300;}
+.flash.on{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <a href="/" class="logo">⚡ <span>Champions</span> Builder</a>
+  <div class="nav">
+    <a href="/">Builder</a><a href="/calc.html">Calc</a><a href="/learn.html">Learn</a>
+    <a href="/scan.html" class="on">Scanner</a>
+  </div>
+</nav>
+<div class="main">
+  <h1>Team <em>Scanner</em></h1>
+  <p class="sub">Upload your Pokémon Champions screenshots and get your team in competitive format instantly. Free, runs in your browser.</p>
+  <div class="info">ℹ️ <div>OCR runs <span>locally in your browser</span> — no data sent anywhere. Uses <span>position-based parsing</span> tuned to the Champions UI layout for higher accuracy. Best with <span>direct screenshots</span> (not photos of the screen).</div></div>
+  <div class="steps">
+    <div class="stp on" id="s1"><div class="sn">1</div>Upload</div><div class="sx">›</div>
+    <div class="stp" id="s2"><div class="sn">2</div>Process</div><div class="sx">›</div>
+    <div class="stp" id="s3"><div class="sn">3</div>Export</div>
+  </div>
+  <div class="ugrid">
+    <div class="uz" id="zA" onclick="pick('A')">
+      <input type="file" id="fA" accept="image/*" onchange="got('A',this)">
+      <div class="uicon">🎮</div>
+      <div class="ulbl"><span class="badge bm">Moves & More</span><br>Pokémon · Moves · Items</div>
+      <div class="uhint">Tap to upload or drag & drop</div>
+    </div>
+    <div class="uz" id="zB" onclick="pick('B')">
+      <input type="file" id="fB" accept="image/*" onchange="got('B',this)">
+      <div class="uicon">📊</div>
+      <div class="ulbl"><span class="badge bst">Stats</span><br>HP · Atk · Def · Speed SPs</div>
+      <div class="uhint">Tap to upload or drag & drop</div>
+    </div>
+  </div>
+  <div class="arow">
+    <button class="btn bp" id="btnGo" onclick="go()" disabled style="flex:1">⚡ Generate Team</button>
+  </div>
+  <div class="lbar" id="lb">
+    <div class="spin"></div>
+    <div class="ltxt">Processing your team...</div>
+    <div class="lstp" id="lsm">Initializing OCR</div>
+    <div class="lprog"><div class="lpf" id="lpf"></div></div>
+  </div>
+  <div class="ebox" id="eb"><span>⚠️</span><span id="em"></span></div>
+  <div class="rsec" id="rs">
+    <div class="rhdr">
+      <div class="rtit">Your Team</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="rcnt" id="rc">6 Pokémon</span>
+        <div class="vtog">
+          <button class="vbtn on" id="vc" onclick="sv('cards')">Cards</button>
+          <button class="vbtn" id="vt" onclick="sv('text')">Text</button>
+        </div>
+      </div>
+    </div>
+    <div id="cv" class="cards"></div>
+    <div id="tv" style="display:none"><textarea class="ted" id="out" spellcheck="false"></textarea></div>
+    <div class="ract">
+      <button class="btn bp" onclick="cp()" style="flex:none;padding:10px 20px">📋 Copy Text</button>
+      <button class="btn bg" onclick="rst()" style="flex:none;padding:10px 16px">🔄 Scan Again</button>
+    </div>
+    <div class="svp" id="sp">
+      <div class="svpt">
+        <strong>💾 Save this team?</strong>
+        <span>Import into Champions Builder — appears in Saved Teams</span>
+      </div>
+      <div class="svpa">
+        <button class="btn bgr" onclick="saveT(event)" style="flex:none">Save Team</button>
+        <button class="btn bg" onclick="document.getElementById('sp').classList.remove('on')" style="flex:none;padding:10px 12px">✕</button>
+      </div>
+    </div>
+  </div>
+  <div class="tips">
+    <h3>📖 Tips for best results</h3>
+    <ul>
+      <li>Use <span>direct screenshots</span> from the Switch/game capture — not camera photos</li>
+      <li>Make sure <span>all 6 Pokémon</span> are visible in each screenshot</li>
+      <li>Screenshot <span>Moves & More</span> first, then <span>Stats</span></li>
+      <li>You can <span>edit the text output</span> directly to fix any errors before copying</li>
+    </ul>
+  </div>
+</div>
+<div class="mover" id="cm">
+  <div class="modal">
+    <div class="mtit">📸 Take Photo</div>
+    <div class="msub" id="ci">Point at the <strong>Moves & More</strong> screen</div>
+    <div class="mdots"><div class="mdot on" id="cd1"></div><div class="mdot" id="cd2"></div></div>
+    <video id="vid" autoplay playsinline muted></video>
+    <div class="mact">
+      <button class="btn bp" onclick="snap()" style="flex:1">📸 Capture</button>
+      <button class="btn bg" onclick="closeCam()" style="flex:none;padding:10px 14px">✕</button>
+    </div>
+  </div>
+</div>
+<div class="flash" id="fl">✓ Copied!</div>
+<div class="adwrap">
+  <div class="adm"><ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client="ca-pub-6418906741315483" data-ad-slot="2095905246"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+  <div class="add"><ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-6418906741315483" data-ad-slot="9782823577"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+</div>
+<script>
+// ═══════════════════════════════════════════════════
+// DICTIONARIES — for fuzzy matching post-OCR
+// ═══════════════════════════════════════════════════
+const MOVES=["Accelerock","Acid Spray","Acrobatics","Aerial Ace","After You","Agility","Air Cutter","Air Slash","Ally Switch","Amnesia","Ancient Power","Aqua Jet","Aqua Ring","Aqua Tail","Assurance","Attract","Aura Sphere","Aurora Veil","Avalanche","Baby Doll Eyes","Baton Pass","Beat Up","Belch","Belly Drum","Bite","Blizzard","Body Press","Body Slam","Boomburst","Bounce","Brave Bird","Breaking Swipe","Brick Break","Brutal Swing","Bug Buzz","Bulk Up","Bulldoze","Bullet Punch","Bullet Seed","Calm Mind","Charge Beam","Charm","Chilling Water","Circle Throw","Clear Smog","Close Combat","Coaching","Coil","Confuse Ray","Copycat","Counter","Crunch","Curse","Dark Pulse","Dazzling Gleam","Destiny Bond","Detect","Dig","Discharge","Dive","Double-Edge","Dragon Claw","Dragon Dance","Dragon Pulse","Dragon Rush","Dragon Tail","Drain Punch","Draining Kiss","Drill Run","Earth Power","Earthquake","Eerie Impulse","Electro Ball","Electroweb","Encore","Endeavor","Endure","Energy Ball","Explosion","Extrasensory","Facade","Fake Out","Fake Tears","Feint","Fire Blast","Fire Fang","Fire Punch","Fire Spin","Fissure","Flail","Flame Charge","Flamethrower","Flare Blitz","Flash Cannon","Fling","Flip Turn","Fly","Focus Blast","Focus Energy","Focus Punch","Follow Me","Foul Play","Freeze Dry","Frenzy Plant","Future Sight","Giga Drain","Giga Impact","Grass Knot","Grassy Glide","Grassy Terrain","Gravity","Growth","Gunk Shot","Gyro Ball","Hammer Arm","Hard Press","Haze","Head Smash","Heal Bell","Heat Crash","Heat Wave","Heavy Slam","Helping Hand","Hex","High Horsepower","High Jump Kick","Horn Leech","Hurricane","Hydro Cannon","Hydro Pump","Hyper Beam","Hyper Voice","Ice Beam","Ice Fang","Ice Hammer","Ice Punch","Ice Shard","Ice Spinner","Icicle Crash","Icicle Spear","Icy Wind","Infernal Parade","Inferno","Ingrain","Iron Defense","Iron Head","Iron Tail","Jet Punch","Kings Shield","Knock Off","Lash Out","Last Respects","Lava Plume","Leaf Blade","Leaf Storm","Leech Life","Leech Seed","Life Dew","Light Screen","Liquidation","Low Kick","Low Sweep","Mach Punch","Magic Room","Mean Look","Mega Kick","Megahorn","Memento","Metal Burst","Metal Sound","Meteor Beam","Mirror Coat","Misty Terrain","Moonblast","Moonlight","Morning Sun","Mortal Spin","Mud Shot","Mud-Slap","Muddy Water","Mystical Fire","Nasty Plot","Night Shade","Night Slash","Nuzzle","Outrage","Overheat","Pain Split","Parting Shot","Payback","Perish Song","Petal Dance","Phantom Force","Play Rough","Poison Jab","Pollen Puff","Poltergeist","Pounce","Power Whip","Protect","Psych Up","Psychic","Psychic Fangs","Psycho Cut","Psyshock","Quiver Dance","Rage Powder","Raging Bull","Rain Dance","Rapid Spin","Razor Shell","Recover","Reflect","Rest","Reversal","Rising Voltage","Roar","Rock Blast","Rock Slide","Rock Tomb","Role Play","Roost","Round","Sacred Sword","Safeguard","Sand Tomb","Sandstorm","Scale Shot","Scary Face","Scorching Sands","Screech","Seed Bomb","Shadow Ball","Shadow Claw","Shadow Sneak","Shell Smash","Skill Swap","Sleep Powder","Sleep Talk","Sludge Bomb","Sludge Wave","Smack Down","Smart Strike","Snarl","Snore","Snowscape","Solar Beam","Solar Blade","Spikes","Spiky Shield","Spirit Shackle","Spite","Stealth Rock","Steel Beam","Steel Wing","Stomping Tantrum","Stone Edge","Stored Power","Storm Throw","Strength Sap","Substitute","Sucker Punch","Sunny Day","Superpower","Surf","Swagger","Swords Dance","Synthesis","Tailwind","Taunt","Temper Flare","Terrain Pulse","Thief","Thrash","Throat Chop","Thunder","Thunder Fang","Thunder Punch","Thunder Wave","Thunderbolt","Tickle","Tidy Up","Torment","Toxic","Trailblaze","Trick","Trick Room","Triple Arrows","Triple Axel","U-Turn","Uproar","Venoshock","Volt Switch","Water Pulse","Water Spout","Waterfall","Wave Crash","Weather Ball","Whirlpool","Whirlwind","Wide Guard","Wild Charge","Will-O-Wisp","Wish","Wood Hammer","X-Scissor","Yawn","Zen Headbutt"];
+const ABILITIES=["Adaptability","Aerilate","Aftermath","Air Lock","Arena Trap","Bad Dreams","Battle Armor","Blaze","Bulletproof","Chlorophyll","Clear Body","Cloud Nine","Color Change","Competitive","Compound Eyes","Contrary","Corrosion","Curious Medicine","Cursed Body","Cute Charm","Dark Aura","Dauntless Shield","Defeatist","Defiant","Download","Drizzle","Drought","Dry Skin","Effect Spore","Electric Surge","Emergency Exit","Fairy Aura","Filter","Flame Body","Flash Fire","Flower Veil","Fluffy","Forecast","Friend Guard","Frisk","Full Metal Body","Fur Coat","Gale Wings","Gluttony","Good as Gold","Gorilla Tactics","Guts","Hadron Engine","Harvest","Heatproof","Huge Power","Hustle","Hyper Cutter","Ice Body","Ice Face","Ice Scales","Illusion","Immunity","Impostor","Infiltrator","Inner Focus","Insomnia","Intimidate","Intrepid Sword","Iron Barbs","Iron Fist","Justified","Keen Eye","Klutz","Leaf Guard","Levitate","Libero","Lightning Rod","Limber","Long Reach","Magic Bounce","Magic Guard","Magnet Pull","Marvel Scale","Mimicry","Mirror Armor","Mold Breaker","Moody","Motor Drive","Multiscale","Mummy","Natural Cure","Neutralizing Gas","No Guard","Oblivious","Opportunist","Overcoat","Overgrow","Own Tempo","Parental Bond","Pastel Veil","Pixilate","Poison Heal","Poison Point","Poison Touch","Power Construct","Prankster","Pressure","Primordial Sea","Protosynthesis","Psychic Surge","Punk Rock","Pure Power","Quark Drive","Quick Draw","Quick Feet","Rain Dish","Rattled","Reckless","Refrigerate","Regenerator","Rivalry","Rock Head","Rocky Payload","Rough Skin","Sand Force","Sand Rush","Sand Stream","Sand Veil","Sap Sipper","Scrappy","Screen Cleaner","Serene Grace","Shadow Shield","Shadow Tag","Shed Skin","Sheer Force","Simple","Skill Link","Slush Rush","Snow Warning","Solar Power","Solid Rock","Soul-Heart","Speed Boost","Stakeout","Stamina","Static","Steadfast","Steel Worker","Sticky Hold","Storm Drain","Sturdy","Suction Cups","Surge Surfer","Swarm","Swift Swim","Symbiosis","Synchronize","Technician","Telepathy","Thick Fat","Tinted Lens","Torrent","Tough Claws","Transistor","Truant","Unaware","Unburden","Unnerve","Volt Absorb","Water Absorb","Water Bubble","Weak Armor","White Smoke","Wimp Out","Wonder Guard","Wonder Skin","Zen Mode","Zero to Hero"];
+const POKEMON=["Abomasnow","Absol","Aegislash","Aerodactyl","Aggron","Alakazam","Alcremie","Altaria","Ampharos","Appletun","Araquanid","Arbok","Arcanine","Archaludon","Ariados","Armarouge","Aromatisse","Audino","Aurorus","Avalugg","Azumarill","Banette","Basculegion","Bastiodon","Beartic","Beedrill","Bellibolt","Blastoise","Camerupt","Castform","Ceruledge","Chandelure","Charizard","Chesnaught","Chimecho","Clawitzer","Clefable","Cofagrigus","Conkeldurr","Corviknight","Crabominable","Decidueye","Dedenne","Delphox","Diggersby","Ditto","Dragapult","Dragonite","Drampa","Emboar","Emolga","Empoleon","Espathra","Espeon","Excadrill","Farigiraf","Feraligatr","Flapple","Flareon","Floette","Florges","Forretress","Froslass","Furfrou","Gallade","Garbodor","Garchomp","Gardevoir","Garganacl","Gengar","Glaceon","Glalie","Glimmora","Gliscor","Golurk","Goodra","Gourgeist","Greninja","Gyarados","Hatterene","Hawlucha","Heliolisk","Heracross","Hippowdon","Houndoom","Hydrapple","Hydreigon","Incineroar","Infernape","Jolteon","Kangaskhan","Kingambit","Kleavor","Klefki","Kommo-o","Krookodile","Leafeon","Liepard","Lopunny","Lucario","Luxray","Lycanroc","Machamp","Mamoswine","Manectric","Maushold","Medicham","Meganium","Meowscarada","Meowstic","Milotic","Mimikyu","Morpeko","Mr. Rime","Mudsdale","Ninetales","Noivern","Oranguru","Orthworm","Palafin","Pangoro","Passimian","Pelipper","Pidgeot","Pikachu","Pinsir","Politoed","Polteageist","Primarina","Quaquaval","Raichu","Rampardos","Reuniclus","Rhyperior","Roserade","Rotom","Runerigus","Sableye","Salazzle","Samurott","Sandaconda","Scizor","Scovillain","Serperior","Sharpedo","Simipour","Simisage","Simisear","Sinistcha","Skarmory","Skeledirge","Slowbro","Slowking","Slurpuff","Sneasler","Snorlax","Spiritomb","Starmie","Steelix","Stunfisk","Sylveon","Talonflame","Tauros","Tinkaton","Torkoal","Torterra","Toucannon","Toxapex","Toxicroak","Trevenant","Tsareena","Typhlosion","Tyranitar","Tyrantrum","Umbreon","Vanilluxe","Vaporeon","Venusaur","Victreebel","Vivillon","Volcarona","Watchog","Weavile","Whimsicott","Wyrdeer","Zoroark"];
+
+// ═══════════════════════════════════════════════════
+// FUZZY MATCH (Levenshtein)
+// ═══════════════════════════════════════════════════
+function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;const dp=[];for(let i=0;i<=m;i++){dp[i]=[i];for(let j=1;j<=n;j++)dp[i][j]=i?0:j;}for(let j=1;j<=n;j++)dp[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);return dp[m][n];}
+function best(w,list,maxD){if(!w||w.length<2)return null;const wl=w.toLowerCase();let bst=null,bd=Infinity;for(const x of list){const d=lev(wl,x.toLowerCase());if(d<bd&&d<=maxD){bd=d;bst=x;}if(d===0)return x;}return bst;}
+function fmove(t){if(!t)return t;const tl=t.trim();const ex=MOVES.find(m=>m.toLowerCase()===tl.toLowerCase());if(ex)return ex;return best(tl,MOVES,Math.max(2,Math.floor(tl.length*.3)))||tl;}
+function fab(t){if(!t)return t;const tl=t.trim();const ex=ABILITIES.find(a=>a.toLowerCase()===tl.toLowerCase());if(ex)return ex;return best(tl,ABILITIES,3)||tl;}
+function fpoke(t){if(!t)return null;const tl=t.trim();for(const p of POKEMON)if(p.toLowerCase()===tl.toLowerCase())return p;return best(tl,POKEMON,3);}
+
+// ═══════════════════════════════════════════════════
+// LAYOUT CONSTANTS — Champions UI grid (relative to image size)
+// Tuned from actual 1456×816 screenshots
+// ═══════════════════════════════════════════════════
+// 6 cards: TL=1, TR=2, ML=3, MR=4, BL=5, BR=6
+// Card outer bounds (fraction of full image)
+const CARD_BOUNDS = [
+  {x1:.030,y1:.175,x2:.490,y2:.415}, // 1 TL
+  {x1:.510,y1:.175,x2:.970,y2:.415}, // 2 TR
+  {x1:.030,y1:.430,x2:.490,y2:.670}, // 3 ML
+  {x1:.510,y1:.430,x2:.970,y2:.670}, // 4 MR
+  {x1:.030,y1:.685,x2:.490,y2:.925}, // 5 BL
+  {x1:.510,y1:.685,x2:.970,y2:.925}, // 6 BR
+];
+
+// Within each card on Moves screen (relative to card bounds):
+const MOVES_ZONES = {
+  name:    {x1:.05,y1:.02,x2:.60,y2:.22},
+  ability: {x1:.05,y1:.28,x2:.60,y2:.48},
+  item:    {x1:.05,y1:.52,x2:.60,y2:.72},
+  move1:   {x1:.40,y1:.10,x2:.98,y2:.30},
+  move2:   {x1:.40,y1:.32,x2:.98,y2:.52},
+  move3:   {x1:.40,y1:.54,x2:.98,y2:.74},
+  move4:   {x1:.40,y1:.76,x2:.98,y2:.96},
+};
+
+// Within each card on Stats screen (relative to card bounds):
+const STATS_ZONES = {
+  name:    {x1:.05,y1:.02,x2:.60,y2:.20},
+  // Left column: HP, Attack, Defense
+  hp_val:  {x1:.50,y1:.22,x2:.72,y2:.38},  // base stat value (left of bar)
+  hp_sp:   {x1:.78,y1:.22,x2:.98,y2:.38},  // SP value (right of bar)
+  atk_val: {x1:.50,y1:.42,x2:.72,y2:.58},
+  atk_sp:  {x1:.78,y1:.42,x2:.98,y2:.58},
+  def_val: {x1:.50,y1:.62,x2:.72,y2:.78},
+  def_sp:  {x1:.78,y1:.62,x2:.98,y2:.78},
+  // Right column: Sp.Atk, Sp.Def, Speed  (these are in right half of card)
+  spa_val: {x1:.50,y1:.22,x2:.72,y2:.38},  // will use right-half crop
+  spa_sp:  {x1:.78,y1:.22,x2:.98,y2:.38},
+  spd_val: {x1:.50,y1:.42,x2:.72,y2:.58},
+  spd_sp:  {x1:.78,y1:.42,x2:.98,y2:.58},
+  spe_val: {x1:.50,y1:.62,x2:.72,y2:.78},
+  spe_sp:  {x1:.78,y1:.62,x2:.98,y2:.78},
+};
+
+// ═══════════════════════════════════════════════════
+// IMAGE PROCESSING HELPERS
+// ═══════════════════════════════════════════════════
+
+// Crop a region from an image (dataUrl) using relative coordinates
+function cropRegion(img, rx1, ry1, rx2, ry2, scale=3) {
+  const W=img.naturalWidth||img.width, H=img.naturalHeight||img.height;
+  const x=rx1*W, y=ry1*H, w=(rx2-rx1)*W, h=(ry2-ry1)*H;
+  const c=document.createElement('canvas');
+  c.width=w*scale; c.height=h*scale;
+  const ctx=c.getContext('2d');
+  ctx.drawImage(img,x,y,w,h,0,0,c.width,c.height);
+  return c;
+}
+
+// Binarize canvas (grayscale + Otsu threshold) — returns new canvas
+function binarize(srcCanvas, invert=true) {
+  const c=document.createElement('canvas');
+  c.width=srcCanvas.width; c.height=srcCanvas.height;
+  const ctx=c.getContext('2d');
+  ctx.drawImage(srcCanvas,0,0);
+  const id=ctx.getImageData(0,0,c.width,c.height);
+  const d=id.data;
+  // Grayscale
+  const gray=new Uint8Array(d.length/4);
+  for(let i=0;i<d.length;i+=4)
+    gray[i/4]=Math.round(.299*d[i]+.587*d[i+1]+.114*d[i+2]);
+  // Otsu
+  const hist=new Array(256).fill(0);
+  for(const v of gray)hist[v]++;
+  const N=gray.length;
+  let sum=0;for(let i=0;i<256;i++)sum+=i*hist[i];
+  let sumB=0,wB=0,mx=0,thresh=128;
+  for(let t=0;t<256;t++){
+    wB+=hist[t];if(!wB||wB===N)continue;
+    const wF=N-wB;
+    sumB+=t*hist[t];
+    const mB=sumB/wB,mF=(sum-sumB)/wF;
+    const btwn=wB*wF*(mB-mF)*(mB-mF);
+    if(btwn>mx){mx=btwn;thresh=t;}
+  }
+  // Detect dark bg
+  const avg=gray.reduce((a,b)=>a+b,0)/N;
+  const inv=invert && avg<160;
+  for(let i=0;i<gray.length;i++){
+    let v=gray[i]>=thresh?255:0;
+    if(inv)v=255-v;
+    d[i*4]=d[i*4+1]=d[i*4+2]=v;d[i*4+3]=255;
+  }
+  ctx.putImageData(id,0,0);
+  return c;
+}
+
+// Load image from dataUrl → HTMLImageElement
+function loadImg(dataUrl){
+  return new Promise(res=>{const img=new Image();img.onload=()=>res(img);img.src=dataUrl;});
+}
+
+// OCR a canvas element
+let ocrWorker=null;
+async function ocrCanvas(canvas) {
+  if(!ocrWorker){
+    ocrWorker=await Tesseract.createWorker('eng',1,{
+      logger:m=>{if(m.status==='recognizing text')prog(m.progress*15+_progBase);}
+    });
+    await ocrWorker.setParameters({
+      tessedit_pageseg_mode:'6', // Assume uniform block of text
+      preserve_interword_spaces:'1',
+    });
+  }
+  const {data}=await ocrWorker.recognize(canvas.toDataURL('image/png'));
+  return data.text.trim();
+}
+
+// Clean OCR text — remove common garbage characters
+function clean(t){return(t||'').replace(/[|\\[\]{}~`^_]/g,'').replace(/\s+/g,' ').trim();}
+
+let _progBase=0;
+
+// ═══════════════════════════════════════════════════
+// POSITION-BASED PARSER — Moves & More screen
+// ═══════════════════════════════════════════════════
+async function parseMoveScreen(img) {
+  lsm('Reading Moves & More...');prog(10);
+  const results = await Promise.all(CARD_BOUNDS.map(async (cb,i)=>{
+    const mz=MOVES_ZONES;
+    const zone=(zx1,zy1,zx2,zy2)=>{
+      const ax1=cb.x1+(cb.x2-cb.x1)*zx1, ay1=cb.y1+(cb.y2-cb.y1)*zy1;
+      const ax2=cb.x1+(cb.x2-cb.x1)*zx2, ay2=cb.y1+(cb.y2-cb.y1)*zy2;
+      return binarize(cropRegion(img,ax1,ay1,ax2,ay2,3));
+    };
+    const nameC=zone(mz.name.x1,mz.name.y1,mz.name.x2,mz.name.y2);
+    const abilC=zone(mz.ability.x1,mz.ability.y1,mz.ability.x2,mz.ability.y2);
+    const itemC=zone(mz.item.x1,mz.item.y1,mz.item.x2,mz.item.y2);
+    const mv1C=zone(mz.move1.x1,mz.move1.y1,mz.move1.x2,mz.move1.y2);
+    const mv2C=zone(mz.move2.x1,mz.move2.y1,mz.move2.x2,mz.move2.y2);
+    const mv3C=zone(mz.move3.x1,mz.move3.y1,mz.move3.x2,mz.move3.y2);
+    const mv4C=zone(mz.move4.x1,mz.move4.y1,mz.move4.x2,mz.move4.y2);
+    const [rawName,rawAbil,rawItem,rawMv1,rawMv2,rawMv3,rawMv4]=await Promise.all([
+      ocrCanvas(nameC),ocrCanvas(abilC),ocrCanvas(itemC),
+      ocrCanvas(mv1C),ocrCanvas(mv2C),ocrCanvas(mv3C),ocrCanvas(mv4C)
+    ]);
+    prog(10+((i+1)/6)*35);
+    return {
+      slot:i+1,
+      name:fpoke(clean(rawName))||clean(rawName),
+      ability:fab(clean(rawAbil)),
+      item:clean(rawItem),
+      moves:[rawMv1,rawMv2,rawMv3,rawMv4].map(m=>fmove(clean(m))).filter(Boolean)
+    };
+  }));
+  return results;
+}
+
+// ═══════════════════════════════════════════════════
+// POSITION-BASED PARSER — Stats screen
+// ═══════════════════════════════════════════════════
+async function parseStatScreen(img) {
+  lsm('Reading Stats...');prog(50);
+  const results = await Promise.all(CARD_BOUNDS.map(async (cb,i)=>{
+    const zone=(zx1,zy1,zx2,zy2,xoff=0,xscale=1)=>{
+      const cx1=cb.x1+(cb.x2-cb.x1)*(xoff+zx1*xscale);
+      const cx2=cb.x1+(cb.x2-cb.x1)*(xoff+zx2*xscale);
+      const cy1=cb.y1+(cb.y2-cb.y1)*zy1;
+      const cy2=cb.y1+(cb.y2-cb.y1)*zy2;
+      return binarize(cropRegion(img,cx1,cy1,cx2,cy2,4));
+    };
+    const sz=STATS_ZONES;
+    const hpSp=zone(sz.hp_sp.x1,sz.hp_sp.y1,sz.hp_sp.x2,sz.hp_sp.y2,0,.5);
+    const atkSp=zone(sz.atk_sp.x1,sz.atk_sp.y1,sz.atk_sp.x2,sz.atk_sp.y2,0,.5);
+    const defSp=zone(sz.def_sp.x1,sz.def_sp.y1,sz.def_sp.x2,sz.def_sp.y2,0,.5);
+    const spaSp=zone(sz.spa_sp.x1,sz.spa_sp.y1,sz.spa_sp.x2,sz.spa_sp.y2,.5,.5);
+    const spdSp=zone(sz.spd_sp.x1,sz.spd_sp.y1,sz.spd_sp.x2,sz.spd_sp.y2,.5,.5);
+    const speSp=zone(sz.spe_sp.x1,sz.spe_sp.y1,sz.spe_sp.x2,sz.spe_sp.y2,.5,.5);
+    const [rHP,rAtk,rDef,rSpA,rSpD,rSpe]=await Promise.all([
+      ocrCanvas(hpSp),ocrCanvas(atkSp),ocrCanvas(defSp),
+      ocrCanvas(spaSp),ocrCanvas(spdSp),ocrCanvas(speSp)
+    ]);
+    prog(50+((i+1)/6)*40);
+    const pn=(s)=>{const m=clean(s).match(/\d+/);return m?parseInt(m[0]):0;};
+    const stats={};
+    const hp=pn(rHP);if(hp>0)stats.hp=hp;
+    const atk=pn(rAtk);if(atk>0)stats.atk=atk;
+    const def=pn(rDef);if(def>0)stats.def=def;
+    const spa=pn(rSpA);if(spa>0)stats.spa=spa;
+    const spd=pn(rSpD);if(spd>0)stats.spd=spd;
+    const spe=pn(rSpe);if(spe>0)stats.spe=spe;
+    return {slot:i+1,stats};
+  }));
+  return results;
+}
+
+// ═══════════════════════════════════════════════════
+// FORMAT OUTPUT
+// ═══════════════════════════════════════════════════
+function slug(s){return(s||'').toLowerCase().trim().replace(/['']/g,'').replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');}
+function fmt(team){
+  const sk=[['hp','SP HP'],['atk','SP Atk'],['def','SP Def'],['spa','SP SpA'],['spd','SP SpD'],['spe','SP Spe']];
+  return team.map(p=>{
+    const nm=slug(p.name||'unknown').replace(/-/g,'').replace(/\./g,'');
+    const it=p.item?` @ ${p.item}`:'';
+    const ab=p.ability?`Ability: ${slug(p.ability)}`:'';
+    const sps=[];if(p.stats)sk.forEach(([k,l])=>{const v=p.stats[k];if(v&&v>0)sps.push(`${v} ${l}`);});
+    const sl=sps.length?`SPs: ${sps.join(' / ')}`:'';
+    const mv=(p.moves||[]).filter(Boolean).map(m=>`- ${slug(m)}`).join('\n');
+    return[`${nm}${it}`,ab,sl,mv].filter(Boolean).join('\n');
+  }).join('\n\n');
+}
+
+// ═══════════════════════════════════════════════════
+// STATE + UPLOAD
+// ═══════════════════════════════════════════════════
+let imgA=null,imgB=null,camStep=1,camStream=null,parsed=[];
+function pick(s){document.getElementById('f'+s).click();}
+function got(s,inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{if(s==='A')imgA=e.target.result;else imgB=e.target.result;pv(s,e.target.result);rdy();};r.readAsDataURL(f);}
+function pv(s,src){const z=document.getElementById('z'+s);z.className='uz ok';z.onclick=null;z.innerHTML=`<img class="prev" src="${src}"><button class="rmv" onclick="clr(event,'${s}')">✕</button>`;}
+function clr(e,s){e.stopPropagation();if(s==='A')imgA=null;else imgB=null;const z=document.getElementById('z'+s);z.className='uz';if(s==='A'){z.innerHTML=`<input type="file" id="fA" accept="image/*" onchange="got('A',this)"><div class="uicon">🎮</div><div class="ulbl"><span class="badge bm">Moves & More</span><br>Pokémon · Moves · Items</div><div class="uhint">Tap to upload or drag & drop</div>`;z.onclick=()=>pick('A');}else{z.innerHTML=`<input type="file" id="fB" accept="image/*" onchange="got('B',this)"><div class="uicon">📊</div><div class="ulbl"><span class="badge bst">Stats</span><br>HP · Atk · Def · Speed SPs</div><div class="uhint">Tap to upload or drag & drop</div>`;z.onclick=()=>pick('B');}rdy();}
+function rdy(){document.getElementById('btnGo').disabled=!(imgA&&imgB);}
+
+// Drag-drop
+['zA','zB'].forEach((id,i)=>{const z=document.getElementById(id),s=i===0?'A':'B';z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('drag');});z.addEventListener('dragleave',()=>z.classList.remove('drag'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag');const f=e.dataTransfer.files[0];if(!f||!f.type.startsWith('image/'))return;const r=new FileReader();r.onload=ev=>{if(s==='A')imgA=ev.target.result;else imgB=ev.target.result;pv(s,ev.target.result);rdy();};r.readAsDataURL(f);});});
+
+// Camera
+async function openCam(){camStep=1;updCam();document.getElementById('cm').classList.add('on');try{camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});document.getElementById('vid').srcObject=camStream;}catch(e){showErr('Camera unavailable. Use file upload.');closeCam();}}
+function closeCam(){if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null;}document.getElementById('cm').classList.remove('on');}
+function updCam(){document.getElementById('ci').innerHTML=camStep===1?'Point at <strong>Moves & More</strong>':'Point at <strong>Stats</strong>';document.getElementById('cd1').className='mdot '+(camStep===1?'on':'done');document.getElementById('cd2').className='mdot '+(camStep===2?'on':'');}
+function snap(){const v=document.getElementById('vid');const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);const d=c.toDataURL('image/jpeg',.95);if(camStep===1){imgA=d;pv('A',d);camStep=2;updCam();}else{imgB=d;pv('B',d);closeCam();rdy();}}
+
+// ═══════════════════════════════════════════════════
+// MAIN PROCESS
+// ═══════════════════════════════════════════════════
+async function go(){
+  setLd(true);hideErr();
+  document.getElementById('rs').classList.remove('on');
+  stp(2,'on');prog(10);
+
+  // Animate progress while waiting
+  let _p=10;
+  const _pi=setInterval(()=>{if(_p<88){_p+=2;prog(_p);}},800);
+
+  try{
+    lsm('Sending to server...');
+    const res=await fetch('/api/ocr',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({imgA,imgB})
+    });
+    if(!res.ok)throw new Error('Server error: '+res.status);
+    const data=await res.json();
+    if(data.error)throw new Error(data.error);
+    const team=data.team;
+    if(!team||!team.length)throw new Error('Could not detect any Pokémon. Try with clearer screenshots.');
+    clearInterval(_pi);prog(100);
+    parsed=team;
+    render(team);
+    stp(2,'done');stp(3,'done');
+  }catch(e){
+    clearInterval(_pi);
+    console.error(e);
+    showErr(e.message||'Processing failed. Try again with clearer screenshots.');
+    stp(2,'');
+  }finally{setLd(false);}
+}
+
+// ═══════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════
+function render(team){
+  document.getElementById('rs').classList.add('on');
+  document.getElementById('rc').textContent=`${team.length} Pokémon`;
+  const sk={hp:'HP',atk:'Atk',def:'Def',spa:'SpA',spd:'SpD',spe:'Spe'};
+  document.getElementById('cv').innerHTML=team.map(p=>{
+    const spArr=Object.entries(p.stats||{}).filter(([,v])=>v>0);
+    const spStr=spArr.length?spArr.map(([k,v])=>`${v} ${sk[k]}`).join(' / '):'—';
+    const ok=spArr.length>0;
+    return`<div class="pcard"><div class="pcn">${p.name||'?'}<span class="${ok?'bok':'bwarn'}">${ok?'✓':'⚠'}</span></div><div class="pci">@ ${p.item||'—'}</div><div class="pca">⬡ ${p.ability||'—'}</div><div class="pcm">${(p.moves||[]).map(m=>`<div>${m}</div>`).join('')}</div><div class="pcs">${spStr}</div></div>`;
+  }).join('');
+  document.getElementById('out').value=fmt(team);
+  document.getElementById('sp').classList.add('on');
+  sv('cards');
+}
+function sv(v){document.getElementById('cv').style.display=v==='cards'?'grid':'none';document.getElementById('tv').style.display=v==='text'?'block':'none';document.getElementById('vc').classList.toggle('on',v==='cards');document.getElementById('vt').classList.toggle('on',v==='text');}
+function cp(){navigator.clipboard.writeText(document.getElementById('out').value).then(()=>{const f=document.getElementById('fl');f.classList.add('on');setTimeout(()=>f.classList.remove('on'),2000);});}
+function saveT(e){try{const sv=JSON.parse(localStorage.getItem('cb-saved-teams-v1')||'[]');sv.push({name:`Scanned ${new Date().toLocaleDateString()}`,date:Date.now(),scanned:true,text:document.getElementById('out').value,team:parsed});localStorage.setItem('cb-saved-teams-v1',JSON.stringify(sv));const b=e.currentTarget;const o=b.textContent;b.textContent='✓ Saved!';setTimeout(()=>b.textContent=o,2000);document.getElementById('sp').classList.remove('on');}catch(err){alert('Could not save.');}}
+function rst(){imgA=null;imgB=null;parsed=[];clr({stopPropagation:()=>{}},'A');clr({stopPropagation:()=>{}},'B');document.getElementById('rs').classList.remove('on');hideErr();stp(1,'on');stp(2,'');stp(3,'');prog(0);}
+function setLd(s){document.getElementById('lb').classList.toggle('on',s);document.getElementById('btnGo').disabled=s||!(imgA&&imgB);}
+function lsm(m){document.getElementById('lsm').textContent=m;}
+function prog(p){document.getElementById('lpf').style.width=p+'%';}
+function showErr(m){document.getElementById('em').textContent=m;document.getElementById('eb').classList.add('on');}
+function hideErr(){document.getElementById('eb').classList.remove('on');}
+function stp(n,st){document.getElementById('s'+n).className='stp'+(st?' '+st:'');}
+</script>
+</body>
+</html>
