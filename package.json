@@ -1,9 +1,0 @@
-{
-  "name": "championsbuilder",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "tesseract.js": "^5.0.4",
-    "sharp": "^0.33.4"
-  }
-}
