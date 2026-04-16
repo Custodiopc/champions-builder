@@ -678,6 +678,7 @@ body{
   <div class="top-actions">
     <button class="btn btn-ghost" onclick="window.open('learn.html','_blank')" id="txt-btn-learn" style="color:#74b9ff;border-color:rgba(85,153,255,0.3)">📚 Learn VGC</button>
     <button class="btn btn-ghost" onclick="window.open('calc.html','_blank')" id="txt-btn-calc" style="color:var(--gold);border-color:rgba(240,192,64,0.3)">⚔ Damage Calc</button>
+    <button class="btn btn-ghost" onclick="window.open('box.html','_blank')" id="txt-btn-box" style="color:#4caf7d;border-color:rgba(76,175,125,0.3)">📦 Box</button>
     <button class="btn btn-ghost" id="txt-btn-import" onclick="openImport()">↓ Import</button>
     <button class="btn btn-ghost" id="txt-btn-saved" onclick="openSavedTeams()" style="color:var(--green);border-color:rgba(80,232,144,0.3)">💾 Saved</button>
     <button class="btn btn-ghost" id="langBtn" onclick="toggleLang()" style="font-size:13px;padding:6px 10px">🌐 PT</button>
@@ -695,6 +696,7 @@ body{
 <div class="mob-dropdown" id="mobDropdown">
   <button class="btn btn-ghost" onclick="window.open('learn.html','_blank');closeMobMenu()" style="color:#74b9ff;border-color:rgba(85,153,255,0.3)" id="mob-btn-learn">📚 Learn VGC</button>
   <button class="btn btn-ghost" onclick="window.open('calc.html','_blank');closeMobMenu()" style="color:var(--gold);border-color:rgba(240,192,64,0.3)" id="mob-btn-calc">⚔ Damage Calc</button>
+  <button class="btn btn-ghost" onclick="window.open('box.html','_blank');closeMobMenu()" style="color:#4caf7d;border-color:rgba(76,175,125,0.3)" id="mob-btn-box">📦 Box</button>
   <button class="btn btn-ghost" onclick="openImport();closeMobMenu()" id="mob-btn-import">↓ Import</button>
   <button class="btn btn-ghost" onclick="openSavedTeams();closeMobMenu()" id="mob-btn-saved" style="color:var(--green);border-color:rgba(80,232,144,0.3)">💾 Saved Teams</button>
   <button class="btn btn-gold" onclick="exportTeam();closeMobMenu()" id="mob-export">📋 Exportar Time</button>
@@ -1401,6 +1403,21 @@ function getChampionsMoves(pokemonName) {
   const key = pokemonName.toLowerCase().replace(/ /g,'-').replace(/\./g,'').replace(/'/g,'');
   // Try exact name first — handles all regional/form variants directly
   if(CHAMPIONS_MOVES[key]) return CHAMPIONS_MOVES[key];
+  // Alias map: PokeAPI slug → our CHAMPIONS_MOVES key
+  const ALIAS = {
+    'tauros-paldean-combat-breed':'tauros-paldea',
+    'tauros-paldean-blaze-breed':'tauros-paldea',
+    'tauros-paldean-aqua-breed':'tauros-paldea',
+    'basculegion-male':'basculegion','basculegion-female':'basculegion',
+    'meowstic-male':'meowstic','meowstic-female':'meowstic',
+    'mimikyu-disguised':'mimikyu','mimikyu-busted':'mimikyu',
+    'aegislash-shield':'aegislash','aegislash-blade':'aegislash',
+    'palafin-hero':'palafin',
+    'morpeko-hangry':'morpeko','morpeko-full-belly':'morpeko',
+    'polteageist-antique':'polteageist','polteageist-phony':'polteageist',
+    'sinistcha-masterpiece':'sinistcha','sinistcha-unremarkable':'sinistcha',
+  };
+  if(ALIAS[key] && CHAMPIONS_MOVES[ALIAS[key]]) return CHAMPIONS_MOVES[ALIAS[key]];
   // Fall back to base name (e.g. 'palafin-hero' → 'palafin')
   const base = key.split('-')[0];
   return CHAMPIONS_MOVES[base] || null;
@@ -1415,6 +1432,10 @@ let team = Array(6).fill(null);
 let activeSlot = 0;
 let filterType = 'all';
 let filterChampions = true;
+let filterBox = false;
+function loadUserBox(){try{return JSON.parse(localStorage.getItem('cb-box-v1')||'[]');}catch(e){return[];}}
+function toggleBoxFilter(){filterBox=!filterBox;if(filterBox)filterChampions=false;renderTypeRow();renderBrowser();}
+function toggleChampions(){filterChampions=!filterChampions;if(filterChampions)filterBox=false;renderTypeRow();renderBrowser();}
 const CHAMPIONS_SET = new Set([
   // #003 Venusaur · #006 Charizard · #009 Blastoise · #015 Beedrill · #018 Pidgeot
   'venusaur','charizard','blastoise','beedrill','pidgeot',
@@ -1426,8 +1447,9 @@ const CHAMPIONS_SET = new Set([
   'alakazam','machamp','victreebel',
   // #080 Slowbro (Kanto + Galar) · #094 Gengar · #115 Kangaskhan
   'slowbro','slowbro-galar','gengar','kangaskhan',
-  // #121 Starmie · #127 Pinsir · #128 Tauros (Kanto + Paldea combat form)
-  'starmie','pinsir','tauros','tauros-paldea','tauros-paldea-combat',
+  // #121 Starmie · #127 Pinsir · #128 Tauros (Kanto + Paldea all 3 breeds)
+  'starmie','pinsir','tauros','tauros-paldea','tauros-paldea-combat','tauros-paldea-blaze','tauros-paldea-aqua',
+  'tauros-paldean-combat-breed','tauros-paldean-blaze-breed','tauros-paldean-aqua-breed',
   // #130 Gyarados · #132 Ditto · #134-136 Eeveelutions
   'gyarados','ditto','vaporeon','jolteon','flareon',
   // #142 Aerodactyl · #143 Snorlax · #149 Dragonite
@@ -1486,8 +1508,8 @@ const CHAMPIONS_SET = new Set([
   'chesnaught','delphox','greninja','diggersby',
   // #663 Talonflame · #666 Vivillon · #670 Floette · #671 Florges
   'talonflame','vivillon','floette','florges',
-  // #675 Pangoro · #676 Furfrou · #678 Meowstic · #681 Aegislash
-  'pangoro','furfrou','meowstic','aegislash','aegislash-shield','aegislash-blade',
+  // #675 Pangoro · #676 Furfrou · #678 Meowstic (M + F) · #681 Aegislash
+  'pangoro','furfrou','meowstic','meowstic-male','meowstic-female','aegislash','aegislash-shield','aegislash-blade',
   // #683 Aromatisse · #685 Slurpuff · #693 Clawitzer · #695 Heliolisk
   'aromatisse','slurpuff','clawitzer','heliolisk',
   // #697 Tyrantrum · #699 Aurorus · #700 Sylveon
@@ -1631,43 +1653,57 @@ async function loadDB() {
 
 // Alternate form name parsing — extracts a readable label from API names
 function parseFormLabel(name) {
+  // Exact matches for compound suffixes
+  const EXACT = {
+    'tauros-paldean-combat-breed':'Paldea Combat',
+    'tauros-paldean-blaze-breed':'Paldea Blaze',
+    'tauros-paldean-aqua-breed':'Paldea Aqua',
+    'basculegion-male':'♂','basculegion-female':'♀',
+    'meowstic-male':'♂','meowstic-female':'♀',
+    'mimikyu-disguised':'Disguised','mimikyu-busted':'Busted',
+    'aegislash-shield':'Shield','aegislash-blade':'Blade',
+    'palafin-hero':'Hero',
+    'rotom-heat':'Heat','rotom-wash':'Wash','rotom-frost':'Frost','rotom-fan':'Fan','rotom-mow':'Mow',
+    'lycanroc-midday':'Midday','lycanroc-midnight':'Midnight','lycanroc-dusk':'Dusk',
+    'slowbro-galar':'Galar','slowking-galar':'Galar','stunfisk-galar':'Galar',
+    'ninetales-alola':'Alola','raichu-alola':'Alola',
+    'arcanine-hisui':'Hisui','avalugg-hisui':'Hisui','goodra-hisui':'Hisui',
+    'decidueye-hisui':'Hisui','samurott-hisui':'Hisui','typhlosion-hisui':'Hisui','zoroark-hisui':'Hisui',
+    'polteageist-antique':'Antique','polteageist-phony':'Phony',
+    'sinistcha-masterpiece':'Masterpiece','sinistcha-unremarkable':'Unremarkable',
+    'morpeko-hangry':'Hangry','morpeko-full-belly':'Full Belly',
+    'maushold-family-of-three':'Family of 3','maushold-family-of-four':'Family of 4',
+  };
+  if(EXACT[name]) return EXACT[name];
   const map = {
-    'alola':'Alola','galar':'Galar','hisui':'Hisui','paldea':'Paldea',
+    'alola':'Alola','galar':'Galar','hisui':'Hisui','paldea':'Paldea','paldean':'Paldean',
     'original':'Origin','origin':'Origin','dawn':'Dawn','dusk':'Dusk',
     'hero':'Hero','crowned':'Crowned','eternamax':'Eternamax',
-    'midnight':'Midnight','dusk':'Dusk Mane','dawn':'Dawn Wings',
-    'bloodmoon':'Blood Moon','blood-moon':'Blood Moon',
+    'midnight':'Midnight','bloodmoon':'Blood Moon','blood-moon':'Blood Moon',
     'rapid-strike':'Rapid Strike','single-strike':'Single Strike',
     'ice-rider':'Ice Rider','shadow-rider':'Shadow Rider',
-    'roaming':'Roaming','confined':'Confined',
-    'pirouette':'Pirouette','aria':'Aria',
-    'resolute':'Resolute','ordinary':'Ordinary',
-    'sky':'Sky','land':'Land',
-    'black':'Black','white':'White',
-    'therian':'Therian','incarnate':'Incarnate',
-    'zen':'Zen Mode','standard':'Standard',
-    'complete':'Complete','ten':'10%','fifty':'50%',
-    'hangry':'Hangry','full-belly':'Full Belly',
-    'disguised':'Disguised','busted':'Busted',
-    'baile':'Baile','pau':'Pa\'u','pom-pom':'Pom-Pom','sensu':'Sensu',
-    'school':'School','solo':'Solo',
-    'midday':'Midday','midnight-form':'Midnight','dusk-form':'Dusk',
+    'roaming':'Roaming','confined':'Confined','pirouette':'Pirouette',
+    'resolute':'Resolute','sky':'Sky','land':'Land',
+    'black':'Black','white':'White','therian':'Therian','incarnate':'Incarnate',
+    'zen':'Zen Mode','complete':'Complete','ten':'10%','fifty':'50%',
+    'hangry':'Hangry','full-belly':'Full Belly','disguised':'Disguised','busted':'Busted',
+    'baile':'Baile','pau':"Pa'u",'pom-pom':'Pom-Pom','sensu':'Sensu',
+    'school':'School','solo':'Solo','midday':'Midday',
     'male':'♂','female':'♀',
     'east':'East Sea','west':'West Sea',
-    'red-striped':'Red Stripe','blue-striped':'Blue Stripe','white-striped':'White Stripe',
     'battle-bond':'Battle Bond','ash':'Ash',
-    'own-tempo':'Own Tempo',
     'natural':'Natural','attack':'Attack','defense':'Defense','speed':'Speed',
     'fan':'Fan','frost':'Frost','heat':'Heat','mow':'Mow','wash':'Wash',
+    'combat':'Combat','blaze':'Blaze','aqua':'Aqua',
+    'shield':'Shield','blade':'Blade',
   };
-  // extract suffix after last pokemon name part
   const parts = name.split('-');
-  // try to find form keywords in parts
   const formParts = [];
   let skipFirst = true;
   for(const part of parts) {
-    if(skipFirst){ skipFirst=false; continue; } // skip base name
-    formParts.push(map[part] || map[formParts.join('-')+part] || (part.charAt(0).toUpperCase()+part.slice(1)));
+    if(skipFirst){ skipFirst=false; continue; }
+    if(part === 'breed') continue; // skip the word "breed"
+    formParts.push(map[part] || (part.charAt(0).toUpperCase()+part.slice(1)));
   }
   return formParts.join(' ') || 'Alt';
 }
@@ -1679,12 +1715,14 @@ async function loadAltForms() {
     'slowbro-galar','slowking-galar','stunfisk-galar',
     'typhlosion-hisui','samurott-hisui','zoroark-hisui',
     'goodra-hisui','avalugg-hisui','decidueye-hisui',
-    'tauros-paldea-combat','lycanroc-midday','lycanroc-midnight','lycanroc-dusk',
+    'tauros-paldean-combat-breed','tauros-paldean-blaze-breed','tauros-paldean-aqua-breed',
+    'lycanroc-midday','lycanroc-midnight','lycanroc-dusk',
     'palafin-hero',
     'aegislash-shield','aegislash-blade',
     'mimikyu-disguised',
     'rotom-heat','rotom-wash','rotom-frost','rotom-fan','rotom-mow',
     'basculegion-male','basculegion-female',
+    'meowstic-male','meowstic-female',
   ];
 
   await Promise.all(CHAMPIONS_REGIONALS.map(async name => {
@@ -1713,6 +1751,33 @@ async function loadAltForms() {
       if(!db.find(p=>p.name===entry.name)) db.push(entry);
     } catch(e){}
   }));
+
+  // Tauros Paldean breeds — fetch by ID (most reliable, slugs can 404)
+  const TAUROS_PALDEA = [
+    {id:10250, name:'tauros-paldean-combat-breed', form:'Combat', moves:'tauros-paldea'},
+    {id:10251, name:'tauros-paldean-blaze-breed',  form:'Blaze',  moves:'tauros-paldea'},
+    {id:10252, name:'tauros-paldean-aqua-breed',   form:'Aqua',   moves:'tauros-paldea'},
+  ];
+  await Promise.all(TAUROS_PALDEA.map(async t => {
+    if(db.find(p=>p.name===t.name)) return;
+    try {
+      const r = await fetch(`https://pokeapi.co/api/v2/pokemon/${t.id}`);
+      if(!r.ok) return;
+      const fd = await r.json();
+      const sprite = fd.sprites?.front_default || fd.sprites?.other?.home?.front_default || spriteUrl(t.id);
+      const entry = {
+        id: t.id, name: t.name,
+        url: `https://pokeapi.co/api/v2/pokemon/${t.id}/`,
+        types: fd.types.map(x=>x.type.name), stats: {},
+        moves: CHAMPIONS_MOVES['tauros-paldea'] || fd.moves.map(m=>m.move.name).sort().slice(0,200),
+        abilities: fd.abilities.map(a=>a.ability.name),
+        sprite, form: t.form, baseName: 'tauros'
+      };
+      fd.stats.forEach(s => entry.stats[s.stat.name] = s.base_stat);
+      db.push(entry);
+    } catch(e){}
+  }));
+
   renderBrowser();
 
   // 2. Load remaining competitive forms from PokeAPI list
@@ -1815,6 +1880,11 @@ function renderTypeRow() {
   let html = `<span class="type-pill ${filterChampions?'on':'off'}"
     style="background:rgba(240,192,64,0.15);color:var(--gold);border-color:rgba(240,192,64,0.4);font-weight:700"
     onclick="toggleChampions()">${champLbl}</span>`;
+  // Box filter pill
+  const boxCount = loadUserBox().length;
+  html += `<span class="type-pill ${filterBox?'on':'off'}"
+    style="background:rgba(76,175,125,0.15);color:#4caf7d;border-color:rgba(76,175,125,0.4);font-weight:700"
+    onclick="toggleBoxFilter()">📦 Box${boxCount?` (${boxCount})`:''}</span>`;
   html += types.map(t => {
     const c = TC[t]||'#888', lbl = t==='all'? T.ui.filterAll :(T.types[t]||t);
     return `<span class="type-pill ${t===filterType?'on':'off'}"
@@ -1870,7 +1940,8 @@ function renderBrowser() {
       const ms = !q || searchStr.includes(q) || p.name.includes(q) || String(p.id).startsWith(q);
       const mt = filterType==='all' || (p.types && p.types.includes(filterType));
       const mc = !filterChampions || CHAMPIONS_SET.has(p.name) || CHAMPIONS_SET.has(p.baseName);
-      return ms && mt && mc;
+      const mb = !filterBox || loadUserBox().some(b=>b.id===p.id);
+      return ms && mt && mc && mb;
     });
     if(q) list.sort((a,b) => {
       const aMatch = a.name===q||a.baseName===q?0:1;
@@ -1883,6 +1954,7 @@ function renderBrowser() {
   if(srchMode !== 'name') {
     if(filterType !== 'all') list = list.filter(p => p.types && p.types.includes(filterType));
     if(filterChampions) list = list.filter(p => CHAMPIONS_SET.has(p.name) || CHAMPIONS_SET.has(p.baseName));
+    if(filterBox) list = list.filter(p => loadUserBox().some(b=>b.id===p.id));
   }
 
   list = list.slice(0, 200);
@@ -1976,13 +2048,16 @@ function addToSlot(id) {
   const existing = team.findIndex(s=>s&&s.pokemon.id===id);
   if(existing !== -1) { setSlot(existing); return; }
 
+  // Check if pokemon is in user's box — use saved build if available
+  const boxEntry = loadUserBox().find(b=>b.id===id);
+
   team[activeSlot] = {
     pokemon: p,
-    nature: 'Adamant',
-    item: 'Nenhum',
-    sps: {hp:0,attack:0,defense:0,'special-attack':0,'special-defense':0,speed:0},
-    moves: ['','','',''],
-    ability: p.abilities?.[0]||''
+    nature: boxEntry?.nature || 'Adamant',
+    item: boxEntry?.item || 'Nenhum',
+    sps: boxEntry?.sps || {hp:0,attack:0,defense:0,'special-attack':0,'special-defense':0,speed:0},
+    moves: boxEntry?.selectedMoves || ['','','',''],
+    ability: boxEntry?.ability || p.abilities?.[0]||''
   };
 
   // advance to next empty
