@@ -83,16 +83,22 @@ select.cfg-select{width:100%;background:var(--s2);border:1px solid var(--border2
 select.cfg-select:focus{border-color:rgba(240,192,64,0.5);}
 select.cfg-select option{background:var(--s2);}
 .nature-hint{font-size:10px;font-family:'JetBrains Mono';margin-top:4px;min-height:14px;}
-.sp-row{display:grid;grid-template-columns:52px 1fr 36px 52px;align-items:center;gap:6px;margin-bottom:6px;}
-.sp-name{font-size:11px;font-weight:600;font-family:'JetBrains Mono';}
-.sp-bar-wrap{height:6px;background:var(--s3);border-radius:3px;overflow:hidden;}
-.sp-bar-fill{height:100%;border-radius:3px;transition:width .2s;}
-.sp-stat-val{font-family:'JetBrains Mono';font-size:12px;font-weight:700;text-align:right;}
-.sp-input{background:var(--s2);border:1px solid var(--border2);color:var(--text);padding:3px 5px;border-radius:5px;font-family:'JetBrains Mono';font-size:12px;text-align:center;outline:none;width:100%;transition:border-color .15s;}
-.sp-input:focus{border-color:rgba(240,192,64,0.5);}
-.sp-total-row{font-size:10px;font-family:'JetBrains Mono';text-align:right;margin-top:3px;color:var(--sub);}
-.sp-total-row.over{color:var(--red);}
-.ev-btn{margin:4px 2px 0;padding:5px 10px;background:var(--s2);border:1px solid var(--border2);border-radius:5px;color:var(--sub);font-family:'Inter';font-size:10px;font-weight:600;cursor:pointer;transition:all .12s;letter-spacing:.5px;}
+.ev-section{}
+.ev-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.ev-counter{font-family:'JetBrains Mono';font-size:12px;}
+.ev-counter.ok{color:var(--green);}
+.ev-counter.warn{color:var(--gold);}
+.ev-counter.over{color:var(--red);}
+.ev-rows{display:flex;flex-direction:column;gap:6px;}
+.ev-row{display:grid;grid-template-columns:52px 1fr 44px 56px;align-items:center;gap:8px;}
+.ev-stat-lbl{font-size:11px;font-weight:600;font-family:'JetBrains Mono';color:var(--sub);}
+.ev-bar-wrap{position:relative;height:6px;background:var(--s3);border-radius:3px;overflow:hidden;}
+.ev-bar-fill{height:100%;border-radius:3px;transition:width .2s;}
+.ev-val{background:var(--s2);border:1px solid var(--border2);color:var(--text);border-radius:4px;padding:4px;font-family:'JetBrains Mono';font-size:12px;font-weight:600;text-align:center;outline:none;width:100%;transition:border-color .15s;}
+.ev-val:focus{border-color:rgba(240,192,64,0.5);}
+.ev-stat-calc{font-family:'JetBrains Mono';font-size:13px;font-weight:700;text-align:right;}
+.ev-actions{display:flex;gap:6px;margin-top:10px;}
+.ev-btn{flex:1;padding:6px;background:var(--s2);border:1px solid var(--border2);border-radius:5px;color:var(--sub);font-family:'Inter';font-size:11px;font-weight:600;cursor:pointer;transition:all .12s;letter-spacing:.5px;}
 .ev-btn:hover{color:var(--text);background:var(--s3);}
 /* Move entry — matches index exactly */
 .move-entry{background:var(--s2);border:1px solid var(--border);border-radius:6px;transition:border-color .12s;margin-bottom:8px;}
@@ -804,11 +810,15 @@ async function loadDetailsInBg(){
         p.types=d.types.map(t=>t.type.name);
         p.abilities=d.abilities.map(a=>a.ability.name);
         p.sprite=d.sprites.front_default||spriteUrl(p.id);
+        p.stats={};
+        d.stats.forEach(s=>p.stats[s.stat.name]=s.base_stat);
         const champMoves=getChampionsMoves(p.name);
         p.moves=champMoves||d.moves.map(m=>m.move.name).sort().slice(0,200);
       }catch(e){}
     }));
     renderBrowser();
+    // Re-render config if the selected pokemon was just enriched
+    if(selectedId!==null&&chunk.some(p=>p.id===selectedId))renderConfig();
   }
 }
 
@@ -1017,6 +1027,14 @@ function doRemoveBox(id,e){
 // ══════════════════════════════════════════
 // SELECT & CONFIG
 // ══════════════════════════════════════════
+// ── STAT CALC (1 SP = 8 EVs, IVs always 31, level 50) ──
+function calcStat(sk,base,sp,nat){
+  const ev=sp*8;const iv=31;
+  const mult=nat.b===sk?1.1:nat.r===sk?0.9:1;
+  if(sk==='hp')return Math.floor(((2*base+iv+Math.floor(ev/4))*50/100)+60);
+  return Math.floor((((2*base+iv+Math.floor(ev/4))*50/100)+5)*mult);
+}
+
 function selectBox(id){
   selectedId=id;renderBox();renderConfig();
   if(window.innerWidth<=768)mobTab('config');
@@ -1068,9 +1086,37 @@ function renderConfig(){
 
   const spTotal=Object.values(entry.sps).reduce((a,v)=>a+v,0);
   const overSP=spTotal>SP_MAX;
+  const spCls=spTotal>SP_MAX?'over':spTotal>50?'warn':'ok';
+  const dbEntry=db.find(p=>p.id===entry.id);
+  const baseStats=dbEntry?.stats||{};
+
+  // If stats not loaded yet, fetch now and re-render when done
+  if(!dbEntry?.stats){
+    fetch(`https://pokeapi.co/api/v2/pokemon/${entry.id}`)
+      .then(r=>r.json()).then(d=>{
+        let target=db.find(p=>p.id===entry.id);
+        if(!target){target={id:entry.id,name:entry.name,sprite:entry.sprite,types:entry.types||[],abilities:entry.abilities||[],moves:entry.moves||[],stats:{},form:entry.form,baseName:entry.baseName};db.push(target);}
+        target.stats={};
+        d.stats.forEach(s=>target.stats[s.stat.name]=s.base_stat);
+        if(selectedId===entry.id)renderConfig();
+      }).catch(()=>{});
+  }
   const spRows=STAT_K.map(k=>{
+    const base=(baseStats[k])||50;
     const v=entry.sps[k]||0;
-    return`<div class="sp-row"><div class="sp-name" style="color:${STAT_C[k]}">${STAT_L[k]}</div><div class="sp-bar-wrap"><div class="sp-bar-fill" style="width:${Math.min(100,v/SP_STAT_MAX*100)}%;background:${STAT_C[k]}"></div></div><div class="sp-stat-val" style="color:${STAT_C[k]}">${v}</div><input class="sp-input" type="number" min="0" max="32" value="${v}" oninput="updSP(${entry.id},'${k}',this.value)" onfocus="this.select()"></div>`;
+    const calc=calcStat(k,base,v,nat);
+    const isB=nat.b===k,isR=nat.r===k;
+    const pct=Math.round((v/SP_STAT_MAX)*100);
+    return`<div class="ev-row">
+      <span class="ev-stat-lbl" style="color:${STAT_C[k]}">${STAT_L[k]}</span>
+      <div class="ev-bar-wrap"><div class="ev-bar-fill" data-sp-bar="${k}" style="width:${pct}%;background:${STAT_C[k]}"></div></div>
+      <input class="ev-val" type="number" min="0" max="32" value="${v}"
+        data-sp-inp="${k}"
+        style="border-color:${v>0?STAT_C[k]+'60':'var(--border2)'}"
+        oninput="updSP(${entry.id},'${k}',this.value)"
+        onblur="commitSP(${entry.id},'${k}',this.value)">
+      <span class="ev-stat-calc" data-sp-calc="${k}" style="color:${isB?'#ff6b6b':isR?'#74b9ff':'var(--text)'}">${calc}</span>
+    </div>`;
   }).join('');
 
   // Move slots — custom dropdown with type pill
@@ -1115,14 +1161,19 @@ function renderConfig(){
     <div class="cfg-section"><div class="cfg-label">Ability</div>${abilHtml}</div>
     <div class="cfg-section"><div class="cfg-label">Item</div>${itemHtml}</div>
     <div class="cfg-section">
-      <div class="cfg-label">Stat Points (SPs) <span style="${overSP?'color:var(--red)':'color:var(--sub)'};font-family:'JetBrains Mono';font-weight:700">${spTotal}/${SP_MAX}</span></div>
-      ${spRows}
-      <div class="sp-total-row ${overSP?'over':''}">Max 32 per stat · 66 total · 1 SP ≈ 8 EVs</div>
-      <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
-        <button class="ev-btn" onclick="presetSP(${entry.id},'atk')">⚔ Atk/Spe</button>
-        <button class="ev-btn" onclick="presetSP(${entry.id},'spa')">✦ SpA/Spe</button>
-        <button class="ev-btn" onclick="presetSP(${entry.id},'bulk')">🛡 HP/Def</button>
-        <button class="ev-btn" onclick="presetSP(${entry.id},'clear')" style="color:var(--red)">✕ Clear</button>
+      <div class="ev-section">
+        <div class="ev-header">
+          <span class="cfg-label" style="margin-bottom:0">Stat Points (SPs)</span>
+          <span class="ev-counter ${spCls}" id="spTotalCount">${spTotal} / ${SP_MAX} SP</span>
+        </div>
+        <div class="ev-rows">${spRows}</div>
+        <div style="font-size:10px;color:var(--dim);font-family:'JetBrains Mono';margin:6px 0 10px">Max 32 SP per stat · 66 SP total · 1 SP ≈ 8 EVs · IVs fixed at 31</div>
+        <div class="ev-actions">
+          <button class="ev-btn" onclick="presetSP(${entry.id},'atk')">⚔ Atk/Spe</button>
+          <button class="ev-btn" onclick="presetSP(${entry.id},'spa')">✦ SpA/Spe</button>
+          <button class="ev-btn" onclick="presetSP(${entry.id},'bulk')">🛡 HP/Def</button>
+          <button class="ev-btn" onclick="presetSP(${entry.id},'clear')" style="color:var(--red)">✕ Clear</button>
+        </div>
       </div>
     </div>
     <div class="cfg-section" style="padding-bottom:4px"><div class="cfg-label">Moves</div>${moveRows}</div>
@@ -1293,12 +1344,46 @@ function clearMove(entryId,slotIdx){
 // UPDATE HELPERS
 // ══════════════════════════════════════════
 function updField(id,field,val){const e=box.find(b=>b.id===id);if(!e)return;e[field]=val;saveBox();renderBox();}
-function updSP(id,stat,val){
+function updSP(id,sk,val){
   const e=box.find(b=>b.id===id);if(!e)return;
-  e.sps[stat]=Math.max(0,Math.min(SP_STAT_MAX,parseInt(val)||0));saveBox();renderBox();
-  const spTotal=Object.values(e.sps).reduce((a,v)=>a+v,0);
-  const lbl=document.querySelector('.cfg-label span[style*="JetBrains"]');if(lbl)lbl.textContent=`${spTotal}/${SP_MAX}`;
-  const row=document.querySelector('.sp-total-row');if(row)row.className='sp-total-row'+(spTotal>SP_MAX?' over':'');
+  const raw=parseInt(val);
+  if(isNaN(raw))return;
+  let v=Math.max(0,Math.min(SP_STAT_MAX,raw));
+  e.sps[sk]=v;
+  // Clamp total
+  const tot=Object.values(e.sps).reduce((a,b)=>a+b,0);
+  if(tot>SP_MAX){v=Math.max(0,v-(tot-SP_MAX));e.sps[sk]=v;}
+  saveBox();renderBox();
+  // Sync input
+  const inp=document.querySelector(`[data-sp-inp="${sk}"]`);
+  if(inp&&parseInt(inp.value)!==v)inp.value=v;
+  // Update bar
+  const pct=Math.round((v/SP_STAT_MAX)*100);
+  const bar=document.querySelector(`[data-sp-bar="${sk}"]`);
+  if(bar)bar.style.width=pct+'%';
+  // Update calc
+  const dbEntry=db.find(p=>p.id===id);
+  const base=(dbEntry?.stats&&dbEntry.stats[sk])||50;
+  const nat=NATURES.find(n=>n.n===e.nature)||NATURES[0];
+  const calc=calcStat(sk,base,v,nat);
+  const calcEl=document.querySelector(`[data-sp-calc="${sk}"]`);
+  if(calcEl)calcEl.textContent=calc;
+  // Update border
+  if(inp)inp.style.borderColor=v>0?(STAT_C[sk]+'60'):'var(--border2)';
+  // Update counter
+  const newTot=Object.values(e.sps).reduce((a,b)=>a+b,0);
+  const totEl=document.getElementById('spTotalCount');
+  if(totEl){totEl.textContent=`${newTot} / ${SP_MAX} SP`;totEl.className='ev-counter '+(newTot>SP_MAX?'over':newTot>50?'warn':'ok');}
+}
+
+function commitSP(id,sk,val){
+  const e=box.find(b=>b.id===id);if(!e)return;
+  let v=Math.max(0,Math.min(SP_STAT_MAX,parseInt(val)||0));
+  e.sps[sk]=v;
+  const tot=Object.values(e.sps).reduce((a,b)=>a+b,0);
+  if(tot>SP_MAX){v=Math.max(0,v-(tot-SP_MAX));e.sps[sk]=v;}
+  saveBox();
+  renderConfig(); // full re-render on blur to sync everything
 }
 function presetSP(id,mode){
   const e=box.find(b=>b.id===id);if(!e)return;
