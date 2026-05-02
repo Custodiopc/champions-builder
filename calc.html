@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Damage Calculator — Champions Builder</title>
+<title>Damage Calculator — Pokémon Champions VGC | Champions Builder</title>
+<meta name="description" content="Free damage calculator for Pokémon Champions VGC. Simulate damage rolls with Mega Evolution stats, type effectiveness, STAB, items, weather, and terrain. Supports all 201+ Pokémon.">
+<meta name="keywords" content="pokemon champions damage calculator, pokemon champions calculator, pokemon champions VGC damage, pokemon champions mega evolution damage, pokemon champions SP damage, pokemon champions competitive calculator">
+<link rel="canonical" href="https://championsbuilder.com/calc.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://championsbuilder.com/calc.html">
+<meta property="og:title" content="Damage Calculator — Pokémon Champions VGC">
+<meta property="og:description" content="Free damage calculator for Pokémon Champions VGC. Mega Evolution support, SP-based stats, all modifiers.">
+<meta property="og:site_name" content="Champions Builder">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Champions Builder Damage Calculator","applicationCategory":"GameApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free damage calculator for Pokémon Champions VGC doubles. Calculates all 16 damage rolls with Mega Evolution stats, SP investments, type effectiveness, STAB, held items, weather, terrain, and field effects.","url":"https://championsbuilder.com/calc.html"}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PCXS1WKPE9"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-PCXS1WKPE9');</script>
@@ -1426,5 +1437,38 @@ renderSPRows('def');
 loadDB();
 
 </script>
+
+<!-- Static content for search engines / noscript users -->
+<noscript>
+<section style="max-width:860px;margin:0 auto;padding:40px 24px;font-family:sans-serif;color:#f0f0f8;background:#0d0d12;">
+  <h1 style="font-size:28px;margin-bottom:12px;">Damage Calculator — Pokémon Champions VGC</h1>
+  <p style="color:#8888aa;margin-bottom:24px;">Free damage calculator for <strong>Pokémon Champions</strong> (Nintendo Switch 2). Simulate all 16 damage rolls for any attacker vs. defender matchup in VGC doubles format.</p>
+
+  <h2 style="font-size:18px;color:#f0c040;margin:24px 0 8px;">How the Damage Calculator Works</h2>
+  <p>Select an attacking Pokémon and a defending Pokémon. The calculator uses the standard Gen 8/9 VGC damage formula adapted for Pokémon Champions: <code>(floor(floor(floor(2×Lv/5+2)×Power×A/D)/50)+2) × Modifiers</code>. It outputs all 16 possible damage rolls (85%–100% of base damage) and the percentage of the defender's HP each roll represents.</p>
+
+  <h2 style="font-size:18px;color:#f0c040;margin:24px 0 8px;">Supported Modifiers</h2>
+  <ul style="padding-left:20px;color:#c0c0d8;line-height:1.9;">
+    <li><strong>Mega Evolution</strong> — Automatically uses Mega stats (Attack/Sp. Atk/Defense) when a Mega Stone is equipped</li>
+    <li><strong>SP investment</strong> — Accounts for each Pokémon's Stat Point spread (up to 32 SPs per stat)</li>
+    <li><strong>Nature modifiers</strong> — 1.1× boosted / 0.9× reduced stat</li>
+    <li><strong>Type effectiveness</strong> — 0×, 0.25×, 0.5×, 1×, 2×, 4× damage</li>
+    <li><strong>STAB</strong> — 1.5× bonus when move type matches Pokémon type</li>
+    <li><strong>Held items</strong> — Life Orb, Choice Band/Specs, type-boosting items, etc.</li>
+    <li><strong>Weather</strong> — Sun (+1.5× Fire, −0.5× Water), Rain (+1.5× Water, −0.5× Fire), Sand, Snow</li>
+    <li><strong>Terrain</strong> — Electric, Grassy, Misty, Psychic</li>
+  </ul>
+
+  <h2 style="font-size:18px;color:#f0c040;margin:24px 0 8px;">Understanding Damage Rolls</h2>
+  <p>In Pokémon battles, damage is not a fixed number. A random multiplier between 85% and 100% is applied, yielding 16 discrete values. The damage calculator shows all 16 rolls so you can see guaranteed OHKOs, guaranteed 2HKOs, and the probability of each outcome.</p>
+  <p>For example, if the highest roll is 105% of the defender's HP, the move always OHKOs. If the lowest roll is 45% and the highest is 53%, you need two hits (2HKO). Knowing damage ranges is essential for team building decisions.</p>
+
+  <h2 style="font-size:18px;color:#f0c040;margin:24px 0 8px;">Pokémon Champions VGC Format</h2>
+  <p>Pokémon Champions uses <strong>VGC doubles</strong>: 2 vs. 2, team of 6, pick 4, all at level 50. Spread moves hit both opponents at 0.75× power. The damage calculator supports spread move adjustment and all Pokémon available in the Champions roster.</p>
+
+  <p style="margin-top:32px;"><a href="index.html" style="color:#f0c040;">⚡ Team Builder →</a> &nbsp;|&nbsp; <a href="learn.html" style="color:#f0c040;">📚 Competitive Guides →</a> &nbsp;|&nbsp; <a href="box.html" style="color:#f0c040;">📦 Box Manager →</a></p>
+</section>
+</noscript>
+
 </body>
 </html>
