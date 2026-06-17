@@ -81,13 +81,15 @@ body{
   font-size:10px;font-weight:700;letter-spacing:2px;
   padding:4px 12px;border-radius:4px;text-transform:uppercase;
 }
-.top-actions{display:flex;gap:8px;margin-left:8px}
+.top-actions{display:flex;align-items:center;gap:6px;margin-left:auto}
+.top-group{display:flex;align-items:center;gap:5px}
+.top-divider{width:1px;height:22px;background:var(--border2);margin:0 5px;opacity:0.6}
 
 /* ── MOBILE MENU HAMBURGUER ── */
 .mob-menu-btn{
   display:none;margin-left:auto;
   background:transparent;border:1px solid var(--border2);
-  color:var(--sub);border-radius:6px;
+  color:var(--sub);border-radius:8px;
   padding:6px 12px;cursor:pointer;font-size:20px;line-height:1;
   transition:all .15s;
 }
@@ -95,14 +97,18 @@ body{
 .mob-dropdown{
   display:none;position:fixed;top:52px;right:0;left:0;
   background:var(--s1);border-bottom:2px solid var(--border2);
-  z-index:999;padding:10px 12px;
-  flex-direction:column;gap:6px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  z-index:999;padding:14px 14px 18px;
+  flex-direction:column;gap:7px;
+  box-shadow:0 12px 40px rgba(0,0,0,0.6);
 }
 .mob-dropdown.open{display:flex}
 .mob-dropdown .btn{
   width:100%;text-align:left;padding:13px 16px;font-size:14px;
-  border-radius:8px;justify-content:flex-start;
+  border-radius:10px;justify-content:flex-start;
+}
+.mob-section-label{
+  font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--dim);padding:8px 4px 2px;
 }
 @media(max-width:768px){
   .top-actions{display:none!important}
@@ -112,18 +118,42 @@ body{
   .lang-always-visible{display:flex!important}
 }
 .btn{
-  padding:7px 16px;border:none;border-radius:6px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;border:none;border-radius:8px;cursor:pointer;
   font-family:'Inter',sans-serif;font-size:12px;font-weight:600;
-  letter-spacing:0.5px;transition:all .15s;
+  letter-spacing:0.3px;transition:all .15s;white-space:nowrap;
+  text-decoration:none;
 }
 .btn-ghost{
+  background:rgba(255,255,255,0.025);
+  border:1px solid var(--border2);color:var(--sub);
+}
+.btn-ghost:hover{border-color:var(--text);color:var(--text);background:rgba(255,255,255,0.06)}
+.btn-nav{
+  background:transparent;border:1px solid transparent;
+  color:var(--sub);padding:7px 11px;
+}
+.btn-nav:hover{background:rgba(255,255,255,0.06);color:var(--text)}
+.btn-icon{
   background:transparent;border:1px solid var(--border2);color:var(--sub);
+  padding:7px 10px;font-size:12px;
 }
-.btn-ghost:hover{border-color:var(--text);color:var(--text)}
+.btn-icon:hover{border-color:var(--text);color:var(--text)}
+.btn-coffee{
+  color:#f5a623;border:1px solid rgba(245,166,35,0.45);
+  background:rgba(245,166,35,0.1);font-weight:700;
+}
+.btn-coffee:hover{background:rgba(245,166,35,0.18);border-color:rgba(245,166,35,0.7)}
 .btn-gold{
-  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-weight:700;
 }
-.btn-gold:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-gold:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 3px 12px rgba(240,192,64,0.3)}
+.mega-badge{
+  font-size:9.5px;font-weight:700;letter-spacing:0.5px;
+  color:#c0a0ff;background:rgba(120,80,240,0.15);
+  border:1px solid rgba(120,80,240,0.35);border-radius:5px;
+  padding:2px 7px;margin-left:auto;margin-right:8px;
+}
 
 /* ── LAYOUT ── */
 .workspace{
@@ -673,19 +703,25 @@ body{
 <div class="topbar">
   <span class="logo">⚡ Champions Builder</span>
   <div class="top-sep"></div>
-  <span class="top-label" id="txt-format">Pokémon Champions · M-A Padrão</span>
+  <span class="top-label" id="txt-format">Pokémon Champions · M-B Padrão</span>
   <div class="badge" style="display:none" id="topBadge">Beta · 8 Apr 2026</div>
   <div class="top-actions">
-    <a href="https://buymeacoffee.com/pcustodio1e" target="_blank" rel="noopener" class="btn btn-ghost" style="color:#f5a623;border-color:rgba(245,166,35,0.5);background:rgba(245,166,35,0.12);font-size:13px;padding:7px 14px;font-weight:700">☕ Buy me a coffee</a>
-    <button class="btn btn-ghost" onclick="window.open('learn.html','_blank')" id="txt-btn-learn" style="color:#74b9ff;border-color:rgba(85,153,255,0.3)">📚 Learn VGC</button>
-    <button class="btn btn-ghost" onclick="window.open('pokedex.html','_blank')" style="color:#a29bfe;border-color:rgba(162,155,254,0.3)">📕 Pokédex</button>
-    <button class="btn btn-ghost" onclick="window.open('calc.html','_blank')" id="txt-btn-calc" style="color:var(--gold);border-color:rgba(240,192,64,0.3)">⚔ Damage Calc</button>
-    <button class="btn btn-ghost" onclick="window.open('box.html','_blank')" id="txt-btn-box" style="color:#4caf7d;border-color:rgba(76,175,125,0.3)">📦 Box</button>
-    <button class="btn btn-ghost" id="txt-btn-import" onclick="openImport()">↓ Import</button>
-    <button class="btn btn-ghost" id="txt-btn-saved" onclick="openSavedTeams()" style="color:var(--green);border-color:rgba(80,232,144,0.3)">💾 Saved</button>
-    <button class="btn btn-ghost" id="langBtn" onclick="toggleLang()" style="font-size:13px;padding:6px 10px">🌐 PT</button>
-    <button class="btn btn-ghost" id="txt-clear" onclick="clearTeam()">Limpar</button>
-    <button class="btn btn-gold" id="txt-export" onclick="exportTeam()">Exportar</button>
+    <a href="https://buymeacoffee.com/pcustodio1e" target="_blank" rel="noopener" class="btn btn-coffee">☕ Buy me a coffee</a>
+    <div class="top-divider"></div>
+    <div class="top-group">
+      <button class="btn btn-nav" onclick="window.open('learn.html','_blank')" id="txt-btn-learn">📚 Learn</button>
+      <button class="btn btn-nav" onclick="window.open('pokedex.html','_blank')">📕 Pokédex</button>
+      <button class="btn btn-nav" onclick="window.open('calc.html','_blank')" id="txt-btn-calc">⚔ Calc</button>
+      <button class="btn btn-nav" onclick="window.open('box.html','_blank')" id="txt-btn-box">📦 Box</button>
+    </div>
+    <div class="top-divider"></div>
+    <div class="top-group">
+      <button class="btn btn-icon" id="txt-btn-import" onclick="openImport()" title="Import team">↓</button>
+      <button class="btn btn-ghost" id="txt-btn-saved" onclick="openSavedTeams()">💾 Saved</button>
+      <button class="btn btn-icon" id="langBtn" onclick="toggleLang()">🌐 PT</button>
+      <button class="btn btn-ghost" id="txt-clear" onclick="clearTeam()">🗑 Limpar</button>
+      <button class="btn btn-gold" id="txt-export" onclick="exportTeam()">📋 Exportar</button>
+    </div>
   </div>
   <!-- BOTÃO HAMBURGUER (só mobile) -->
   <div class="lang-always-visible" style="display:none;margin-left:auto">
@@ -696,15 +732,17 @@ body{
 
 <!-- DROPDOWN MOBILE -->
 <div class="mob-dropdown" id="mobDropdown">
-  <a href="https://buymeacoffee.com/pcustodio1e" target="_blank" rel="noopener" class="btn btn-ghost" style="color:#f5a623;border-color:rgba(245,166,35,0.5);background:rgba(245,166,35,0.12);font-weight:700;justify-content:center">☕ Buy me a coffee</a>
-  <button class="btn btn-ghost" onclick="window.open('learn.html','_blank');closeMobMenu()" style="color:#74b9ff;border-color:rgba(85,153,255,0.3)" id="mob-btn-learn">📚 Learn VGC</button>
-  <button class="btn btn-ghost" onclick="window.open('pokedex.html','_blank');closeMobMenu()" style="color:#a29bfe;border-color:rgba(162,155,254,0.3)">📕 Pokédex</button>
-  <button class="btn btn-ghost" onclick="window.open('calc.html','_blank');closeMobMenu()" style="color:var(--gold);border-color:rgba(240,192,64,0.3)" id="mob-btn-calc">⚔ Damage Calc</button>
-  <button class="btn btn-ghost" onclick="window.open('box.html','_blank');closeMobMenu()" style="color:#4caf7d;border-color:rgba(76,175,125,0.3)" id="mob-btn-box">📦 Box</button>
-  <button class="btn btn-ghost" onclick="openImport();closeMobMenu()" id="mob-btn-import">↓ Import</button>
-  <button class="btn btn-ghost" onclick="openSavedTeams();closeMobMenu()" id="mob-btn-saved" style="color:var(--green);border-color:rgba(80,232,144,0.3)">💾 Saved Teams</button>
+  <a href="https://buymeacoffee.com/pcustodio1e" target="_blank" rel="noopener" class="btn btn-coffee" style="justify-content:center">☕ Buy me a coffee</a>
+  <div class="mob-section-label">Ferramentas</div>
+  <button class="btn btn-ghost" onclick="window.open('learn.html','_blank');closeMobMenu()" style="color:#74b9ff" id="mob-btn-learn">📚 Learn VGC</button>
+  <button class="btn btn-ghost" onclick="window.open('pokedex.html','_blank');closeMobMenu()" style="color:#a29bfe">📕 Pokédex</button>
+  <button class="btn btn-ghost" onclick="window.open('calc.html','_blank');closeMobMenu()" style="color:var(--gold)" id="mob-btn-calc">⚔ Damage Calc</button>
+  <button class="btn btn-ghost" onclick="window.open('box.html','_blank');closeMobMenu()" style="color:#4caf7d" id="mob-btn-box">📦 Box Manager</button>
+  <div class="mob-section-label">Meu Time</div>
   <button class="btn btn-gold" onclick="exportTeam();closeMobMenu()" id="mob-export">📋 Exportar Time</button>
-  <button class="btn btn-ghost" onclick="clearTeam();closeMobMenu()" id="mob-clear" style="color:var(--red);border-color:rgba(255,85,85,0.3)">🗑 Limpar Time</button>
+  <button class="btn btn-ghost" onclick="openImport();closeMobMenu()" id="mob-btn-import">↓ Importar Time</button>
+  <button class="btn btn-ghost" onclick="openSavedTeams();closeMobMenu()" id="mob-btn-saved" style="color:var(--green)">💾 Times Salvos</button>
+  <button class="btn btn-ghost" onclick="clearTeam();closeMobMenu()" id="mob-clear" style="color:var(--red)">🗑 Limpar Time</button>
 </div>
 
 <!-- LEGAL DISCLAIMER -->
@@ -845,7 +883,7 @@ const LANGS = {
     none: 'Nenhum',
     // UI strings
     ui: {
-      format: 'Pokémon Champions · M-A Padrão',
+      format: 'Pokémon Champions · M-B Padrão',
       clear: 'Limpar Time',
       export: 'Exportar Time',
       tabDex: 'Pokédex',
@@ -911,7 +949,7 @@ const LANGS = {
     stats: {hp:'HP',attack:'Atk',defense:'Def','special-attack':'SpA','special-defense':'SpD',speed:'Spe'},
     none: 'None',
     ui: {
-      format: 'Pokémon Champions · M-A Standard',
+      format: 'Pokémon Champions · M-B Standard',
       clear: 'Clear Team',
       export: 'Export Team',
       tabDex: 'Pokédex',
@@ -1074,9 +1112,9 @@ const MEGA_STONES = {
   'heracross':   {stones:[{stone:'Heracronite',    types:null,                    ability:'Skill Link'}]},
   'houndoom':    {stones:[{stone:'Houndoominite',  types:null,                    ability:'Solar Power'}]},
   'tyranitar':   {stones:[{stone:'Tyranitarite',   types:null,                    ability:'Sand Stream'}]},
-  'blaziken':    {stones:[{stone:'Blazikenite',    types:null,                    ability:'Speed Boost'}]},
+  'blaziken':{stones:[{stone:'Blazikenite',types:null,ability:'Speed Boost'}]},
   'gardevoir':   {stones:[{stone:'Gardevoirite',   types:null,                    ability:'Pixilate'}]},
-  'mawile':      {stones:[{stone:'Mawilite',       types:null,                    ability:'Huge Power'}]},
+  'mawile':{stones:[{stone:'Mawilite',types:null,ability:'Huge Power'}]},
   'aggron':      {stones:[{stone:'Aggronite',      types:['steel'],               ability:'Filter'}]},
   'medicham':    {stones:[{stone:'Medichamite',    types:null,                    ability:'Pure Power'}]},
   'manectric':   {stones:[{stone:'Manectite',      types:null,                    ability:'Intimidate'}]},
@@ -1092,15 +1130,15 @@ const MEGA_STONES = {
   'pidgeot':     {stones:[{stone:'Pidgeotite',     types:null,                    ability:'No Guard'}]},
   'slowbro':     {stones:[{stone:'Slowbronite',    types:null,                    ability:'Shell Armor'}]},
   'steelix':     {stones:[{stone:'Steelixite',     types:null,                    ability:'Sand Force'}]},
-  'sceptile':    {stones:[{stone:'Sceptilite',     types:['grass','dragon'],      ability:'Lightning Rod'}]},
-  'swampert':    {stones:[{stone:'Swampertite',    types:null,                    ability:'Swift Swim'}]},
+  'sceptile':{stones:[{stone:'Sceptilite',types:['grass','dragon'],ability:'Lightning Rod'}]},
+  'swampert':{stones:[{stone:'Swampertite',types:null,ability:'Swift Swim'}]},
   'sableye':     {stones:[{stone:'Sablenite',      types:null,                    ability:'Magic Bounce'}]},
   'sharpedo':    {stones:[{stone:'Sharpedonite',   types:null,                    ability:'Strong Jaw'}]},
   'camerupt':    {stones:[{stone:'Cameruptite',    types:null,                    ability:'Sheer Force'}]},
   'altaria':     {stones:[{stone:'Altarianite',    types:['dragon','fairy'],      ability:'Pixilate'}]},
   'glalie':      {stones:[{stone:'Glalitite',      types:null,                    ability:'Refrigerate'}]},
   'salamence':   {stones:[{stone:'Salamencite',    types:null,                    ability:'Aerilate'}]},
-  'metagross':   {stones:[{stone:'Metagrossite',   types:null,                    ability:'Tough Claws'}]},
+  'metagross':{stones:[{stone:'Metagrossite',types:null,ability:'Tough Claws'}]},
   'lopunny':     {stones:[{stone:'Lopunnite',      types:['normal','fighting'],   ability:'Scrappy'}]},
   'gallade':     {stones:[{stone:'Galladite',      types:null,                    ability:'Inner Focus'}]},
   'audino':      {stones:[{stone:'Audinite',       types:['normal','fairy'],      ability:'Healer'}]},
@@ -1117,7 +1155,7 @@ const MEGA_STONES = {
   'froslass':    {stones:[{stone:'Froslassite',    types:null,                    ability:'Snow Warning'}]},
   'emboar':      {stones:[{stone:'Emboarite',      types:null,                    ability:'Mold Breaker'}]},
   'excadrill':   {stones:[{stone:'Excadrite',      types:null,                    ability:'Piercing Drill'}]},
-  'chandelure':  {stones:[{stone:'Chandelurite',   types:null,                    ability:'Infiltrator'}]},
+  'chandelure':{stones:[{stone:'Chandelurite',types:null,ability:'Infiltrator'}]},
   'golurk':      {stones:[{stone:'Golurkite',      types:null,                    ability:'Unseen Fist'}]},
   'chesnaught':  {stones:[{stone:'Chesnaughtite',  types:null,                    ability:'Bulletproof'}]},
   'delphox':     {stones:[{stone:'Delphoxite',     types:null,                    ability:'Levitate'}]},
@@ -1125,30 +1163,131 @@ const MEGA_STONES = {
   'floette':     {stones:[{stone:'Floettite',      types:null,                    ability:'Fairy Aura'}]},
   'meowstic':    {stones:[{stone:'Meowsticite',    types:null,                    ability:'Trace'}]},
   'hawlucha':    {stones:[{stone:'Hawluchanite',   types:null,                    ability:'No Guard'}]},
-  'goodra':      {stones:[{stone:'Goodranite',     types:null,                    ability:null}]},
   'drampa':      {stones:[{stone:'Drampanite',     types:null,                    ability:'Berserk'}]},
-  'barbaracle':  {stones:[{stone:'Barbaracite',    types:['rock','fighting'],     ability:null}]},
-  'dragalge':    {stones:[{stone:'Dragalgite',     types:null,                    ability:null}]},
+  'barbaracle':{stones:[{stone:'Barbaraclite',types:null,ability:'Tough Claws'}]},
+  'dragalge':{stones:[{stone:'Dragalgite',types:null,ability:'Regenerator'}]},
   // ── MEGA DIMENSION DLC ──
-  'raichu':      {stones:[{stone:'Raichunite X',   types:null,                    ability:null},
-                           {stone:'Raichunite Y',   types:null,                    ability:null}]},
-  'heatran':     {stones:[{stone:'Heatranite',     types:null,                    ability:null}]},
-  'darkrai':     {stones:[{stone:'Darkranite',     types:null,                    ability:null}]},
-  'golurk':      {stones:[{stone:'Golurkite',      types:null,                    ability:null}]},
+  'raichu':{stones:[{stone:'Raichunite X',types:null,ability:'Electric Surge'},{stone:'Raichunite Y',types:['electric','psychic'],ability:'No Guard'}]},
   'crabominable':{stones:[{stone:'Crabominite',    types:null,                    ability:null}]},
-  'zeraora':     {stones:[{stone:'Zeraorite',      types:null,                    ability:null}]},
   'scovillain':  {stones:[{stone:'Scovillainite',  types:null,                    ability:null}]},
   'glimmora':    {stones:[{stone:'Glimmoranite',   types:null,                    ability:null}]},
-  'tatsugiri':   {stones:[{stone:'Tatsugirinite',  types:null,                    ability:null}]},
-  'baxcalibur':  {stones:[{stone:'Baxcalibrite',   types:null,                    ability:null}]},
-  'staraptor':   {stones:[{stone:'Staraptite',     types:null,                    ability:null}]},
-  'magearna':    {stones:[{stone:'Magearnite',     types:null,                    ability:null}]},
+  'staraptor':{stones:[{stone:'Staraptorite',types:null,ability:'Contrary'}]},
+  'scolipede':{stones:[{stone:'Scolipedite',types:null,ability:'Shell Armor'}]},
+  'scrafty':{stones:[{stone:'Scraftite',types:null,ability:'Intimidate'}]},
+  'eelektross':{stones:[{stone:'Eelektrossite',types:null,ability:'Eelevate'}]},
+  'pyroar':{stones:[{stone:'Pyroarite',types:null,ability:'Fire Mane'}]},
+  'malamar':{stones:[{stone:'Malamarite',types:null,ability:'Contrary'}]},
+  'falinks':{stones:[{stone:'Falinksite',types:null,ability:'Defiant'}]}
 };
 
 // Helper: get all mega stones for a pokemon → returns {stones:[{stone,types}]} or null
 function getMegaStones(name) {
   const key = (name||'').toLowerCase().replace(/-/g,' ').split(' ')[0];
   return MEGA_STONES[key] || MEGA_STONES[(name||'').toLowerCase()] || null;
+}
+
+// ── MEGA STATS (Bloco 4) ──
+const MEGA_STATS={
+  'raichunite x':{'hp':60,'attack':135,'defense':95,'special-attack':90,'special-defense':95,'speed':110},
+  'raichunite y':{'hp':60,'attack':100,'defense':55,'special-attack':160,'special-defense':80,'speed':130},
+  'staraptorite':{'hp':85,'attack':140,'defense':100,'special-attack':60,'special-defense':90,'speed':110},
+  'scolipedite':{'hp':60,'attack':140,'defense':149,'special-attack':75,'special-defense':99,'speed':62},
+  'scraftite':{'hp':65,'attack':130,'defense':135,'special-attack':55,'special-defense':135,'speed':68},
+  'eelektrossite':{'hp':85,'attack':145,'defense':80,'special-attack':135,'special-defense':90,'speed':80},
+  'pyroarite':{'hp':86,'attack':88,'defense':92,'special-attack':129,'special-defense':86,'speed':126},
+  'malamarite':{'hp':86,'attack':102,'defense':88,'special-attack':98,'special-defense':120,'speed':88},
+  'barbaraclite':{'hp':72,'attack':140,'defense':130,'special-attack':64,'special-defense':106,'speed':88},
+  'dragalgite':{'hp':65,'attack':85,'defense':105,'special-attack':132,'special-defense':163,'speed':44},
+  'falinksite':{'hp':65,'attack':135,'defense':135,'special-attack':70,'special-defense':65,'speed':100},
+  'chandelurite':{'hp':60,'attack':75,'defense':110,'special-attack':175,'special-defense':110,'speed':90},
+  'venusaurite':{'hp':80,'attack':100,'defense':123,'special-attack':122,'special-defense':120,'speed':80},
+  'charizardite x':{'hp':78,'attack':130,'defense':111,'special-attack':130,'special-defense':85,'speed':100},
+  'charizardite y':{'hp':78,'attack':104,'defense':78,'special-attack':159,'special-defense':115,'speed':100},
+  'blastoisinite':{'hp':79,'attack':103,'defense':120,'special-attack':135,'special-defense':115,'speed':78},
+  'alakazite':{'hp':55,'attack':50,'defense':65,'special-attack':175,'special-defense':105,'speed':150},
+  'gengarite':{'hp':60,'attack':65,'defense':80,'special-attack':170,'special-defense':95,'speed':130},
+  'kangaskhanite':{'hp':105,'attack':125,'defense':100,'special-attack':60,'special-defense':100,'speed':100},
+  'pinsirite':{'hp':65,'attack':155,'defense':120,'special-attack':65,'special-defense':90,'speed':105},
+  'gyaradosite':{'hp':95,'attack':155,'defense':109,'special-attack':70,'special-defense':130,'speed':81},
+  'aerodactylite':{'hp':80,'attack':135,'defense':85,'special-attack':70,'special-defense':95,'speed':150},
+  'mewtwonite x':{'hp':106,'attack':190,'defense':100,'special-attack':154,'special-defense':100,'speed':130},
+  'mewtwonite y':{'hp':106,'attack':150,'defense':70,'special-attack':194,'special-defense':120,'speed':140},
+  'ampharosite':{'hp':90,'attack':95,'defense':105,'special-attack':165,'special-defense':110,'speed':45},
+  'scizorite':{'hp':70,'attack':150,'defense':140,'special-attack':65,'special-defense':100,'speed':75},
+  'heracronite':{'hp':80,'attack':185,'defense':115,'special-attack':40,'special-defense':105,'speed':75},
+  'houndoominite':{'hp':75,'attack':90,'defense':90,'special-attack':140,'special-defense':90,'speed':115},
+  'tyranitarite':{'hp':100,'attack':164,'defense':150,'special-attack':95,'special-defense':120,'speed':71},
+  'blazikenite':{'hp':80,'attack':160,'defense':80,'special-attack':130,'special-defense':80,'speed':100},
+  'gardevoirite':{'hp':68,'attack':85,'defense':65,'special-attack':165,'special-defense':135,'speed':100},
+  'mawilite':{'hp':50,'attack':105,'defense':125,'special-attack':55,'special-defense':95,'speed':50},
+  'aggronite':{'hp':70,'attack':140,'defense':230,'special-attack':60,'special-defense':80,'speed':50},
+  'medichamite':{'hp':60,'attack':100,'defense':85,'special-attack':80,'special-defense':85,'speed':100},
+  'manectite':{'hp':70,'attack':75,'defense':80,'special-attack':135,'special-defense':80,'speed':135},
+  'banettite':{'hp':64,'attack':165,'defense':75,'special-attack':93,'special-defense':83,'speed':75},
+  'absolite':{'hp':65,'attack':150,'defense':60,'special-attack':115,'special-defense':60,'speed':115},
+  'latiasite':{'hp':80,'attack':100,'defense':120,'special-attack':140,'special-defense':150,'speed':110},
+  'latiosite':{'hp':80,'attack':130,'defense':100,'special-attack':160,'special-defense':120,'speed':110},
+  'garchompite':{'hp':108,'attack':170,'defense':115,'special-attack':120,'special-defense':95,'speed':92},
+  'lucarionite':{'hp':70,'attack':145,'defense':88,'special-attack':140,'special-defense':70,'speed':112},
+  'abomasite':{'hp':90,'attack':132,'defense':105,'special-attack':132,'special-defense':105,'speed':30},
+  'beedrillite':{'hp':65,'attack':150,'defense':40,'special-attack':15,'special-defense':80,'speed':145},
+  'pidgeotite':{'hp':83,'attack':80,'defense':80,'special-attack':135,'special-defense':80,'speed':121},
+  'slowbronite':{'hp':95,'attack':75,'defense':180,'special-attack':130,'special-defense':80,'speed':30},
+  'steelixite':{'hp':75,'attack':125,'defense':230,'special-attack':55,'special-defense':95,'speed':30},
+  'sceptilite':{'hp':70,'attack':110,'defense':75,'special-attack':145,'special-defense':85,'speed':145},
+  'swampertite':{'hp':100,'attack':150,'defense':110,'special-attack':95,'special-defense':110,'speed':70},
+  'sablenite':{'hp':50,'attack':85,'defense':125,'special-attack':85,'special-defense':115,'speed':50},
+  'sharpedonite':{'hp':70,'attack':140,'defense':70,'special-attack':110,'special-defense':65,'speed':105},
+  'cameruptite':{'hp':70,'attack':120,'defense':100,'special-attack':145,'special-defense':105,'speed':20},
+  'altarianite':{'hp':75,'attack':110,'defense':110,'special-attack':110,'special-defense':105,'speed':80},
+  'glalitite':{'hp':80,'attack':120,'defense':80,'special-attack':120,'special-defense':80,'speed':100},
+  'salamencite':{'hp':95,'attack':145,'defense':130,'special-attack':120,'special-defense':90,'speed':120},
+  'metagrossite':{'hp':80,'attack':145,'defense':150,'special-attack':105,'special-defense':110,'speed':110},
+  'lopunnite':{'hp':65,'attack':136,'defense':94,'special-attack':54,'special-defense':96,'speed':135},
+  'galladite':{'hp':68,'attack':165,'defense':95,'special-attack':65,'special-defense':115,'speed':110},
+  'audinite':{'hp':103,'attack':60,'defense':126,'special-attack':80,'special-defense':126,'speed':50},
+  'diancite':{'hp':50,'attack':160,'defense':110,'special-attack':160,'special-defense':110,'speed':110},
+  'clefablite':{'hp':95,'attack':80,'defense':93,'special-attack':135,'special-defense':110,'speed':70},
+  'victreebelite':{'hp':80,'attack':125,'defense':85,'special-attack':135,'special-defense':95,'speed':70},
+  'starminite':{'hp':60,'attack':140,'defense':105,'special-attack':130,'special-defense':105,'speed':120},
+  'dragoninite':{'hp':91,'attack':124,'defense':115,'special-attack':145,'special-defense':125,'speed':100},
+  'meganiumite':{'hp':80,'attack':92,'defense':115,'special-attack':143,'special-defense':115,'speed':80},
+  'feraligite':{'hp':85,'attack':160,'defense':125,'special-attack':89,'special-defense':93,'speed':78},
+  'skarmorite':{'hp':65,'attack':140,'defense':110,'special-attack':40,'special-defense':100,'speed':110},
+  'froslassite':{'hp':70,'attack':80,'defense':70,'special-attack':140,'special-defense':100,'speed':120},
+  'emboarite':{'hp':110,'attack':148,'defense':75,'special-attack':110,'special-defense':110,'speed':75},
+  'excadrite':{'hp':110,'attack':164,'defense':100,'special-attack':65,'special-defense':65,'speed':103},
+  'chesnaughtite':{'hp':88,'attack':137,'defense':172,'special-attack':74,'special-defense':115,'speed':44},
+  'delphoxite':{'hp':75,'attack':69,'defense':72,'special-attack':159,'special-defense':125,'speed':134},
+  'greninjite':{'hp':72,'attack':125,'defense':77,'special-attack':133,'special-defense':81,'speed':142},
+  'hawluchanite':{'hp':78,'attack':137,'defense':100,'special-attack':74,'special-defense':93,'speed':118},
+  'floettite':{'hp':74,'attack':85,'defense':87,'special-attack':155,'special-defense':148,'speed':102},
+  'drampanite':{'hp':78,'attack':85,'defense':110,'special-attack':160,'special-defense':116,'speed':36},
+  'scovillainite':{'hp':65,'attack':138,'defense':85,'special-attack':138,'special-defense':85,'speed':75},
+  'meowsticite':{'hp':74,'attack':48,'defense':76,'special-attack':123,'special-defense':81,'speed':124},
+  'golurkite':{'hp':89,'attack':144,'defense':100,'special-attack':55,'special-defense':90,'speed':75}
+};
+
+// Returns the effective base stats for a team slot, accounting for an equipped Mega Stone.
+// If the slot's held item is a Mega Stone with known stats, returns the Mega's base stats.
+// Otherwise returns the Pokémon's normal base stats.
+function getMegaStatsForItem(item){
+  if(!item) return null;
+  return MEGA_STATS[item.toLowerCase()] || null;
+}
+function getEffectiveStats(s){
+  if(!s || !s.pokemon) return {};
+  const baseStats = s.pokemon.stats || {};
+  const mega = getMegaStatsForItem(s.item);
+  return mega ? mega : baseStats;
+}
+function getEffectiveStat(s, sk){
+  const stats = getEffectiveStats(s);
+  return (stats && stats[sk]) || 50;
+}
+// True if this slot currently has a Mega Stone equipped that changes stats
+function isMegaActive(s){
+  return !!getMegaStatsForItem(s && s.item);
 }
 
 // Build item list — confirmed from Serebii Champions items page
@@ -1165,6 +1304,11 @@ const ITEMS_GENERIC = [
   'King\'s Rock','Leftovers','Lum Berry','Quick Claw','Sitrus Berry','White Herb',
   // 1000 VP items
   'Light Ball','Mental Herb','Scope Lens',
+  // New competitive items
+  'Wide Lens','Muscle Band','Wise Glasses','Expert Belt','Light Clay',
+  'Life Orb','Zoom Lens','Metronome','Iron Ball','Shed Shell','Big Root',
+  // Weather rocks
+  'Icy Rock','Smooth Rock','Heat Rock','Damp Rock',
   // Berries (400 VP each)
   'Aspear Berry','Babiri Berry','Charti Berry','Cheri Berry','Chesto Berry',
   'Chilan Berry','Chople Berry','Coba Berry','Colbur Berry','Haban Berry',
@@ -1427,6 +1571,34 @@ function getChampionsMoves(pokemonName) {
   return CHAMPIONS_MOVES[base] || null;
 }
 
+// ── CHAMPIONS MOVE ADJUSTMENTS (Bloco 5) ──
+// Surgical add/remove layer applied on top of the PokeAPI fallback moveset.
+// Keyed by base species slug. Adds ensure a legal move is present; removes strip
+// moves that are not legal in Pokémon Champions even though PokeAPI lists them.
+const CHAMPIONS_MOVE_ADD = {
+  'sceptile':['earth-power'],
+  'scolipede':['leech-life','trailblaze'],
+};
+const CHAMPIONS_MOVE_REMOVE = {
+  'annihilape':['final-gambit'],
+  'grimmsnarl':['false-surrender','thunder-wave'],
+  'scrafty':['parting-shot'],
+  'overqwil':['mortal-spin'],
+  'metagross':['heavy-slam'],
+};
+// Apply add/remove adjustments to a moveset for a given Pokémon name/slug.
+function applyChampionsMoveAdjustments(name, moves){
+  if(!Array.isArray(moves)) return moves;
+  const key = (name||'').toLowerCase().replace(/ /g,'-').replace(/\./g,'').replace(/'/g,'');
+  const base = key.split('-')[0];
+  let out = moves.slice();
+  const removes = CHAMPIONS_MOVE_REMOVE[key] || CHAMPIONS_MOVE_REMOVE[base];
+  if(removes) out = out.filter(m => !removes.includes(m));
+  const adds = CHAMPIONS_MOVE_ADD[key] || CHAMPIONS_MOVE_ADD[base];
+  if(adds){ adds.forEach(m => { if(!out.includes(m)) out.push(m); }); out.sort(); }
+  return out;
+}
+
 // ══════════════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════════════
@@ -1445,6 +1617,8 @@ const CHAMPIONS_SET = new Set([
   'venusaur','charizard','blastoise','beedrill','pidgeot',
   // #024 Arbok · #025 Pikachu · #026 Raichu (Kanto + Alola)
   'arbok','pikachu','raichu','raichu-alola',
+  // #045 Vileplume
+  'vileplume',
   // #036 Clefable · #038 Ninetales (Kanto + Alola) · #059 Arcanine (Kanto + Hisui)
   'clefable','ninetales','ninetales-alola','arcanine','arcanine-hisui',
   // #065 Alakazam · #068 Machamp · #071 Victreebel
@@ -1469,18 +1643,24 @@ const CHAMPIONS_SET = new Set([
   'forretress','steelix','scizor','heracross',
   // #227 Skarmory · #229 Houndoom · #248 Tyranitar
   'skarmory','houndoom','tyranitar',
+  // #211 Qwilfish · #254 Sceptile · #257 Blaziken · #260 Swampert
+  'qwilfish','sceptile','blaziken','swampert',
   // Gen 3
   // #279 Pelipper · #282 Gardevoir · #302 Sableye · #306 Aggron
-  'pelipper','gardevoir','sableye','aggron',
+  'pelipper','gardevoir','sableye','mawile','aggron',
   // #308 Medicham · #310 Manectric · #319 Sharpedo · #323 Camerupt
   'medicham','manectric','sharpedo','camerupt',
   // #324 Torkoal · #334 Altaria · #350 Milotic · #351 Castform
   'torkoal','altaria','milotic','castform',
   // #354 Banette · #358 Chimecho · #359 Absol · #362 Glalie
   'banette','chimecho','absol','glalie',
+  // #376 Metagross
+  'metagross',
   // Gen 4
   // #389 Torterra · #392 Infernape · #395 Empoleon
   'torterra','infernape','empoleon',
+  // #398 Staraptor
+  'staraptor',
   // #405 Luxray · #407 Roserade · #409 Rampardos · #411 Bastiodon
   'luxray','roserade','rampardos','bastiodon',
   // #428 Lopunny · #442 Spiritomb · #445 Garchomp · #448 Lucario
@@ -1497,25 +1677,41 @@ const CHAMPIONS_SET = new Set([
   'serperior','emboar','samurott','samurott-hisui',
   // #505 Watchog · #510 Liepard · #512 Simisage · #514 Simisear · #516 Simipour
   'watchog','liepard','simisage','simisear','simipour',
+  // #518 Musharna
+  'musharna',
   // #530 Excadrill · #531 Audino · #534 Conkeldurr · #547 Whimsicott
-  'excadrill','audino','conkeldurr','whimsicott',
+  'excadrill','audino','conkeldurr',
+  // #545 Scolipede
+  'scolipede',
+  'whimsicott',
   // #553 Krookodile · #563 Cofagrigus · #569 Garbodor
+  // #560 Scrafty
+  'scrafty',
   'krookodile','cofagrigus','garbodor',
   // #571 Zoroark (Unova + Hisui) · #579 Reuniclus · #584 Vanilluxe
   'zoroark','zoroark-hisui','reuniclus','vanilluxe',
   // #587 Emolga · #609 Chandelure · #614 Beartic
-  'emolga','chandelure','beartic',
+  'emolga',
+  // #604 Eelektross
+  'eelektross',
+  'chandelure','beartic',
   // #618 Stunfisk (Kanto + Galar) · #623 Golurk · #635 Hydreigon · #637 Volcarona
   'stunfisk','stunfisk-galar','golurk','hydreigon','volcarona',
   // Gen 6
   // #652 Chesnaught · #655 Delphox · #658 Greninja · #660 Diggersby
   'chesnaught','delphox','greninja','diggersby',
   // #663 Talonflame · #666 Vivillon · #670 Floette · #671 Florges
-  'talonflame','vivillon','floette','florges',
+  'talonflame','vivillon',
+  // #668 Pyroar
+  'pyroar',
+  'floette','florges',
   // #675 Pangoro · #676 Furfrou · #678 Meowstic (M + F) · #681 Aegislash
   'pangoro','furfrou','meowstic','meowstic-male','meowstic-female','aegislash','aegislash-shield','aegislash-blade',
   // #683 Aromatisse · #685 Slurpuff · #693 Clawitzer · #695 Heliolisk
-  'aromatisse','slurpuff','clawitzer','heliolisk',
+  'aromatisse','slurpuff',
+  // #687 Malamar · #689 Barbaracle · #691 Dragalge
+  'malamar','barbaracle','dragalge',
+  'clawitzer','heliolisk',
   // #697 Tyrantrum · #699 Aurorus · #700 Sylveon
   'tyrantrum','aurorus','sylveon',
   // #701 Hawlucha · #702 Dedenne · #706 Goodra (Kalos + Hisui)
@@ -1539,12 +1735,20 @@ const CHAMPIONS_SET = new Set([
   // #823 Corviknight · #841 Flapple · #842 Appletun · #844 Sandaconda
   'corviknight','flapple','appletun','sandaconda',
   // #855 Polteageist · #858 Hatterene · #866 Mr. Rime · #867 Runerigus
-  'polteageist','hatterene','mr-rime','runerigus',
+  'polteageist','hatterene',
+  // #861 Grimmsnarl
+  'grimmsnarl',
+  'mr-rime','runerigus',
   // #869 Alcremie · #877 Morpeko · #887 Dragapult
-  'alcremie','morpeko','dragapult',
+  'alcremie',
+  // #870 Falinks
+  'falinks',
+  'morpeko','dragapult',
   // Gen 8 Hisui/Legends
   // #899 Wyrdeer · #900 Kleavor · #902 Basculegion · #903 Sneasler
   'wyrdeer','kleavor','basculegion','basculegion-male','basculegion-female','sneasler',
+  // #904 Overqwil
+  'overqwil',
   // Gen 9
   // #908 Meowscarada · #911 Skeledirge · #914 Quaquaval
   'meowscarada','skeledirge','quaquaval',
@@ -1553,9 +1757,15 @@ const CHAMPIONS_SET = new Set([
   // #939 Bellibolt · #952 Scovillain · #956 Espathra · #959 Tinkaton
   'bellibolt','scovillain','espathra','tinkaton',
   // #964 Palafin · #968 Orthworm · #970 Glimmora · #981 Farigiraf
-  'palafin','palafin-hero','orthworm','glimmora','farigiraf',
+  'palafin','palafin-hero','orthworm','glimmora',
+  // #972 Houndstone · #979 Annihilape
+  'houndstone','annihilape',
+  'farigiraf',
   // #983 Kingambit · #1013 Sinistcha · #1018 Archaludon · #1019 Hydrapple
-  'kingambit','sinistcha','archaludon','hydrapple',
+  'kingambit',
+  // #1000 Gholdengo
+  'gholdengo',
+  'sinistcha','archaludon','hydrapple',
 ]);
 let moveData = {};     // cache {name:{power,pp,type,category,accuracy}}
 
@@ -1751,6 +1961,7 @@ async function loadAltForms() {
       };
       const champMoves = getChampionsMoves(name) || getChampionsMoves(baseName);
       if(champMoves) entry.moves = champMoves;
+      entry.moves = applyChampionsMoveAdjustments(name, entry.moves);
       fd.stats.forEach(s => entry.stats[s.stat.name] = s.base_stat);
       if(!db.find(p=>p.name===entry.name)) db.push(entry);
     } catch(e){}
@@ -1833,6 +2044,7 @@ async function loadAltForms() {
           };
           const champMoves = getChampionsMoves(f.name) || getChampionsMoves(baseName);
           if(champMoves) entry.moves = champMoves;
+          entry.moves = applyChampionsMoveAdjustments(f.name, entry.moves);
           fd.stats.forEach(s => entry.stats[s.stat.name] = s.base_stat);
           if(!db.find(p=>p.name===entry.name)) db.push(entry);
         } catch(e){}
@@ -1860,6 +2072,7 @@ async function loadDetailsInBg() {
         // Override with Champions-specific moves if available
         const champMoves = getChampionsMoves(p.name);
         if(champMoves) p.moves = champMoves;
+        p.moves = applyChampionsMoveAdjustments(p.name, p.moves);
         p.abilities = d.abilities.map(a=>a.ability.name);
         p.sprite = d.sprites.front_default || spriteUrl(p.id);
       } catch(e){}
@@ -2243,11 +2456,12 @@ function renderConfig() {
       <div class="ev-section">
         <div class="ev-header">
           <span class="sec-lbl">${T.ui.spTitle}</span>
+          ${isMegaActive(s) ? `<span class="mega-badge">⬡ Mega Stats</span>` : ''}
           <span class="ev-counter ${spCls}">${spTotal} / ${SP_MAX_TOTAL} SP</span>
         </div>
         <div class="ev-rows">
           ${STAT_K.map(sk => {
-            const base = (p.stats&&p.stats[sk])||50;
+            const base = getEffectiveStat(s, sk);
             const sp = s.sps[sk]||0;
             const calc = calcStat(sk,base,sp,nat);
             const isB = nat.b===sk, isR = nat.r===sk;
@@ -2375,7 +2589,7 @@ function updNatureDOM(si) {
 
   // Recalculate and update each stat display
   STAT_K.forEach(sk => {
-    const base = (p.stats && p.stats[sk]) || 50;
+    const base = getEffectiveStat(s, sk);
     const sp = s.sps[sk] || 0;
     const calc = calcStat(sk, base, sp, nat);
     const isB = nat.b === sk, isR = nat.r === sk;
@@ -2662,7 +2876,7 @@ function updSP(si, sk, val) {
   const s = team[si];
   const p = s.pokemon;
   const nat = NATURES.find(n=>n.n===s.nature)||NATURES[3];
-  const base = (p.stats&&p.stats[sk])||50;
+  const base = getEffectiveStat(s, sk);
   const calc = calcStat(sk, base, v, nat);
   const pct = Math.round((v/SP_MAX_STAT)*100);
 
@@ -3144,18 +3358,20 @@ const _origRenderTeamBar = renderTeamBar;
 function applyNewButtonStrings() {
   const isPt = lang==='pt';
   const set = (id,txt)=>{const el=document.getElementById(id);if(el)el.textContent=txt;};
-  // Desktop
-  set('txt-btn-learn', isPt?'📚 Aprender VGC':'📚 Learn VGC');
-  set('txt-btn-calc',  isPt?'⚔ Calc Dano':'⚔ Damage Calc');
-  set('txt-btn-import',isPt?'↓ Importar':'↓ Import');
+  // Desktop — compact nav buttons
+  set('txt-btn-learn', isPt?'📚 Aprender':'📚 Learn');
+  set('txt-btn-calc',  isPt?'⚔ Calc':'⚔ Calc');
+  set('txt-btn-box',   isPt?'📦 Box':'📦 Box');
+  set('txt-btn-import','↓');
   set('txt-btn-saved', isPt?'💾 Salvos':'💾 Saved');
-  set('txt-clear',     isPt?'Limpar':'Clear');
-  set('txt-export',    isPt?'Exportar':'Export');
+  set('txt-clear',     isPt?'🗑 Limpar':'🗑 Clear');
+  set('txt-export',    isPt?'📋 Exportar':'📋 Export');
   set('langBtn',       isPt?'🌐 EN':'🌐 PT');
   // Mobile dropdown
   set('mob-btn-learn', isPt?'📚 Aprender VGC':'📚 Learn VGC');
-  set('mob-btn-calc',  isPt?'⚔ Calc Dano':'⚔ Damage Calc');
-  set('mob-btn-import',isPt?'↓ Importar':'↓ Import');
+  set('mob-btn-calc',  isPt?'⚔ Calculadora de Dano':'⚔ Damage Calc');
+  set('mob-btn-box',   isPt?'📦 Gerenciar Box':'📦 Box Manager');
+  set('mob-btn-import',isPt?'↓ Importar Time':'↓ Import Team');
   set('mob-btn-saved', isPt?'💾 Times Salvos':'💾 Saved Teams');
   // langBtnMob sincronizado com langBtn
   set('langBtnMob', isPt?'🌐 EN':'🌐 PT');

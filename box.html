@@ -264,7 +264,7 @@ select.cfg-select option{background:var(--s2);}
 'use strict';
 const BOX_KEY='cb-box-v1';
 const TC={normal:'#9199a1',fire:'#ff9d55',water:'#5090d6',electric:'#f4d23c',grass:'#63bc5a',ice:'#74cec0',fighting:'#ce416b',poison:'#ab6ac8',ground:'#d97845',flying:'#8fa8dd',psychic:'#f97176',bug:'#91c12f',rock:'#c5b78b',ghost:'#5269ac',dragon:'#0b6dc3',dark:'#595761',steel:'#5a8ea2',fairy:'#ec8fe6'};
-const CHAMPIONS_SET=new Set(['abomasnow','absol','aegislash','aegislash-shield','aegislash-blade','aerodactyl','aggron','alakazam','alcremie','altaria','ampharos','appletun','araquanid','arbok','arcanine','arcanine-hisui','archaludon','ariados','armarouge','aromatisse','audino','aurorus','avalugg','avalugg-hisui','azumarill','banette','basculegion','basculegion-male','basculegion-female','bastiodon','beartic','beedrill','bellibolt','blastoise','camerupt','castform','ceruledge','chandelure','charizard','chesnaught','chimecho','clawitzer','clefable','cofagrigus','conkeldurr','corviknight','crabominable','decidueye','decidueye-hisui','dedenne','delphox','diggersby','ditto','dragapult','dragonite','drampa','emboar','emolga','empoleon','espathra','espeon','excadrill','farigiraf','feraligatr','flapple','flareon','floette','florges','forretress','froslass','furfrou','gallade','garbodor','garchomp','gardevoir','garganacl','gengar','glaceon','glalie','glimmora','gliscor','golurk','goodra','goodra-hisui','gourgeist','greninja','gyarados','hatterene','hawlucha','heliolisk','heracross','hippowdon','houndoom','hydrapple','hydreigon','incineroar','infernape','jolteon','kangaskhan','kingambit','kleavor','klefki','kommo-o','krookodile','leafeon','liepard','lopunny','lucario','luxray','lycanroc','lycanroc-dusk','lycanroc-midday','lycanroc-midnight','machamp','mamoswine','manectric','maushold','maushold-family-of-three','maushold-family-of-four','medicham','meganium','meowscarada','meowstic','meowstic-male','meowstic-female','milotic','mimikyu','mimikyu-disguised','morpeko','mr-rime','mudsdale','ninetales','ninetales-alola','noivern','oranguru','orthworm','palafin','palafin-hero','pangoro','passimian','pelipper','pidgeot','pikachu','pinsir','politoed','polteageist','polteageist-antique','primarina','quaquaval','raichu','raichu-alola','rampardos','reuniclus','rhyperior','roserade','rotom','rotom-heat','rotom-wash','rotom-frost','rotom-fan','rotom-mow','runerigus','sableye','salazzle','samurott','samurott-hisui','sandaconda','scizor','scovillain','serperior','sharpedo','simipour','simisage','simisear','sinistcha','sinistcha-masterpiece','skarmory','skeledirge','slowbro','slowbro-galar','slowking','slowking-galar','slurpuff','sneasler','snorlax','spiritomb','starmie','steelix','stunfisk','stunfisk-galar','sylveon','talonflame','tauros','tauros-paldea','tauros-paldea-combat','tauros-paldea-blaze','tauros-paldea-aqua','tauros-paldean-combat-breed','tauros-paldean-blaze-breed','tauros-paldean-aqua-breed','tinkaton','torkoal','torterra','toucannon','toxapex','toxicroak','trevenant','tsareena','typhlosion','typhlosion-hisui','tyranitar','tyrantrum','umbreon','vanilluxe','vaporeon','venusaur','victreebel','vivillon','volcarona','watchog','weavile','whimsicott','wyrdeer','zoroark','zoroark-hisui']);
+const CHAMPIONS_SET=new Set(['abomasnow','absol','aegislash','aegislash-shield','aegislash-blade','aerodactyl','aggron','alakazam','alcremie','altaria','ampharos','appletun','araquanid','arbok','arcanine','arcanine-hisui','archaludon','ariados','armarouge','annihilape','aromatisse','audino','aurorus','avalugg','avalugg-hisui','azumarill','banette','barbaracle','basculegion','basculegion-male','basculegion-female','bastiodon','beartic','beedrill','bellibolt','blastoise','blaziken','camerupt','castform','ceruledge','chandelure','charizard','chesnaught','chimecho','clawitzer','clefable','cofagrigus','conkeldurr','corviknight','crabominable','decidueye','decidueye-hisui','dedenne','delphox','diggersby','ditto','dragalge','dragapult','dragonite','drampa','eelektross','emboar','emolga','empoleon','espathra','espeon','excadrill','falinks','farigiraf','feraligatr','flapple','flareon','floette','florges','forretress','froslass','furfrou','gallade','garbodor','garchomp','gardevoir','garganacl','gengar','gholdengo','glaceon','glalie','glimmora','gliscor','golurk','goodra','goodra-hisui','gourgeist','greninja','grimmsnarl','gyarados','hatterene','hawlucha','heliolisk','heracross','hippowdon','houndoom','houndstone','hydrapple','hydreigon','incineroar','infernape','jolteon','kangaskhan','kingambit','kleavor','klefki','kommo-o','krookodile','leafeon','liepard','lopunny','lucario','luxray','lycanroc','lycanroc-dusk','lycanroc-midday','lycanroc-midnight','machamp','malamar','mamoswine','manectric','mawile','maushold','maushold-family-of-three','maushold-family-of-four','medicham','meganium','meowscarada','metagross','meowstic','meowstic-male','meowstic-female','milotic','mimikyu','mimikyu-disguised','morpeko','mr-rime','musharna','mudsdale','ninetales','ninetales-alola','noivern','oranguru','orthworm','overqwil','palafin','palafin-hero','pangoro','passimian','pelipper','pidgeot','pikachu','pinsir','politoed','pyroar','polteageist','polteageist-antique','primarina','qwilfish','quaquaval','raichu','raichu-alola','rampardos','reuniclus','rhyperior','roserade','rotom','rotom-heat','rotom-wash','rotom-frost','rotom-fan','rotom-mow','runerigus','sableye','salazzle','samurott','samurott-hisui','sandaconda','scizor','scolipede','scrafty','swampert','scovillain','serperior','sceptile','sharpedo','simipour','simisage','simisear','sinistcha','sinistcha-masterpiece','skarmory','skeledirge','slowbro','slowbro-galar','slowking','slowking-galar','slurpuff','sneasler','snorlax','spiritomb','starmie','staraptor','steelix','stunfisk','stunfisk-galar','sylveon','talonflame','tauros','tauros-paldea','tauros-paldea-combat','tauros-paldea-blaze','tauros-paldea-aqua','tauros-paldean-combat-breed','tauros-paldean-blaze-breed','tauros-paldean-aqua-breed','tinkaton','torkoal','torterra','toucannon','toxapex','toxicroak','trevenant','tsareena','typhlosion','typhlosion-hisui','tyranitar','tyrantrum','umbreon','vanilluxe','vaporeon','venusaur','victreebel','vileplume','vivillon','volcarona','watchog','weavile','whimsicott','wyrdeer','zoroark','zoroark-hisui']);
 
 const POKEMON_NAMES={
   'abomasnow':'Abomasnow',
@@ -714,10 +714,95 @@ const DEF_CHART={
 };
 function getDefWeaknesses(types){const r={};Object.keys(TC).forEach(a=>{let m=1;types.forEach(d=>{const row=DEF_CHART[d];if(row&&row[a]!==undefined)m*=row[a];});if(m!==1)r[a]=m;});return r;}
 
-const ITEMS_GENERIC=['None','Black Belt','Black Glasses','Charcoal','Dragon Fang','Fairy Feather','Hard Stone','Magnet','Metal Coat','Miracle Seed','Mystic Water','Never-Melt Ice','Poison Barb','Sharp Beak','Shell Bell','Silk Scarf','SilverPowder','Soft Sand','Spell Tag','TwistedSpoon','BrightPowder','Choice Scarf','Focus Band','Focus Sash',"King's Rock",'Leftovers','Lum Berry','Quick Claw','Sitrus Berry','White Herb','Light Ball','Mental Herb','Scope Lens','Aspear Berry','Babiri Berry','Charti Berry','Cheri Berry','Chesto Berry','Chilan Berry','Chople Berry','Coba Berry','Colbur Berry','Haban Berry','Kasib Berry','Kebia Berry','Leppa Berry','Occa Berry','Oran Berry','Passho Berry','Payapa Berry','Pecha Berry','Persim Berry','Rawst Berry','Rindo Berry','Roseli Berry','Shuca Berry','Tanga Berry','Wacan Berry','Yache Berry'];
+const ITEMS_GENERIC=['None','Black Belt','Black Glasses','Charcoal','Dragon Fang','Fairy Feather','Hard Stone','Magnet','Metal Coat','Miracle Seed','Mystic Water','Never-Melt Ice','Poison Barb','Sharp Beak','Shell Bell','Silk Scarf','SilverPowder','Soft Sand','Spell Tag','TwistedSpoon','BrightPowder','Choice Scarf','Focus Band','Focus Sash',"King's Rock",'Leftovers','Lum Berry','Quick Claw','Sitrus Berry','White Herb','Light Ball','Mental Herb','Scope Lens','Wide Lens','Muscle Band','Wise Glasses','Expert Belt','Light Clay','Life Orb','Zoom Lens','Metronome','Iron Ball','Shed Shell','Big Root','Icy Rock','Smooth Rock','Heat Rock','Damp Rock','Aspear Berry','Babiri Berry','Charti Berry','Cheri Berry','Chesto Berry','Chilan Berry','Chople Berry','Coba Berry','Colbur Berry','Haban Berry','Kasib Berry','Kebia Berry','Leppa Berry','Occa Berry','Oran Berry','Passho Berry','Payapa Berry','Pecha Berry','Persim Berry','Rawst Berry','Rindo Berry','Roseli Berry','Shuca Berry','Tanga Berry','Wacan Berry','Yache Berry'];
 
-const MEGA_STONES={'venusaur':{stones:[{stone:'Venusaurite',types:null,ability:'Thick Fat'}]},'charizard':{stones:[{stone:'Charizardite X',types:['fire','dragon'],ability:'Tough Claws'},{stone:'Charizardite Y',types:null,ability:'Drought'}]},'blastoise':{stones:[{stone:'Blastoisinite',types:null,ability:'Mega Launcher'}]},'alakazam':{stones:[{stone:'Alakazite',types:null,ability:'Trace'}]},'gengar':{stones:[{stone:'Gengarite',types:null,ability:'Shadow Tag'}]},'kangaskhan':{stones:[{stone:'Kangaskhanite',types:null,ability:'Parental Bond'}]},'pinsir':{stones:[{stone:'Pinsirite',types:['bug','flying'],ability:'Aerilate'}]},'gyarados':{stones:[{stone:'Gyaradosite',types:['water','dark'],ability:'Mold Breaker'}]},'aerodactyl':{stones:[{stone:'Aerodactylite',types:null,ability:'Tough Claws'}]},'mewtwo':{stones:[{stone:'Mewtwonite X',types:['psychic','fighting'],ability:'Steadfast'},{stone:'Mewtwonite Y',types:null,ability:'Insomnia'}]},'ampharos':{stones:[{stone:'Ampharosite',types:['electric','dragon'],ability:'Mold Breaker'}]},'scizor':{stones:[{stone:'Scizorite',types:null,ability:'Technician'}]},'heracross':{stones:[{stone:'Heracronite',types:null,ability:'Skill Link'}]},'houndoom':{stones:[{stone:'Houndoominite',types:null,ability:'Solar Power'}]},'tyranitar':{stones:[{stone:'Tyranitarite',types:null,ability:'Sand Stream'}]},'blaziken':{stones:[{stone:'Blazikenite',types:null,ability:'Speed Boost'}]},'gardevoir':{stones:[{stone:'Gardevoirite',types:null,ability:'Pixilate'}]},'mawile':{stones:[{stone:'Mawilite',types:null,ability:'Huge Power'}]},'aggron':{stones:[{stone:'Aggronite',types:['steel'],ability:'Filter'}]},'medicham':{stones:[{stone:'Medichamite',types:null,ability:'Pure Power'}]},'manectric':{stones:[{stone:'Manectite',types:null,ability:'Intimidate'}]},'banette':{stones:[{stone:'Banettite',types:null,ability:'Prankster'}]},'absol':{stones:[{stone:'Absolite',types:null,ability:'Magic Bounce'}]},'latias':{stones:[{stone:'Latiasite',types:null,ability:'Levitate'}]},'latios':{stones:[{stone:'Latiosite',types:null,ability:'Levitate'}]},'garchomp':{stones:[{stone:'Garchompite',types:null,ability:'Sand Force'}]},'lucario':{stones:[{stone:'Lucarionite',types:null,ability:'Adaptability'}]},'abomasnow':{stones:[{stone:'Abomasite',types:null,ability:'Snow Warning'}]},'beedrill':{stones:[{stone:'Beedrillite',types:null,ability:'Adaptability'}]},'pidgeot':{stones:[{stone:'Pidgeotite',types:null,ability:'No Guard'}]},'slowbro':{stones:[{stone:'Slowbronite',types:null,ability:'Shell Armor'}]},'steelix':{stones:[{stone:'Steelixite',types:null,ability:'Sand Force'}]},'sceptile':{stones:[{stone:'Sceptilite',types:['grass','dragon'],ability:'Lightning Rod'}]},'swampert':{stones:[{stone:'Swampertite',types:null,ability:'Swift Swim'}]},'sableye':{stones:[{stone:'Sablenite',types:null,ability:'Magic Bounce'}]},'sharpedo':{stones:[{stone:'Sharpedonite',types:null,ability:'Strong Jaw'}]},'camerupt':{stones:[{stone:'Cameruptite',types:null,ability:'Sheer Force'}]},'altaria':{stones:[{stone:'Altarianite',types:['dragon','fairy'],ability:'Pixilate'}]},'glalie':{stones:[{stone:'Glalitite',types:null,ability:'Refrigerate'}]},'salamence':{stones:[{stone:'Salamencite',types:null,ability:'Aerilate'}]},'metagross':{stones:[{stone:'Metagrossite',types:null,ability:'Tough Claws'}]},'lopunny':{stones:[{stone:'Lopunnite',types:['normal','fighting'],ability:'Scrappy'}]},'gallade':{stones:[{stone:'Galladite',types:null,ability:'Inner Focus'}]},'audino':{stones:[{stone:'Audinite',types:['normal','fairy'],ability:'Healer'}]},'diancie':{stones:[{stone:'Diancite',types:null,ability:'Magic Bounce'}]},'chimecho':{stones:[{stone:'Chimechite',types:null,ability:'Levitate'}]},'clefable':{stones:[{stone:'Clefablite',types:['fairy','flying'],ability:'Magic Bounce'}]},'victreebel':{stones:[{stone:'Victreebelite',types:null,ability:'Innards Out'}]},'starmie':{stones:[{stone:'Starminite',types:null,ability:'Huge Power'}]},'dragonite':{stones:[{stone:'Dragoninite',types:null,ability:'Multiscale'}]},'meganium':{stones:[{stone:'Meganiumite',types:['grass','fairy'],ability:'Mega Sol'}]},'feraligatr':{stones:[{stone:'Feraligite',types:['water','dragon'],ability:'Dragonize'}]},'skarmory':{stones:[{stone:'Skarmorite',types:null,ability:'Stalwart'}]},'froslass':{stones:[{stone:'Froslassite',types:null,ability:'Snow Warning'}]},'emboar':{stones:[{stone:'Emboarite',types:null,ability:'Mold Breaker'}]},'excadrill':{stones:[{stone:'Excadrite',types:null,ability:'Piercing Drill'}]},'chandelure':{stones:[{stone:'Chandelurite',types:null,ability:'Infiltrator'}]},'golurk':{stones:[{stone:'Golurkite',types:null,ability:'Unseen Fist'}]},'chesnaught':{stones:[{stone:'Chesnaughtite',types:null,ability:'Bulletproof'}]},'delphox':{stones:[{stone:'Delphoxite',types:null,ability:'Levitate'}]},'greninja':{stones:[{stone:'Greninjite',types:null,ability:'Protean'}]},'floette':{stones:[{stone:'Floettite',types:null,ability:'Fairy Aura'}]},'meowstic':{stones:[{stone:'Meowsticite',types:null,ability:'Trace'}]},'hawlucha':{stones:[{stone:'Hawluchanite',types:null,ability:'No Guard'}]},'goodra':{stones:[{stone:'Goodranite',types:null,ability:null}]},'drampa':{stones:[{stone:'Drampanite',types:null,ability:'Berserk'}]},'raichu':{stones:[{stone:'Raichunite X',types:null,ability:null},{stone:'Raichunite Y',types:null,ability:null}]},'scovillain':{stones:[{stone:'Scovillainite',types:null,ability:null}]},'glimmora':{stones:[{stone:'Glimmoranite',types:null,ability:null}]},'baxcalibur':{stones:[{stone:'Baxcalibrite',types:null,ability:null}]},'crabominable':{stones:[{stone:'Crabominite',types:null,ability:null}]}};
+const MEGA_STONES={'venusaur':{stones:[{stone:'Venusaurite',types:null,ability:'Thick Fat'}]},'charizard':{stones:[{stone:'Charizardite X',types:['fire','dragon'],ability:'Tough Claws'},{stone:'Charizardite Y',types:null,ability:'Drought'}]},'blastoise':{stones:[{stone:'Blastoisinite',types:null,ability:'Mega Launcher'}]},'alakazam':{stones:[{stone:'Alakazite',types:null,ability:'Trace'}]},'gengar':{stones:[{stone:'Gengarite',types:null,ability:'Shadow Tag'}]},'kangaskhan':{stones:[{stone:'Kangaskhanite',types:null,ability:'Parental Bond'}]},'pinsir':{stones:[{stone:'Pinsirite',types:['bug','flying'],ability:'Aerilate'}]},'gyarados':{stones:[{stone:'Gyaradosite',types:['water','dark'],ability:'Mold Breaker'}]},'aerodactyl':{stones:[{stone:'Aerodactylite',types:null,ability:'Tough Claws'}]},'mewtwo':{stones:[{stone:'Mewtwonite X',types:['psychic','fighting'],ability:'Steadfast'},{stone:'Mewtwonite Y',types:null,ability:'Insomnia'}]},'ampharos':{stones:[{stone:'Ampharosite',types:['electric','dragon'],ability:'Mold Breaker'}]},'scizor':{stones:[{stone:'Scizorite',types:null,ability:'Technician'}]},'heracross':{stones:[{stone:'Heracronite',types:null,ability:'Skill Link'}]},'houndoom':{stones:[{stone:'Houndoominite',types:null,ability:'Solar Power'}]},'tyranitar':{stones:[{stone:'Tyranitarite',types:null,ability:'Sand Stream'}]},'blaziken':{stones:[{stone:'Blazikenite',types:null,ability:'Speed Boost'}]},'gardevoir':{stones:[{stone:'Gardevoirite',types:null,ability:'Pixilate'}]},'mawile':{stones:[{stone:'Mawilite',types:null,ability:'Huge Power'}]},'aggron':{stones:[{stone:'Aggronite',types:['steel'],ability:'Filter'}]},'medicham':{stones:[{stone:'Medichamite',types:null,ability:'Pure Power'}]},'manectric':{stones:[{stone:'Manectite',types:null,ability:'Intimidate'}]},'banette':{stones:[{stone:'Banettite',types:null,ability:'Prankster'}]},'absol':{stones:[{stone:'Absolite',types:null,ability:'Magic Bounce'}]},'latias':{stones:[{stone:'Latiasite',types:null,ability:'Levitate'}]},'latios':{stones:[{stone:'Latiosite',types:null,ability:'Levitate'}]},'garchomp':{stones:[{stone:'Garchompite',types:null,ability:'Sand Force'}]},'lucario':{stones:[{stone:'Lucarionite',types:null,ability:'Adaptability'}]},'abomasnow':{stones:[{stone:'Abomasite',types:null,ability:'Snow Warning'}]},'beedrill':{stones:[{stone:'Beedrillite',types:null,ability:'Adaptability'}]},'pidgeot':{stones:[{stone:'Pidgeotite',types:null,ability:'No Guard'}]},'slowbro':{stones:[{stone:'Slowbronite',types:null,ability:'Shell Armor'}]},'steelix':{stones:[{stone:'Steelixite',types:null,ability:'Sand Force'}]},'sceptile':{stones:[{stone:'Sceptilite',types:['grass','dragon'],ability:'Lightning Rod'}]},'swampert':{stones:[{stone:'Swampertite',types:null,ability:'Swift Swim'}]},'sableye':{stones:[{stone:'Sablenite',types:null,ability:'Magic Bounce'}]},'sharpedo':{stones:[{stone:'Sharpedonite',types:null,ability:'Strong Jaw'}]},'camerupt':{stones:[{stone:'Cameruptite',types:null,ability:'Sheer Force'}]},'altaria':{stones:[{stone:'Altarianite',types:['dragon','fairy'],ability:'Pixilate'}]},'glalie':{stones:[{stone:'Glalitite',types:null,ability:'Refrigerate'}]},'salamence':{stones:[{stone:'Salamencite',types:null,ability:'Aerilate'}]},'metagross':{stones:[{stone:'Metagrossite',types:null,ability:'Tough Claws'}]},'lopunny':{stones:[{stone:'Lopunnite',types:['normal','fighting'],ability:'Scrappy'}]},'gallade':{stones:[{stone:'Galladite',types:null,ability:'Inner Focus'}]},'audino':{stones:[{stone:'Audinite',types:['normal','fairy'],ability:'Healer'}]},'diancie':{stones:[{stone:'Diancite',types:null,ability:'Magic Bounce'}]},'chimecho':{stones:[{stone:'Chimechite',types:null,ability:'Levitate'}]},'clefable':{stones:[{stone:'Clefablite',types:['fairy','flying'],ability:'Magic Bounce'}]},'victreebel':{stones:[{stone:'Victreebelite',types:null,ability:'Innards Out'}]},'starmie':{stones:[{stone:'Starminite',types:null,ability:'Huge Power'}]},'dragonite':{stones:[{stone:'Dragoninite',types:null,ability:'Multiscale'}]},'meganium':{stones:[{stone:'Meganiumite',types:['grass','fairy'],ability:'Mega Sol'}]},'feraligatr':{stones:[{stone:'Feraligite',types:['water','dragon'],ability:'Dragonize'}]},'skarmory':{stones:[{stone:'Skarmorite',types:null,ability:'Stalwart'}]},'froslass':{stones:[{stone:'Froslassite',types:null,ability:'Snow Warning'}]},'emboar':{stones:[{stone:'Emboarite',types:null,ability:'Mold Breaker'}]},'excadrill':{stones:[{stone:'Excadrite',types:null,ability:'Piercing Drill'}]},'chandelure':{stones:[{stone:'Chandelurite',types:null,ability:'Infiltrator'}]},'golurk':{stones:[{stone:'Golurkite',types:null,ability:'Unseen Fist'}]},'chesnaught':{stones:[{stone:'Chesnaughtite',types:null,ability:'Bulletproof'}]},'delphox':{stones:[{stone:'Delphoxite',types:null,ability:'Levitate'}]},'greninja':{stones:[{stone:'Greninjite',types:null,ability:'Protean'}]},'floette':{stones:[{stone:'Floettite',types:null,ability:'Fairy Aura'}]},'meowstic':{stones:[{stone:'Meowsticite',types:null,ability:'Trace'}]},'hawlucha':{stones:[{stone:'Hawluchanite',types:null,ability:'No Guard'}]},'drampa':{stones:[{stone:'Drampanite',types:null,ability:'Berserk'}]},'raichu':{stones:[{stone:'Raichunite X',types:null,ability:'Electric Surge'},{stone:'Raichunite Y',types:['electric','psychic'],ability:'No Guard'}]},'scovillain':{stones:[{stone:'Scovillainite',types:null,ability:null}]},'glimmora':{stones:[{stone:'Glimmoranite',types:null,ability:null}]},'crabominable':{stones:[{stone:'Crabominite',types:null,ability:null}]},'staraptor':{stones:[{stone:'Staraptorite',types:null,ability:'Contrary'}]},'scolipede':{stones:[{stone:'Scolipedite',types:null,ability:'Shell Armor'}]},'scrafty':{stones:[{stone:'Scraftite',types:null,ability:'Intimidate'}]},'eelektross':{stones:[{stone:'Eelektrossite',types:null,ability:'Eelevate'}]},'pyroar':{stones:[{stone:'Pyroarite',types:null,ability:'Fire Mane'}]},'malamar':{stones:[{stone:'Malamarite',types:null,ability:'Contrary'}]},'barbaracle':{stones:[{stone:'Barbaraclite',types:null,ability:'Tough Claws'}]},'dragalge':{stones:[{stone:'Dragalgite',types:null,ability:'Regenerator'}]},'falinks':{stones:[{stone:'Falinksite',types:null,ability:'Defiant'}]}};
 function getMegaStones(name){const k=(name||'').toLowerCase().replace(/-.*$/,'');return MEGA_STONES[k]||MEGA_STONES[(name||'').toLowerCase()]||null;}
+
+// ── MEGA STATS (Bloco 4) ──
+const MEGA_STATS={
+  'raichunite x':{'hp':60,'attack':135,'defense':95,'special-attack':90,'special-defense':95,'speed':110},
+  'raichunite y':{'hp':60,'attack':100,'defense':55,'special-attack':160,'special-defense':80,'speed':130},
+  'staraptorite':{'hp':85,'attack':140,'defense':100,'special-attack':60,'special-defense':90,'speed':110},
+  'scolipedite':{'hp':60,'attack':140,'defense':149,'special-attack':75,'special-defense':99,'speed':62},
+  'scraftite':{'hp':65,'attack':130,'defense':135,'special-attack':55,'special-defense':135,'speed':68},
+  'eelektrossite':{'hp':85,'attack':145,'defense':80,'special-attack':135,'special-defense':90,'speed':80},
+  'pyroarite':{'hp':86,'attack':88,'defense':92,'special-attack':129,'special-defense':86,'speed':126},
+  'malamarite':{'hp':86,'attack':102,'defense':88,'special-attack':98,'special-defense':120,'speed':88},
+  'barbaraclite':{'hp':72,'attack':140,'defense':130,'special-attack':64,'special-defense':106,'speed':88},
+  'dragalgite':{'hp':65,'attack':85,'defense':105,'special-attack':132,'special-defense':163,'speed':44},
+  'falinksite':{'hp':65,'attack':135,'defense':135,'special-attack':70,'special-defense':65,'speed':100},
+  'chandelurite':{'hp':60,'attack':75,'defense':110,'special-attack':175,'special-defense':110,'speed':90},
+  'venusaurite':{'hp':80,'attack':100,'defense':123,'special-attack':122,'special-defense':120,'speed':80},
+  'charizardite x':{'hp':78,'attack':130,'defense':111,'special-attack':130,'special-defense':85,'speed':100},
+  'charizardite y':{'hp':78,'attack':104,'defense':78,'special-attack':159,'special-defense':115,'speed':100},
+  'blastoisinite':{'hp':79,'attack':103,'defense':120,'special-attack':135,'special-defense':115,'speed':78},
+  'alakazite':{'hp':55,'attack':50,'defense':65,'special-attack':175,'special-defense':105,'speed':150},
+  'gengarite':{'hp':60,'attack':65,'defense':80,'special-attack':170,'special-defense':95,'speed':130},
+  'kangaskhanite':{'hp':105,'attack':125,'defense':100,'special-attack':60,'special-defense':100,'speed':100},
+  'pinsirite':{'hp':65,'attack':155,'defense':120,'special-attack':65,'special-defense':90,'speed':105},
+  'gyaradosite':{'hp':95,'attack':155,'defense':109,'special-attack':70,'special-defense':130,'speed':81},
+  'aerodactylite':{'hp':80,'attack':135,'defense':85,'special-attack':70,'special-defense':95,'speed':150},
+  'mewtwonite x':{'hp':106,'attack':190,'defense':100,'special-attack':154,'special-defense':100,'speed':130},
+  'mewtwonite y':{'hp':106,'attack':150,'defense':70,'special-attack':194,'special-defense':120,'speed':140},
+  'ampharosite':{'hp':90,'attack':95,'defense':105,'special-attack':165,'special-defense':110,'speed':45},
+  'scizorite':{'hp':70,'attack':150,'defense':140,'special-attack':65,'special-defense':100,'speed':75},
+  'heracronite':{'hp':80,'attack':185,'defense':115,'special-attack':40,'special-defense':105,'speed':75},
+  'houndoominite':{'hp':75,'attack':90,'defense':90,'special-attack':140,'special-defense':90,'speed':115},
+  'tyranitarite':{'hp':100,'attack':164,'defense':150,'special-attack':95,'special-defense':120,'speed':71},
+  'blazikenite':{'hp':80,'attack':160,'defense':80,'special-attack':130,'special-defense':80,'speed':100},
+  'gardevoirite':{'hp':68,'attack':85,'defense':65,'special-attack':165,'special-defense':135,'speed':100},
+  'mawilite':{'hp':50,'attack':105,'defense':125,'special-attack':55,'special-defense':95,'speed':50},
+  'aggronite':{'hp':70,'attack':140,'defense':230,'special-attack':60,'special-defense':80,'speed':50},
+  'medichamite':{'hp':60,'attack':100,'defense':85,'special-attack':80,'special-defense':85,'speed':100},
+  'manectite':{'hp':70,'attack':75,'defense':80,'special-attack':135,'special-defense':80,'speed':135},
+  'banettite':{'hp':64,'attack':165,'defense':75,'special-attack':93,'special-defense':83,'speed':75},
+  'absolite':{'hp':65,'attack':150,'defense':60,'special-attack':115,'special-defense':60,'speed':115},
+  'latiasite':{'hp':80,'attack':100,'defense':120,'special-attack':140,'special-defense':150,'speed':110},
+  'latiosite':{'hp':80,'attack':130,'defense':100,'special-attack':160,'special-defense':120,'speed':110},
+  'garchompite':{'hp':108,'attack':170,'defense':115,'special-attack':120,'special-defense':95,'speed':92},
+  'lucarionite':{'hp':70,'attack':145,'defense':88,'special-attack':140,'special-defense':70,'speed':112},
+  'abomasite':{'hp':90,'attack':132,'defense':105,'special-attack':132,'special-defense':105,'speed':30},
+  'beedrillite':{'hp':65,'attack':150,'defense':40,'special-attack':15,'special-defense':80,'speed':145},
+  'pidgeotite':{'hp':83,'attack':80,'defense':80,'special-attack':135,'special-defense':80,'speed':121},
+  'slowbronite':{'hp':95,'attack':75,'defense':180,'special-attack':130,'special-defense':80,'speed':30},
+  'steelixite':{'hp':75,'attack':125,'defense':230,'special-attack':55,'special-defense':95,'speed':30},
+  'sceptilite':{'hp':70,'attack':110,'defense':75,'special-attack':145,'special-defense':85,'speed':145},
+  'swampertite':{'hp':100,'attack':150,'defense':110,'special-attack':95,'special-defense':110,'speed':70},
+  'sablenite':{'hp':50,'attack':85,'defense':125,'special-attack':85,'special-defense':115,'speed':50},
+  'sharpedonite':{'hp':70,'attack':140,'defense':70,'special-attack':110,'special-defense':65,'speed':105},
+  'cameruptite':{'hp':70,'attack':120,'defense':100,'special-attack':145,'special-defense':105,'speed':20},
+  'altarianite':{'hp':75,'attack':110,'defense':110,'special-attack':110,'special-defense':105,'speed':80},
+  'glalitite':{'hp':80,'attack':120,'defense':80,'special-attack':120,'special-defense':80,'speed':100},
+  'salamencite':{'hp':95,'attack':145,'defense':130,'special-attack':120,'special-defense':90,'speed':120},
+  'metagrossite':{'hp':80,'attack':145,'defense':150,'special-attack':105,'special-defense':110,'speed':110},
+  'lopunnite':{'hp':65,'attack':136,'defense':94,'special-attack':54,'special-defense':96,'speed':135},
+  'galladite':{'hp':68,'attack':165,'defense':95,'special-attack':65,'special-defense':115,'speed':110},
+  'audinite':{'hp':103,'attack':60,'defense':126,'special-attack':80,'special-defense':126,'speed':50},
+  'diancite':{'hp':50,'attack':160,'defense':110,'special-attack':160,'special-defense':110,'speed':110},
+  'clefablite':{'hp':95,'attack':80,'defense':93,'special-attack':135,'special-defense':110,'speed':70},
+  'victreebelite':{'hp':80,'attack':125,'defense':85,'special-attack':135,'special-defense':95,'speed':70},
+  'starminite':{'hp':60,'attack':140,'defense':105,'special-attack':130,'special-defense':105,'speed':120},
+  'dragoninite':{'hp':91,'attack':124,'defense':115,'special-attack':145,'special-defense':125,'speed':100},
+  'meganiumite':{'hp':80,'attack':92,'defense':115,'special-attack':143,'special-defense':115,'speed':80},
+  'feraligite':{'hp':85,'attack':160,'defense':125,'special-attack':89,'special-defense':93,'speed':78},
+  'skarmorite':{'hp':65,'attack':140,'defense':110,'special-attack':40,'special-defense':100,'speed':110},
+  'froslassite':{'hp':70,'attack':80,'defense':70,'special-attack':140,'special-defense':100,'speed':120},
+  'emboarite':{'hp':110,'attack':148,'defense':75,'special-attack':110,'special-defense':110,'speed':75},
+  'excadrite':{'hp':110,'attack':164,'defense':100,'special-attack':65,'special-defense':65,'speed':103},
+  'chesnaughtite':{'hp':88,'attack':137,'defense':172,'special-attack':74,'special-defense':115,'speed':44},
+  'delphoxite':{'hp':75,'attack':69,'defense':72,'special-attack':159,'special-defense':125,'speed':134},
+  'greninjite':{'hp':72,'attack':125,'defense':77,'special-attack':133,'special-defense':81,'speed':142},
+  'hawluchanite':{'hp':78,'attack':137,'defense':100,'special-attack':74,'special-defense':93,'speed':118},
+  'floettite':{'hp':74,'attack':85,'defense':87,'special-attack':155,'special-defense':148,'speed':102},
+  'drampanite':{'hp':78,'attack':85,'defense':110,'special-attack':160,'special-defense':116,'speed':36},
+  'scovillainite':{'hp':65,'attack':138,'defense':85,'special-attack':138,'special-defense':85,'speed':75},
+  'meowsticite':{'hp':74,'attack':48,'defense':76,'special-attack':123,'special-defense':81,'speed':124},
+  'golurkite':{'hp':89,'attack':144,'defense':100,'special-attack':55,'special-defense':90,'speed':75}
+};
+function getMegaStatsForItem(item){if(!item)return null;return MEGA_STATS[item.toLowerCase()]||null;}
+function getEffectiveStatsBox(entry){if(!entry)return {};const dbE=db.find(p=>p.id===entry.id);const base=(dbE&&dbE.stats)||{};const mega=getMegaStatsForItem(entry.item);return mega?mega:base;}
+function isMegaActiveBox(entry){return !!getMegaStatsForItem(entry&&entry.item);}
 
 function getChampionsMoves(name){
   if(!name)return null;
@@ -728,6 +813,21 @@ function getChampionsMoves(name){
   if(ALIAS[key]&&CHAMPIONS_MOVES[ALIAS[key]])return CHAMPIONS_MOVES[ALIAS[key]];
   const base=key.split('-')[0];
   return CHAMPIONS_MOVES[base]||null;
+}
+
+// ── CHAMPIONS MOVE ADJUSTMENTS (Bloco 5) ──
+const CHAMPIONS_MOVE_ADD={'sceptile':['earth-power'],'scolipede':['leech-life','trailblaze']};
+const CHAMPIONS_MOVE_REMOVE={'annihilape':['final-gambit'],'grimmsnarl':['false-surrender','thunder-wave'],'scrafty':['parting-shot'],'overqwil':['mortal-spin'],'metagross':['heavy-slam']};
+function applyChampionsMoveAdjustments(name,moves){
+  if(!Array.isArray(moves))return moves;
+  const key=(name||'').toLowerCase().replace(/ /g,'-').replace(/\./g,'').replace(/'/g,'');
+  const base=key.split('-')[0];
+  let out=moves.slice();
+  const removes=CHAMPIONS_MOVE_REMOVE[key]||CHAMPIONS_MOVE_REMOVE[base];
+  if(removes)out=out.filter(mv=>!removes.includes(mv));
+  const adds=CHAMPIONS_MOVE_ADD[key]||CHAMPIONS_MOVE_ADD[base];
+  if(adds){adds.forEach(mv=>{if(!out.includes(mv))out.push(mv);});out.sort();}
+  return out;
 }
 
 // ══════════════════════════════════════════
@@ -825,6 +925,7 @@ async function loadDetailsInBg(){
         d.stats.forEach(s=>p.stats[s.stat.name]=s.base_stat);
         const champMoves=getChampionsMoves(p.name);
         p.moves=champMoves||d.moves.map(m=>m.move.name).sort().slice(0,200);
+        p.moves=applyChampionsMoveAdjustments(p.name,p.moves);
       }catch(e){}
     }));
     renderBrowser();
@@ -879,6 +980,7 @@ async function loadAltForms(){
       const entry={id:fd.id,name,url:`https://pokeapi.co/api/v2/pokemon/${fd.id}/`,types:fd.types.map(t=>t.type.name),abilities:fd.abilities.map(a=>a.ability.name),sprite,form:formLabel,baseName};
       const champMoves=getChampionsMoves(name)||getChampionsMoves(baseName);
       entry.moves=champMoves||fd.moves.map(m=>m.move.name).sort().slice(0,200);
+      entry.moves=applyChampionsMoveAdjustments(name,entry.moves);
       if(!db.find(p=>p.name===entry.name))db.push(entry);
     }catch(e){}
   }));
@@ -933,6 +1035,7 @@ async function loadAltForms(){
           const entry={id:fd.id,name:f.name,url:f.url,types:fd.types.map(t=>t.type.name),abilities:fd.abilities.map(a=>a.ability.name),sprite,form:formLabel,baseName};
           const champMoves=getChampionsMoves(f.name)||getChampionsMoves(baseName);
           entry.moves=champMoves||fd.moves.map(m=>m.move.name).sort().slice(0,200);
+          entry.moves=applyChampionsMoveAdjustments(f.name,entry.moves);
           if(!db.find(p=>p.name===entry.name))db.push(entry);
         }catch(e){}
       }));
@@ -1025,6 +1128,7 @@ async function loadPokemonDetails(p){
     p.sprite=d.sprites.front_default||spriteUrl(p.id);
     const champMoves=getChampionsMoves(p.name);
     p.moves=champMoves||d.moves.map(m=>m.move.name).sort().slice(0,200);
+    p.moves=applyChampionsMoveAdjustments(p.name,p.moves);
   }catch(e){p.types=[];p.abilities=[];p.moves=[];}
 }
 function doRemoveBox(id,e){
@@ -1112,8 +1216,10 @@ function renderConfig(){
         if(selectedId===entry.id)renderConfig();
       }).catch(()=>{});
   }
+  const megaStatsActive=isMegaActiveBox(entry);
+  const effStats=getEffectiveStatsBox(entry);
   const spRows=STAT_K.map(k=>{
-    const base=(baseStats[k])||50;
+    const base=(effStats[k])||50;
     const v=entry.sps[k]||0;
     const calc=calcStat(k,base,v,nat);
     const isB=nat.b===k,isR=nat.r===k;
@@ -1175,6 +1281,7 @@ function renderConfig(){
       <div class="ev-section">
         <div class="ev-header">
           <span class="cfg-label" style="margin-bottom:0">Stat Points (SPs)</span>
+          ${megaStatsActive?`<span style="font-size:9.5px;font-weight:700;letter-spacing:0.5px;color:#c0a0ff;background:rgba(120,80,240,0.15);border:1px solid rgba(120,80,240,0.35);border-radius:5px;padding:2px 7px;margin-left:auto;margin-right:8px">⬡ Mega Stats</span>`:''}
           <span class="ev-counter ${spCls}" id="spTotalCount">${spTotal} / ${SP_MAX} SP</span>
         </div>
         <div class="ev-rows">${spRows}</div>
@@ -1374,7 +1481,7 @@ function updSP(id,sk,val){
   if(bar)bar.style.width=pct+'%';
   // Update calc
   const dbEntry=db.find(p=>p.id===id);
-  const base=(dbEntry?.stats&&dbEntry.stats[sk])||50;
+  const base=getEffectiveStatsBox(e)[sk]||50;
   const nat=NATURES.find(n=>n.n===e.nature)||NATURES[0];
   const calc=calcStat(sk,base,v,nat);
   const calcEl=document.querySelector(`[data-sp-calc="${sk}"]`);
